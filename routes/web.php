@@ -15,6 +15,7 @@ Route::get('/games/search', 'SiteController@searchGame')->name('searchGame');
 Route::get('/load-more', 'SiteController@loadMore')->name('loadMore');
 Route::get('number-result-cron', 'CronController@numberResultCron')->name('number-result-cron');
 
+
 // User Support Ticket
 Route::controller('TicketController')->prefix('ticket')->name('ticket.')->group(function () {
     Route::get('/', 'supportTicket')->name('index');
