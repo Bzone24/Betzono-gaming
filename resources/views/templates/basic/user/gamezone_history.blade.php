@@ -1,0 +1,173 @@
+@extends($activeTemplate . 'layouts.master')
+@section('content')
+    <section class="pt-100 pb-100">
+        <div class="container">
+            <div class="row justify-content-center mt-2">
+                <div class="col-lg-12">
+
+                    <div class="d-flex justify-content-between mb-3 flex-wrap gap-3">
+                        <form class="flex-grow-1 form-in-width" action="">
+                            <div class="d-flex justify-content-end">
+                                <div class="input-group">
+                                    <input class="form-control" name="search" type="text" value="{{ request()->search }}" placeholder="@lang('Search by transactions')">
+                                    <button class="input-group-text bg-primary border-0 text-white">
+                                        <i class="las la-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                   
+                    </div>
+
+                    <div class="table-responsive--md">
+                      
+                        
+                        <table class="custom--table table">
+                            <thead>
+                                <tr>
+                                    <th>@lang('Gateway | Transaction')</th>
+                                    <th class="text-center">@lang('Initiated')</th>
+                                    <th class="text-center">@lang('Amount')</th>
+                                    <th class="text-center">@lang('Conversion')</th>
+                                    <th class="text-center">@lang('Type')</th> <!-- Added Type Column -->
+                                    <th class="text-center">@lang('Status')</th>
+                                 
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @forelse($withdraws as $withdraw)
+                                    @php
+                                        $details = [];
+                                        if (!empty($withdraw->withdraw_information)) {
+                                            foreach ($withdraw->withdraw_information as $key => $info) {
+                                                $details[] = $info;
+                                                if ($info->type == 'file') {
+                                                    $details[$key]->value = route('user.download.attachment', encrypt(getFilePath('verify').'/'.$info->value));
+                                                }
+                                            }
+                                        }
+                                    @endphp
+                                    <tr>
+                                        <td>
+                                            <span class="fw-bold"><span class="text-primary">
+                                                    {{ __(@$withdraw->method->name) }}</span></span>
+                                            <br>
+                                            <small>{{ $withdraw->trx }}</small>
+                                        </td>
+                                        <td class="text-center">
+                                            {{ showDateTime($withdraw->created_at) }} <br>
+                                            {{ diffForHumans($withdraw->created_at) }}
+                                        </td>
+                                        <td class="text-center">
+                                            {{ showAmount($withdraw->amount) }} - <span
+                                                class="text-danger" title="@lang('charge')">{{ showAmount($withdraw->charge) }} </span>
+                                            <br>
+                                            <strong title="@lang('Amount after charge')">
+                                                {{ showAmount($withdraw->amount - $withdraw->charge) }}
+                                                
+                                            </strong>
+                                        </td>
+                                        <td class="text-center">
+                                            @if($withdraw->type == \App\Models\Withdrawal::TYPE_TRANSFER)
+                                                <span>{{ __('--') }}</span>
+                                            @else
+                                                1 {{ __(gs('cur_text')) }} = {{ showAmount($withdraw->rate) }} {{ __($withdraw->currency) }}
+                                                <br>
+                                                <strong>{{ showAmount($withdraw->final_amount) }} {{ __($withdraw->currency) }}</strong>
+                                            @endif
+                                        </td>
+                                        <td class="text-center">
+                                            {{ \App\Models\Withdrawal::getTypeName($withdraw->type) }} {{ __('To Gamezone')}}
+                                        </td>
+                                        <td class="text-center">
+                                            @php echo $withdraw->statusBadge @endphp
+                                        </td>
+                                      
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td class="rounded-bottom text-center" colspan="100%">{{ __($emptyMessage) }}</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                    @if ($withdraws->hasPages())
+                        <div class="card-footer">
+                            {{ $withdraws->links() }}
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{-- APPROVE MODAL --}}
+    <div class="modal fade" id="detailModal" role="dialog" tabindex="-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@lang('Details')</h5>
+                    <span class="close" data-bs-dismiss="modal" type="button" aria-label="Close">
+                        <i class="las la-times"></i>
+                    </span>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group userData">
+                    </ul>
+                    <div class="feedback"></div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-sm btn--danger text-white" data-bs-dismiss="modal" type="button">@lang('Close')</button>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@push('script')
+    <script>
+        (function($) {
+            "use strict";
+            $('.detailBtn').on('click', function() {
+                var modal = $('#detailModal');
+                var userData = $(this).data('user_data');
+                var html = ``;
+                userData.forEach(element => {
+                    if (element.type != 'file') {
+                        html += `
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>${element.name}</span>
+                            <span>${element.value}</span>
+                        </li>`;
+                    } else {
+                        html += `
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>${element.name}</span>
+                            <span><a href="${element.value}"><i class="fa-regular fa-file"></i> @lang('Attachment')</a></span>
+                        </li>`;
+                    }
+                });
+                modal.find('.userData').html(html);
+
+                var adminFeedback = $(this).data('admin_feedback') != undefined 
+                    ? `
+                        <div class="my-3">
+                            <strong>@lang('Admin Feedback')</strong>
+                            <p>${$(this).data('admin_feedback')}</p>
+                        </div>
+                    ` 
+                    : '';
+
+                modal.find('.feedback').html(adminFeedback);
+                modal.modal('show');
+            });
+
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[title], [data-title], [data-bs-title]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        })(jQuery);
+    </script>
+@endpush
