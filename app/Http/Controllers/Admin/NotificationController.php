@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\NotificationTemplate;
 use App\Notify\Sms;
 use App\Rules\FileTypeValidate;
-use Illuminate\Http\Request;
+use Illuminate\Http\Request; 
 
 class NotificationController extends Controller
 {
@@ -165,6 +165,8 @@ class NotificationController extends Controller
             'public_key.required_if' => 'The :attribute is required for Mailjet configuration',
             'secret_key.required_if' => 'The :attribute is required for Mailjet configuration',
         ]);
+        
+        
         if ($request->email_method == 'php') {
             $data['name'] = 'php';
         } else if ($request->email_method == 'smtp') {
@@ -179,7 +181,7 @@ class NotificationController extends Controller
         }
         $general = gs();
         $general->mail_config = $data;
-        $general->save();
+        $general->save(); 
         $notify[] = ['success', 'Email settings updated successfully'];
         return back()->withNotify($notify);
     }
@@ -191,6 +193,7 @@ class NotificationController extends Controller
         ]);
 
         $config = gs('mail_config');
+        
         $receiverName = explode('@', $request->email)[0];
         $subject = strtoupper($config->name) . ' Configuration Success';
         $message = 'Your email notification setting is configured successfully for ' . gs('site_name');

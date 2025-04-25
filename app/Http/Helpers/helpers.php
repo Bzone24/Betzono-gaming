@@ -423,11 +423,12 @@ function dateSorting($arr)
 
 function gs($key = null)
 {
-    $general = Cache::get('GeneralSetting');
-    if (!$general) {
+  //  $general = Cache::get('GeneralSetting');
+ //dd($general);
+    //if (!$general) {
         $general = GeneralSetting::first();
         Cache::put('GeneralSetting', $general);
-    }
+   // }
     if ($key) return @$general->$key;
     return $general;
 }
