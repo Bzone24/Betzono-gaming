@@ -995,19 +995,21 @@ public function cancelBet(Request $request)
     
 
     public function settleGame(Request $request){
-        $validator = Validator::make($request->all(), [
+       
+        
+      $validator = Validator::make($request->all(), [
             'userName'         => 'required|string',
             'agentCode'        => 'required|string',
             'roundId'          => 'required|string',
             'tpGameId'         => 'required|integer',
-            'transactionType'  => 'required|string|in:CR,DR',
+            'transactionType'  => 'required|string',
             'transactionId'    => 'required|string',
             'tableCode'        => 'required|string',
             'liability'        => 'required|numeric|min:0',
             'payoff'           => 'required|numeric|min:0',
             'netpl'            => 'required|numeric',
             'gametype'         => 'nullable|string',
-            'methodName'       => 'required|string|in:settlegame',
+            #'methodName'       => 'required|string|in:settlegame',
         ]);
 
         if ($validator->fails()) {
@@ -1051,7 +1053,8 @@ public function cancelBet(Request $request)
         $gameExists = DB::table('games')
             ->where('game_code', $request->tpGameId)
             ->exists();
-
+      
+        
         if (!$gameExists) {
             return response()->json([
                 'userName'     => $request->userName,
@@ -1085,7 +1088,7 @@ public function cancelBet(Request $request)
             'agentCode'    => $request->agentCode,
             'methodName'   => 'cancelbet'
         ])->first();
-        
+   
         if ($cancelledBet) {
             return response()->json([ 
                 'userName'     => $request->userName,
@@ -1101,8 +1104,7 @@ public function cancelBet(Request $request)
         $existingSettlement = DB::table('casino_game_settlements_history')
         ->where('transactionId', $request->transactionId)
         ->first();
-
-        
+ 
         if ($existingSettlement) {
             return response()->json([ 
                 'userName'     => $request->userName,
@@ -1113,14 +1115,14 @@ public function cancelBet(Request $request)
                 'errorMessage' => 'Transaction already settled',
             ], 400);
         }
-        
+       
 
         // Check if matching bet exists
         $matchingBet = DB::table('casino_bets_history')->where([
             'roundid'        => $request->roundId,
             // 'transactionId'  => $request->transactionId,
         ])->first();
-        
+      
         if (!$matchingBet) {
             return response()->json([
                 'status'       => 102,
@@ -1134,8 +1136,7 @@ public function cancelBet(Request $request)
             'roundid'        => $request->roundId,
             // 'transactionId'  => $request->transactionId,
         ])->first();
-
-        if (!$existingTxn) {
+          if (!$existingTxn) {
             return response()->json([
                 'userName'     => $request->userName,
                 'agentCode'    => $request->agentCode,
@@ -1150,10 +1151,13 @@ public function cancelBet(Request $request)
         try {
             $payoffAmount = $request->payoff;
             $transactionType = $request->transactionType;
-            
-            // Handle balance update according to transaction type
-            if ($transactionType == 'CR') {
+           // Handle balance update according to transaction type
+            if (strtolower($transactionType) == 'cr') {
                 $user->increment('balance', $payoffAmount);
+                $balance = ['pay' => $payoffAmount , 'balance' => $user->balance ];
+                
+        
+            
                 $trx_type = '+';
                 $transactionDetails = 'Winning amount credited from Casino game';
                 $transactionRemark = 'balance_add';
@@ -1178,7 +1182,24 @@ public function cancelBet(Request $request)
                 // This should never happen due to validation
                 throw new \Exception('Invalid transaction type');
             }
-
+               $balance = ['balance' => $user->balance , 'data' =>[
+                'userName'          => $request->userName,
+                'agentCode'         => $request->agentCode,
+                'tpGameId'          => $request->tpGameId,
+                'roundId'           => $request->roundId,
+                'transactionType'   => $transactionType,
+                'transactionId'     => $request->transactionId,
+                'tableCode'         => $request->tableCode,
+                'liability'         => $request->liability,
+                'netpl'             => $request->netpl,
+                'payoff'            => $payoffAmount,
+                'gametype'          => $request->gametype ?? '',
+                'methodName'        => $request->methodName??'settlegame',
+                'status'            => 'settled',
+                'created_at'        => now(),
+                'updated_at'        => now(),
+            ]];
+                
             // Store settlement history
             DB::table('casino_game_settlements_history')->insert([
                 'userName'          => $request->userName,
@@ -1192,7 +1213,7 @@ public function cancelBet(Request $request)
                 'netpl'             => $request->netpl,
                 'payoff'            => $payoffAmount,
                 'gametype'          => $request->gametype ?? '',
-                'methodName'        => $request->methodName,
+                'methodName'        => $request->methodName??'settlegame',
                 'status'            => 'settled',
                 'created_at'        => now(),
                 'updated_at'        => now(),
@@ -1200,7 +1221,7 @@ public function cancelBet(Request $request)
             
             // Refresh user to get updated balance
             $user->refresh();
-            
+   
             // Record transaction
             $transaction = new Transaction();
             $transaction->user_id = $user->id;
