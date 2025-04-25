@@ -90,8 +90,8 @@ class RegisterController extends Controller
             $referUser = null;
         }
  
-        $api = new ApiHandler();
-       $userName =  "b".$data['mobile'];
+        $userName =  "b".$data['mobile'];
+       /* $api = new ApiHandler();
  
         $apiData = [
             'username' => $userName,
@@ -116,6 +116,7 @@ class RegisterController extends Controller
            
             $fast_create_url = $response['data']['fastLoginUrl'];
         }
+            */
 
         //User Create
         $user = new User();
@@ -127,7 +128,7 @@ class RegisterController extends Controller
         $user->dial_code =  $data['mobile_code']??null;
         $user->country_name = $data['country']??null;
         $user->country_code = $data['country_code']??null;
- $user->fast_create_url = $fast_create_url??null; 
+        $user->fast_create_url = $fast_create_url??null; 
         $user->lastname = $data['lastname'];
         $user->password = Hash::make($data['password']);
         $user->ref_by = $referUser ? $referUser->id : 0;
