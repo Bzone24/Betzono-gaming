@@ -41,22 +41,7 @@ class ResetPasswordController extends Controller
         $data = [
             'username' => $user->username,
             'password' => $request->password, 
-        ];
-echo "<pre>";
-print_r($data);
-        // Call the API
-        $response = $api->callAPI('api/players/password/change', $data, 'POST');
-echo "<pre>";
-print_r($response);die;
-        // Handle the response
-
-        if (isset($response['errorCode'])) {
-            $notify[] = ['error', $response['errorMessage']];
-            return back()->withNotify($notify)->withInput($request->all());
-        }
-
-
-
+        ]; 
         
         $user->password = Hash::make($request->password);
         $user->save();

@@ -193,6 +193,7 @@ class ManageUsersController extends Controller
             $notify[] = ['error', 'The mobile number already exists.'];
             return back()->withNotify($notify)->withInput($request->all());
         }
+        /*
 
         $api = new ApiHandler();
 
@@ -219,7 +220,7 @@ class ManageUsersController extends Controller
         else{
            
             $fast_create_url = $response['data']['fastLoginUrl'];
-        }
+        }*/
 
         $user = new User();
         $user->mobile = $request->mobile;
@@ -258,8 +259,8 @@ class ManageUsersController extends Controller
         }
 
         #API Return Fields
-        $user->api_user_id = isset($response['data']['id']) ? $response['data']['id'] : "";
-        $user->api_login_url = isset($response['data']['fastLoginUrl']) ? $response['data']['fastLoginUrl'] : "";
+        $user->api_user_id = '';//isset($response['data']['id']) ? $response['data']['id'] : "";
+        $user->api_login_url = '';//isset($response['data']['fastLoginUrl']) ? $response['data']['fastLoginUrl'] : "";
         $user->user_type = $request->user_type;
         $user->fast_create_url = $fast_create_url??null;
         $user->profile_complete = Status::YES;

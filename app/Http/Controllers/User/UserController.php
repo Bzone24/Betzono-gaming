@@ -272,7 +272,7 @@ class UserController extends Controller
                     ->where('dial_code', $request->mobile_code),
             ]
         ]);
-
+/*
         $api = new ApiHandler();
 
         $data = [
@@ -298,7 +298,7 @@ class UserController extends Controller
            
             $fast_create_url = $response['data']['fastLoginUrl'];
         }
-
+*/
         $user = new User();
         $user->firstname = $request->firstname;
         $user->lastname = $request->lastname;
@@ -314,7 +314,7 @@ class UserController extends Controller
         $user->country_name = @$request->country;
         $user->dial_code = $request->mobile_code;
         $user->user_type = User::USER_TYPE_USER;
-      $user->fast_create_url = $fast_create_url??null; 
+        $user->fast_create_url = null; 
         $user->profile_complete = Status::YES;
         $user->ref_by = $loggedInUser->id;
 
