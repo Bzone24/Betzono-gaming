@@ -105,6 +105,7 @@ function getTrx($length = 12)
 
 function getAmount($amount, $length = 2)
 {
+    $amount = (float) $amount;
     $amount = round($amount ?? 0, $length);
     return $amount + 0;
 }

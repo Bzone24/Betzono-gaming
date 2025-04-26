@@ -88,8 +88,10 @@ $kycInstruction = getContent('kyc\.content', true);
                         <span class="text--dark">@lang('Main Wallet Balance')</span>
                         
                         <h3 class="number text--dark">{{ gs('cur_sym') }}
-                        {{ number_format(getAmount(@$user->balance), 2, '.', ',') }}
                         
+                      
+                      {{ number_format(getAmount((float)@$user->balance), 2, '.', ',') }}
+                        </h3>
             <!--            </h3>-->
                         <!--   @if (auth()->user()->user_type != \App\Models\User::USER_TYPE_AGENT) -->
                         <!--<a class="btn btn-sm btn-success" href="{{route('user.withdraw.transfer','out')}}">Add to game zone </a>-->
@@ -239,7 +241,7 @@ $kycInstruction = getContent('kyc\.content', true);
                     <div class="post-slide">
                         <!--<a href="{{$autologinUrl}}">-->
                         @if(Auth::check())
-                        <a href="https://stakeye.com/number_prediction/index.php">
+                        <a href="{{route('games.play-game','number_prediction')}}">
                         @else
                         <a href="{{route('user.login')}}">
                         @endif
@@ -294,13 +296,14 @@ $kycInstruction = getContent('kyc\.content', true);
                 <div id="continue-slider" class="owl-carousel">
                     <div class="post-slide">
                         @if(Auth::check())
-                        <a href="#">
+                        <a href="{{route('games.play-game','number_prediction')}}">
                         @else
                         <a href="{{route('user.login')}}">
                         @endif
                             <div class="post-img">
                             <!--<img src="https://cdn.cloudd.site/vking/lobby/20230716018045.webp" alt="slide">-->
                              <!--<img src="{{ asset('assets/newhome/img/sliders/satta-home.png')}}" alt="slide"> -->
+                             <!--image banner satta -->
                              <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/0a89af08-8ed4-44c4-2c74-e168cbbb1b00/style1" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
