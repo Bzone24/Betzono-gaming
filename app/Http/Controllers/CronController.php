@@ -15,16 +15,18 @@ use DB;
 
 class CronController extends Controller
 {
-    
      
     
-    public function fetchResult()
-    {
+    private $apiUrl = 'https://matkawebhook.matka-api.online';
+    private $username = '7009578067';
+    private $password = '123456';
 
-        $currentDate = date("Y-m-d");
+    public function getRefreshToken()
+    {
+        $url = $this->apiUrl . '/get-refresh-token-delhi';
         $curl = curl_init();
         curl_setopt_array($curl, array(
-          CURLOPT_URL => 'https://matkawebhook.matka-api.online/market-data-delhi',
+          CURLOPT_URL => $url,
           CURLOPT_RETURNTRANSFER => true,
           CURLOPT_ENCODING => '',
           CURLOPT_MAXREDIRS => 10,
@@ -32,64 +34,87 @@ class CronController extends Controller
           CURLOPT_FOLLOWLOCATION => true,
           CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
           CURLOPT_CUSTOMREQUEST => 'POST',
-          CURLOPT_POSTFIELDS => array('username' => '9501656069','API_token' => '1VpPRpGozYtINbCi','markte_name' => '','date' => $currentDate),
-         
+          CURLOPT_POSTFIELDS => array('username' => $this->username, 'password' => $this->password),
         ));
 
         $response = curl_exec($curl);
         curl_close($curl);
-       return  json_decode($response, true);
+        return json_decode($response, true);
+    }
 
-       
-}
+    public function fetchResult($currentDate)
+    {
+        // Fetch Refresh token
+        $refreshToken = $this->getRefreshToken();
+        if (isset($refreshToken['status']) && $refreshToken['message'] == 'success') {
+            $token = $refreshToken['refresh_token'];
+        } else {
+            return [];
+        }
+
+        $url = $this->apiUrl . '/market-data-delhi';
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => $url,
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => '',
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => 'POST',
+          CURLOPT_POSTFIELDS => array('username' => $this->username, 'API_token' => $token, 'markte_name' => '', 'date' => $currentDate),
+        ));
+
+        $response = curl_exec($curl);
+        curl_close($curl);
+        return json_decode($response, true);
+    }
     
-    public function numberResultCron(){
+    public function numberResultCronForCurrentMonth
+    ()
+    {
+ 
+        $startDate = Carbon::now()->startOfMonth();
+        $endDate = Carbon::now()->endOfMonth();
+
+        while ($startDate <= $endDate) {
+            $this->numberResultCron1($startDate->format("Y-m-d"));
+            $startDate->addDay();
+        }
+    }
+
+    public function numberResultCron($currentDate = null)
+    {
         
       
-        $data = $this->fetchResult();
-           $currentDate = date("Y-m-d");
+        $currentDate = $currentDate ?? date("Y-m-d");
+        $data = $this->fetchResult($currentDate);
         
-        if(isset($data['today_result']) && !empty($data['today_result'])){
-              foreach($data['today_result'] as $key => $val){
-     
-                    $name = strtolower(str_replace(" ","_", $val['market_name']));
-                    if(!DB::connection('number_prediction')->table('number_results')->where("name", $name)->where("date",$val['aankdo_date'] )->first()){
-                          $resultArr = array(
-                              'name'=>$name,
-                              'date'=>$val['aankdo_date'],
-                              'result'=>$val['jodi'],
-                              'created_at'=>date("Y-m-d H:i:s")
+        if (isset($data['today_result']) && !empty($data['today_result'])) {
+            foreach ($data['today_result'] as $key => $val) {
+                  $name = strtolower(str_replace(" ", "_", $val['market_name']));
+                if (!DB::connection('number_prediction')->table('NUMBER_RESULTS')->where("name", $name)->where("date", $val['aankdo_date'])->first()) {
+                      $resultArr = array(
+                          'name' => $name,
+                          'date' => $val['aankdo_date'],
+                          'result' => $val['jodi'],
+                          'created_at' => date("Y-m-d H:i:s")
                               
-                              );
-                              DB::connection('number_prediction')->table('number_results')->insert($resultArr);
+                          );
+                          DB::connection('number_prediction')->table('NUMBER_RESULTS')->insert($resultArr);
+                }
+                  //update result
+                  $allGames = DB::connection('number_prediction')->table('GAMES')->where('linked_game', $name)->get();
+                foreach ($allGames as $k => $v) {
+                    if (!DB::connection('number_prediction')->table('RESULT')->where("GAME_ID", $v->ID)->where('DATE', $currentDate)->first()) {
+                        $inserArr = array('GAME_ID' => $v->ID ,'RESULT1' => $val['jodi'] ,'RESULT2' => 0, 'DATE' => $currentDate);
+                        DB::connection('number_prediction')->table('RESULT')->insert($inserArr);
+                        ;
                     }
-                    //update result 
-                    $allGames = DB::connection('number_prediction')->table('games')->where('linked_game',$name)->get();  
-                    foreach($allGames as $k => $v)
-                    {
-                        if(!DB::connection('number_prediction')->table('result')->where("GAME_ID", $v->ID)->where('DATE', $currentDate)->first()){
-                            $inserArr = array('GAME_ID' => $v->ID ,'RESULT1' => $val['jodi'] ,'RESULT2'=>0, 'DATE' => $currentDate);
-                            DB::connection('number_prediction')->table('result')->insert($inserArr);;
-         
-                        }    
-                        
-                    }
-        
-      
-                       
-                       
-               
-                  
-              }
-              
-              
-        } 
-        
-        
-        
-       
-              
-        
+                }
+            }
+        }
     }
    
     public function cron()
@@ -111,7 +136,7 @@ class CronController extends Controller
             $cronLog->cron_job_id = $cron->id;
             $cronLog->start_at    = now();
             if ($cron->is_default) {
-                $controller = new $cron->action[0];
+                $controller = new $cron->action[0]();
                 try {
                     $method = $cron->action[1];
                     $controller->$method();
@@ -147,7 +172,8 @@ class CronController extends Controller
         }
     }
 
-    private function declareWinner(){
+    private function declareWinner()
+    {
         $phases = Phase::where('status', Status::ENABLE)->with('tickets', 'tickets.user', 'tickets.lottery', 'lottery.bonuses', 'tickets.phase', 'lottery')->where('draw_status', Status::RUNNING)->where('draw_type', Status::AUTO)->where('draw_date', '<=', Carbon::now())->get();
 
         foreach ($phases as $phase) {
@@ -206,7 +232,7 @@ class CronController extends Controller
             }
 
             $ticketPublished = Ticket::where('phase_id', $phase->id)->get();
-            foreach ($ticketPublished as $val ){
+            foreach ($ticketPublished as $val) {
                 $val->status = Status::PUBLISHED;
                 $val->save();
             }
