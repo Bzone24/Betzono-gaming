@@ -1247,7 +1247,7 @@ public function cancelBet(Request $request)
                 'balance'          => number_format($user->balance, 2, '.', ''), // Ensuring proper decimal format
                 'transactionType'  => $transactionType,
                 'transactionId'    => $request->transactionId,
-                'partnertxnId'     => $request->partnertxnId ?? null,
+                'partnertxnId'     => "stakeye-".$transaction->id,
                 'tableCode'        => $request->tableCode,
                 'liability'        => $request->liability ?? 0,
                 'netpl'            => $request->netpl ?? 0,

@@ -952,11 +952,11 @@ $kycInstruction = getContent('kyc\.content', true);
                         </a>
                     </div>
                     <div class="post-slide">
-                         <a href="javascript:void(0)" class="lobby-game" data-gameid="1026" data-gametableid="RG-LK7101">
+                         <a href="javascript:void(0)" class="lobby-game" data-gameid="1007" data-gametableid="EVP_BSquad">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/Bet_Games_Lucky7_tvbet.png')}}" alt="slide">-->
                                 <!--Lucky7 banner-->
-                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/8decce20-f585-4e8b-50dc-a326b5b3b500/style2" alt="slide">
+                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/91da8e19-949b-467f-caf5-6f1183e4fe00/style2" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
@@ -966,11 +966,11 @@ $kycInstruction = getContent('kyc\.content', true);
                         </a>
                     </div>
                     <div class="post-slide">
-                         <a href="javascript:void(0)" class="lobby-game" data-gameid="1016" data-gametableid="jili_VideoPoker">
+                         <a href="javascript:void(0)" class="lobby-game" data-gameid="1007" data-gametableid="EVP_MLess">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/Bet_Games_6_Poker_tvvet.png')}}" alt="slide">-->
                                 <!--Bet-on-poker banner-->
-                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/1fd55006-5637-4d77-f395-e1b06f3fed00/style2" alt="slide">
+                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/54fc4f25-28c8-4820-3b79-e43a094daf00/style2" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
@@ -980,11 +980,11 @@ $kycInstruction = getContent('kyc\.content', true);
                         </a>
                     </div>
                     <div class="post-slide">
-                         <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-jellyslice">
+                         <a href="javascript:void(0)" class="lobby-game" data-gameid="601" data-gametableid="ez_bac">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/Bet_Games_Dice_Duel_tvbet.png')}}" alt="slide">-->
                                 <!--SLicer banner-->
-                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/89e778c7-2b68-4a75-0793-93b5bbc64100/style2" alt="slide">
+                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/46da2999-19b9-4d0d-cabb-85660449ba00/style2" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
