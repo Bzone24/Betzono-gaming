@@ -1975,6 +1975,9 @@
                 </a>
             </div>
     </section>
+    
+    
+    
     <!-- end lower bar -->
     <script src="{{ asset('assets/newhome/js/plugins.js')}}"></script>
     <script src="{{ asset('assets/newhome/js/main.js')}}"></script>
