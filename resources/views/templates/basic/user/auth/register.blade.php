@@ -20,18 +20,26 @@
                                 </div>
 
                                 <div class="row">
-                                    @if (session()->get('reference') != null)
+                                   
                                         <div class="form-group col-12">
-                                            <label for="referenceBy">@lang('Reference By') <sup
-                                                    class="text-danger">*</sup></label>
+                                            <label for="referenceBy">@lang('Reference By') </label>
                                             <div class="custom--field">
-                                                <input class="form--control" id="referenceBy" name="referBy" type="text"
-                                                       value="{{ session()->get('reference') }}" readonly>
-                                                <i class="las la-user-alt"></i>
+                                                <input class="form--control checkUser" id="referenceBy " name="referBy" type="text"
+                                                       value="{{ session()->get('reference') }}"  @if (session()->get('reference') != null)
+                                                       readonly
+                                                       @endif 
+                                                       />
+                                                       <span class="text--danger referByExist"></span>
+                                                
                                             </div>
                                         </div>
-                                    @endif
-
+                                   
+                                    <div class="form-group col-12"> 
+                                        <label class="form-label">@lang('User Name')</label>
+                                        <input type="text" class="form-control form--control checkUser" name="username" id="username"
+                                               value="{{old("username")}}" required>
+                                        <span class="text--danger usernameExist"></span>
+                                    </div> 
 
                                     <div class="form-group col-sm-6">
                                         <label class="form-label">@lang('First Name')</label>
@@ -48,7 +56,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="form-label">@lang('E-Mail Address')</label>
-                                            <input type="email" class="form-control form--control checkUser"
+                                            <input type="email" class="form-control form--control "
                                                    name="email" value="{{ old('email') }}"
                                                    required>
                                         </div>
@@ -219,7 +227,7 @@
         (function ($) {
 
             $('.checkUser').on('focusout', function (e) {
-                var url = '{{ route('user.checkUser') }}';
+                var url = "{{ route('user.checkUser') }}";
                 var value = $(this).val();
                 var token = '{{ csrf_token() }}';
 
@@ -240,7 +248,15 @@
     <script>
         "use strict";
         (function ($) {
- 
+
+           
+
+
+
+            $(document).ready(function () {
+                var defaultCountry = 'India';
+                $('select[name=country]').val(defaultCountry).trigger('change');
+            });
 
             $('select[name=country]').on('change', function () {
                 $('input[name=mobile_code]').val($('select[name=country] :selected').data('mobile_code'));
@@ -256,14 +272,26 @@
             $('.mobile-code').text('+' + $('select[name=country] :selected').data('mobile_code'));
 
 
-            $('.checkUser').on('focusout', function (e) {
+            $('.checkUser').on('keyup focusout', function (e) {
                 var value = $(this).val();
-                var name = $(this).attr('name')
-                checkUser(value, name);
+                var name = $(this).attr('name');
+
+               
+
+
+                if(value){
+
+                    checkUser(value, name);
+                }else{
+                    if (name == 'referBy') { 
+                        $(`.referByExist`).text('');
+                        $(".registerUserBtn").prop("disabled",false);
+                    } 
+                }
             });
 
             function checkUser(value, name) {
-                var url = '{{ route('user.checkUser') }}';
+                var url = "{{ route('user.checkUser') }}";
                 var token = '{{ csrf_token() }}';
 
                 if (name == 'mobile') {
@@ -280,13 +308,34 @@
                         _token: token
                     }
                 }
+
+                if (name == 'referBy') {
+                    var data = {
+                        username: value,
+                        _token: token
+                    }
+                }
+
+                
                 $.post(url, data, function (response) {
-                    if (response.data != false) {
-                        $(`.${response.type}Exist`).text(`${response.field} already exist`);
-                        $(".registerUserBtn").prop("disabled",true);
-                    } else {
-                        $(`.${response.type}Exist`).text('');
-                        $(".registerUserBtn").prop("disabled",false);
+                    if (name == 'referBy') { 
+                        if (response.data != false) {
+                            
+                            $(`.${response.type}Exist`).text('');
+                            $(".registerUserBtn").prop("disabled",false);
+                        } else {
+                            $(`.referByExist`).text(`${response.field} invaild referal`);
+                            $(".registerUserBtn").prop("disabled",true);
+                        }
+                    }else{
+
+                        if (response.data != false) {
+                            $(`.${response.type}Exist`).text(`${response.field} already exist`);
+                            $(".registerUserBtn").prop("disabled",true);
+                        } else {
+                            $(`.${response.type}Exist`).text('');
+                            $(".registerUserBtn").prop("disabled",false);
+                        }
                     }
                 });
             }

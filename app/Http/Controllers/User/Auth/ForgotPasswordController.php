@@ -18,16 +18,20 @@ class ForgotPasswordController extends Controller
     public function sendResetCodeEmail(Request $request)
     {
         $request->validate([
-            'value'=>'required'
+            'value' => 'required'
         ]);
 
-        if(!verifyCaptcha()){
+        if (!verifyCaptcha()) {
             $notify[] = ['error','Invalid captcha provided'];
             return back()->withNotify($notify);
         }
 
         $fieldType = $this->findFieldType();
-        $user = User::where($fieldType, $request->value)->first();
+        if ($fieldType == 'email') {
+            $notify[] = ['error','Please enter the username'];
+            return back()->withNotify($notify);
+        }
+                $user = User::where($fieldType, $request->value)->first();
 
         if (!$user) {
             $notify[] = ['error', 'The account could not be found'];
@@ -50,10 +54,11 @@ class ForgotPasswordController extends Controller
             'browser' => @$userBrowserInfo['browser'],
             'ip' => @$userIpInfo['ip'],
             'time' => @$userIpInfo['time']
-        ],['email']);
+        ], ['email']);
 
         $email = $user->email;
-        session()->put('pass_res_mail',$email);
+        session()->put('pass_res_mail', $email);
+        session()->put('pass_res_username', $user->username);
         $notify[] = ['success', 'Password reset email sent successfully'];
         return to_route('user.password.code.verify')->withNotify($notify);
     }
@@ -67,14 +72,29 @@ class ForgotPasswordController extends Controller
         return $fieldType;
     }
 
-    public function codeVerify(Request $request){
+    public function codeVerify(Request $request)
+    {
         $pageTitle = 'Verify Email';
-        $email = $request->session()->get('pass_res_mail');
+
+      /*  $email = $request->session()->get('pass_res_mail');
         if (!$email) {
             $notify[] = ['error','Oops! session expired'];
             return to_route('user.password.request')->withNotify($notify);
+        }*/
+
+        $username = session()->get('pass_res_username');
+        if (!$username) {
+            $notify[] = ['error', 'Oops! session expired'];
+            return to_route('user.password.request')->withNotify($notify);
         }
-        return view('Template::user.auth.passwords.code_verify',compact('pageTitle','email'));
+        //get user email from username
+        $user = User::where('username', $username)->first();
+        if (!$user) {
+            $notify[] = ['error', 'The account could not be found'];
+            return to_route('user.password.request')->withNotify($notify);
+        }
+        $email = $user->email;
+        return view('Template::user.auth.passwords.code_verify', compact('pageTitle', 'email'));
     }
 
     public function verifyCode(Request $request)
@@ -90,8 +110,7 @@ class ForgotPasswordController extends Controller
             return to_route('user.password.request')->withNotify($notify);
         }
         $notify[] = ['success', 'You can change your password'];
-        session()->flash('fpass_email', $request->email);
+        session()->flash('fpass_email', $request->email); 
         return to_route('user.password.reset', $code)->withNotify($notify);
     }
-
 }

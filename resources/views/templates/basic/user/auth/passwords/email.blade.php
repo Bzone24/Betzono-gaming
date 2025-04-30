@@ -16,7 +16,7 @@
                     <form method="POST" action="{{ route('user.password.email') }}" class="verify-gcaptcha">
                                 @csrf
                                 <div class="form-group">
-                                    <label>@lang('Email or Username')</label>
+                                    <label>@lang('Username')</label>
                                     <div class="custom--field">
                                         <input class="form--control" name="value" type="text" value="{{ old('value') }}" required autofocus="off">
                                         <i class="las la-user-cog"></i>
