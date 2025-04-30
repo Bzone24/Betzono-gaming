@@ -89,7 +89,7 @@
                                                 <input type="hidden" name="mobile_code">
                                                 <input type="hidden" name="country_code">
                                                 <input type="number" name="mobile" 
-                                                       class="form-control form--control checkUser"
+                                                       class="form-control form--control  "
                                                        required>
                                             </div>
                                             <small class="text--danger mobileExist"></small>
