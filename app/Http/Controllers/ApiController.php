@@ -1014,9 +1014,7 @@ public function cancelBet(Request $request)
 
    //default cr
         $request->transactionType = 'CR';
-   $requestData = json_encode($request->all(), JSON_PRETTY_PRINT);
-        $filePath = storage_path('logs/request_data_' . now()->format('Y_m_d_H_i_s') . '.txt');
-        file_put_contents($filePath, $requestData);
+ 
         if ($validator->fails()) {
             return response()->json([
                 'userName'     => $request->userName ?? '',
