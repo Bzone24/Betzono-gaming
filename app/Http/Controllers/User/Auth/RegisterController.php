@@ -50,7 +50,8 @@ class RegisterController extends Controller
         $validate = Validator::make($data, [
             'firstname' => 'required',
             'lastname' => 'required',
-            'email' => 'required|string|email|unique:users',
+            'username' => 'required|string|unique:users',
+            //'email' => 'required|string|email|unique:users',
             'password' => ['required', 'confirmed', $passwordValidation],
             'captcha' => 'sometimes|required',
             'agree' => $agree
@@ -88,9 +89,8 @@ class RegisterController extends Controller
             $referUser = User::where('username', $referBy)->first();
         } else {
             $referUser = null;
-        }
- 
-        $userName =  "b".$data['mobile'];
+        } 
+        $userName =  $data['username'];
        /* $api = new ApiHandler();
  
         $apiData = [
@@ -142,8 +142,14 @@ class RegisterController extends Controller
         $user->api_user_id = isset($response['data']['id']) ? $response['data']['id'] : "";
         $user->api_login_url = isset($response['data']['fastLoginUrl']) ? $response['data']['fastLoginUrl'] : "";
         $user->user_type = User::USER_TYPE_USER;
-
         $user->save();
+        //trigger welcome mail to user
+        notify($user, 'DEFAULT', [
+            'subject' => 'Welcome to ' . gs('app_name'),
+            'message' => 'Hi ' . $data['firstname'] . ' ' . $data['lastname'] . ', Welcome to ' . gs('app_name') . '. Your account has been created successfully. Please login to your account.',
+        ], ['email'], createLog: false);
+        
+
 
         $adminNotification = new AdminNotification();
         $adminNotification->user_id = $user->id;

@@ -93,11 +93,17 @@ class LoginController extends Controller
 
     protected function validateLogin($request)
     {
-
         $validator = Validator::make($request->all(), [
             $this->username() => 'required|string',
             'password' => 'required|string',
         ]);
+        //check if email added then redirect with notification
+        if($this->username() == 'email'){
+            $validator->after(function ($validator) {
+                    $validator->errors()->add($this->username(), 'Please enter username to make login');
+            
+            });
+        }
         if ($validator->fails()) {
             Intended::reAssignSession();
             $validator->validate();
@@ -127,7 +133,7 @@ class LoginController extends Controller
   public function authenticated(Request $request, $user)
     {
         try {
-            $user->tv = $user->ts == Status::VERIFIED ? Status::UNVERIFIED : Status::VERIFIED;
+        $user->tv = $user->ts == Status::VERIFIED ? Status::UNVERIFIED : Status::VERIFIED;
         $user->save();
         $ip = getRealIP();
         $exist = UserLogin::where('user_ip',$ip)->first();

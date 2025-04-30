@@ -17,7 +17,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="username">@lang('Username or Email')</label>
+                                <label for="username">@lang('Username')</label>
                                 <div class="custom--field">
                                     <input class="form--control" id="username" name="username" type="text" value="{{ old('username') }}" required>
                                     <i class="las la-user"></i>

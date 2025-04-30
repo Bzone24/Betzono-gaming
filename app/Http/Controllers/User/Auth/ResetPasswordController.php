@@ -35,7 +35,8 @@ class ResetPasswordController extends Controller
         }
 
         //update user password on main site
-        $user = User::where('email', $reset->email)->first();
+         $username =  session()->get('pass_res_username');
+        $user = User::where('email', $reset->email)->where('username', $username)->first();
         $api = new ApiHandler();
 
         $data = [
@@ -57,7 +58,7 @@ class ResetPasswordController extends Controller
             'time' => @$userIpInfo['time']
         ],['email']);
 
-
+        session()->forget('pass_res_username');
         $notify[] = ['success', 'Password changed successfully'];
         return to_route('user.login')->withNotify($notify);
     }
