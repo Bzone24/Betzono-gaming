@@ -54,7 +54,6 @@
                                 <th>@lang('Transacted')</th>
                                 <th>@lang('TpGame')</th>
                                 <th>@lang('TableCode')</th>
-
                                 <th>@lang('Amount')</th>
                                 <th>@lang('Post Balance')</th>
                                 <th>@lang('Type')</th>
@@ -73,17 +72,16 @@
                                     <td>
                                         <strong>{{ $trx->trx }}</strong>
                                     </td>
+
+                                    <td>
+                                        {{ showDateTime($trx->created_at) }}<br>{{ diffForHumans($trx->created_at) }}
+                                    </td>
                                     <td>
                                         <strong>{{ $trx->tpGameId }}</strong>
                                     </td>
                                     <td>
                                         <strong>{{ $trx->tableCode }}</strong>
                                     </td>
-
-                                    <td>
-                                        {{ showDateTime($trx->created_at) }}<br>{{ diffForHumans($trx->created_at) }}
-                                    </td>
-
                                     <td class="budget">
                                         <span class="fw-bold @if($trx->trx_type == '+')text--success @else text--danger @endif">
                                             {{ $trx->trx_type }} {{showAmount($trx->amount)}}
