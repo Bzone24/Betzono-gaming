@@ -286,6 +286,11 @@ class SiteController extends Controller
             dd($th->getMessage());
         }
     }
+
+
+    public function trendingGames(){
+          return view('frontend.trending-games');
+    }
     
     public function liveCasino(Request $request)
     {
