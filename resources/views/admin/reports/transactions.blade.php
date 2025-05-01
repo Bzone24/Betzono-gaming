@@ -77,10 +77,10 @@
                                         {{ showDateTime($trx->created_at) }}<br>{{ diffForHumans($trx->created_at) }}
                                     </td>
                                     <td>
-                                        <strong>{{ $trx->tpGameId }}</strong>
+                                        <strong>{{ $trx->getCasinoBetHistoryInfo()->tpGameId??'N/A' }}</strong>
                                     </td>
                                     <td>
-                                        <strong>{{ $trx->tableCode }}</strong>
+                                        <strong>{{ $trx->getCasinoBetHistoryInfo()->tableCode??'N/A' }}</strong>
                                     </td>
                                     <td class="budget">
                                         <span class="fw-bold @if($trx->trx_type == '+')text--success @else text--danger @endif">
