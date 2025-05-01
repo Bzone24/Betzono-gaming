@@ -208,6 +208,26 @@
                         @csrf
 
                         <div class="row">
+                        <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>@lang('Username')</label>
+                                    <input class="form-control" type="text"  name="username" required value="{{$user->username}}">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>@lang('Referral')</label>
+                                    <select name="ref_by" class="form-control select2">
+                                        <option value="">Select Referral</option>
+                                        @foreach($activeUser as $key => $val)
+                                            <option  value="{{ $val->id }}" @selected($user->ref_by == $val->id) >{{ __($val->firstname." ".$val->lastname." (".$val->username.")") }}</option>
+                                        @endforeach
+                                    </select>
+                                    
+                                </div>
+                            </div>
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>@lang('First Name')</label>

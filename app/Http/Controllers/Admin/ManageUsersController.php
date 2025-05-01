@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Constants\Status;
@@ -89,25 +90,27 @@ class ManageUsersController extends Controller
         return view('admin.users.list', compact('pageTitle', 'users'));
     }
 
-    protected function userData($scope = null){
+    protected function userData($scope = null)
+    {
         if ($scope) {
             $users = User::$scope();
-        }else{
+        } else {
             $users = User::query();
         }
-        return $users->searchable(['username','email'])->orderBy('id','desc')->paginate(getPaginate());
+        return $users->searchable(['username','email'])->orderBy('id', 'desc')->paginate(getPaginate());
     }
 
     public function detail($id)
     {
         $user = User::findOrFail($id);
-        $pageTitle = 'User Detail - '.$user->username;
+        $pageTitle = 'User Detail - ' . $user->username;
 
-        $totalDeposit = Deposit::where('user_id',$user->id)->successful()->sum('amount');
-        $totalWithdrawals = Withdrawal::where('user_id',$user->id)->approved()->sum('amount');
-        $totalTransaction = Transaction::where('user_id',$user->id)->count();
+        $totalDeposit = Deposit::where('user_id', $user->id)->successful()->sum('amount');
+        $totalWithdrawals = Withdrawal::where('user_id', $user->id)->approved()->sum('amount');
+        $totalTransaction = Transaction::where('user_id', $user->id)->count();
         $countries = json_decode(file_get_contents(resource_path('views/partials/country.json')));
-        return view('admin.users.detail', compact('pageTitle', 'user','totalDeposit','totalWithdrawals','totalTransaction','countries'));
+        $activeUser = User::where('id',"!=",$id)->where('status', 1)->get();
+        return view('admin.users.detail', compact('pageTitle', 'user', 'totalDeposit', 'totalWithdrawals', 'totalTransaction', 'countries', 'activeUser'));
     }
 
     public function createUser()
@@ -122,7 +125,7 @@ class ManageUsersController extends Controller
     {
         $pageTitle = 'KYC Details';
         $user = User::findOrFail($id);
-        return view('admin.users.kyc_detail', compact('pageTitle','user'));
+        return view('admin.users.kyc_detail', compact('pageTitle', 'user'));
     }
 
     public function kycApprove($id)
@@ -131,24 +134,24 @@ class ManageUsersController extends Controller
         $user->kv = Status::KYC_VERIFIED;
         $user->save();
 
-        notify($user,'KYC_APPROVE',[]);
+        notify($user, 'KYC_APPROVE', []);
 
         $notify[] = ['success','KYC approved successfully'];
         return to_route('admin.users.kyc.pending')->withNotify($notify);
     }
 
-    public function kycReject(Request $request,$id)
+    public function kycReject(Request $request, $id)
     {
         $request->validate([
-            'reason'=>'required'
+            'reason' => 'required'
         ]);
         $user = User::findOrFail($id);
         $user->kv = Status::KYC_UNVERIFIED;
         $user->kyc_rejection_reason = $request->reason;
         $user->save();
 
-        notify($user,'KYC_REJECT',[
-            'reason'=>$request->reason
+        notify($user, 'KYC_REJECT', [
+            'reason' => $request->reason
         ]);
 
         $notify[] = ['success','KYC rejected successfully'];
@@ -174,9 +177,10 @@ class ManageUsersController extends Controller
         $validate = Validator::make($request->all(), [
             'firstname' => 'required',
             'lastname' => 'required',
-            'email' => 'required|string|email|unique:users',
+            'username' => 'required|string',
+            'email' => 'required|string|email',
             'password' => ['required', 'confirmed', $passwordValidation],
-            'country' => 'required|in:'.$countries,
+            'country' => 'required|in:' . $countries,
             'user_type' => 'required|in:' . implode(',', User::getUserTypeOptions()),
         ], [
             'firstname.required' => 'The first name field is required',
@@ -188,11 +192,19 @@ class ManageUsersController extends Controller
             return back()->withErrors($validate->errors())->withNotify($notify)->withInput($request->all());
         }
 
-        $exists = User::where('mobile',$request->mobile)->where('dial_code',$dialCode)->exists();
+      /*  $exists = User::where('mobile', $request->mobile)->where('dial_code', $dialCode)->exists();
         if ($exists) {
             $notify[] = ['error', 'The mobile number already exists.'];
             return back()->withNotify($notify)->withInput($request->all());
+        }*/
+        //check username already taken
+        $exists = User::where('username', $request->username)->where('id', '!=', $user->id)->exists();
+        if ($exists) {
+            $notify[] = ['error', 'The username already exists.'];
+            return back()->withNotify($notify);
         }
+
+
         /*
 
         $api = new ApiHandler();
@@ -218,16 +230,17 @@ class ManageUsersController extends Controller
             return back()->withNotify($notify)->withInput($request->all());
         }
         else{
-           
+
             $fast_create_url = $response['data']['fastLoginUrl'];
         }*/
 
         $user = new User();
         $user->mobile = $request->mobile;
-        $user->username = "b".$request->mobile;
+        $user->username = $request->mobile;
         $user->firstname = $request->firstname;
         $user->lastname = $request->lastname;
         $user->email = $request->email;
+        $user->ref_by = $request->ref_by;
         $user->password = Hash::make($request->password);
 
         $user->address = $request->address;
@@ -245,11 +258,9 @@ class ManageUsersController extends Controller
             $user->kv = Status::KYC_UNVERIFIED;
 
             if ($user->kyc_data) {
-
                 foreach ($user->kyc_data as $kycData) {
-
                     if ($kycData->type == 'file') {
-                        fileManager()->removeFile(getFilePath('verify').'/'.$kycData->value);
+                        fileManager()->removeFile(getFilePath('verify') . '/' . $kycData->value);
                     }
                 }
             }
@@ -262,14 +273,13 @@ class ManageUsersController extends Controller
         $user->api_user_id = '';//isset($response['data']['id']) ? $response['data']['id'] : "";
         $user->api_login_url = '';//isset($response['data']['fastLoginUrl']) ? $response['data']['fastLoginUrl'] : "";
         $user->user_type = $request->user_type;
-        $user->fast_create_url = $fast_create_url??null;
+        $user->fast_create_url = $fast_create_url ?? null;
         $user->profile_complete = Status::YES;
         $user->save();
 
         $notify[] = ['success', 'User created successfully'];
 
         return back()->withNotify($notify);
-        
     }
 
     public function update(Request $request, $id)
@@ -286,21 +296,34 @@ class ManageUsersController extends Controller
         $request->validate([
             'firstname' => 'required|string|max:40',
             'lastname' => 'required|string|max:40',
-            'email' => 'required|email|string|max:40|unique:users,email,' . $user->id,
+            'username' => 'required|string',
+            'email' => 'required|email|string|max:40',
             'mobile' => 'required|string|max:40',
-            'country' => 'required|in:'.$countries,
+            'country' => 'required|in:' . $countries,
             'user_type' => 'required|in:' . implode(',', User::getUserTypeOptions()),
         ]);
 
-        $exists = User::where('mobile',$request->mobile)->where('dial_code',$dialCode)->where('id','!=',$user->id)->exists();
+        // $exists = User::where('mobile',$request->mobile)->where('dial_code',$dialCode)->where('id','!=',$user->id)->exists();
+        // if ($exists) {
+        //     $notify[] = ['error', 'The mobile number already exists.'];
+        //     return back()->withNotify($notify);
+        // }
+        //check if username already exists
+        $exists = User::where('username', $request->username)->where('id', '!=', $user->id)->exists();
         if ($exists) {
-            $notify[] = ['error', 'The mobile number already exists.'];
+            $notify[] = ['error', 'The username already exists.'];
             return back()->withNotify($notify);
         }
+
+
+
 
         $user->mobile = $request->mobile;
         $user->firstname = $request->firstname;
         $user->lastname = $request->lastname;
+        $user->username = $request->username;
+        $user->ref_by = $request->ref_by;
+        
         $user->email = $request->email;
         $user->user_type = $request->user_type;
 
@@ -320,12 +343,12 @@ class ManageUsersController extends Controller
             if ($user->kyc_data) {
                 foreach ($user->kyc_data as $kycData) {
                     if ($kycData->type == 'file') {
-                        fileManager()->removeFile(getFilePath('verify').'/'.$kycData->value);
+                        fileManager()->removeFile(getFilePath('verify') . '/' . $kycData->value);
                     }
                 }
             }
             $user->kyc_data = null;
-        }else{
+        } else {
             $user->kv = Status::KYC_VERIFIED;
         }
         $user->save();
@@ -358,7 +381,6 @@ class ManageUsersController extends Controller
             $notifyTemplate = 'BAL_ADD';
 
             $notify[] = ['success', 'Balance added successfully'];
-
         } else {
             if ($amount > $user->balance) {
                 $notify[] = ['error', $user->username . ' doesn\'t have sufficient balance.'];
@@ -387,37 +409,37 @@ class ManageUsersController extends Controller
 
         notify($user, $notifyTemplate, [
             'trx' => $trx,
-            'amount' => showAmount($amount,currencyFormat:false),
+            'amount' => showAmount($amount, currencyFormat:false),
             'remark' => $request->remark,
-            'post_balance' => showAmount($user->balance,currencyFormat:false)
+            'post_balance' => showAmount($user->balance, currencyFormat:false)
         ]);
 
         return back()->withNotify($notify);
     }
 
-    public function login($id){
+    public function login($id)
+    {
         Auth::loginUsingId($id);
         return to_route('user.home');
     }
 
-    public function status(Request $request,$id)
+    public function status(Request $request, $id)
     {
         $user = User::findOrFail($id);
         if ($user->status == Status::USER_ACTIVE) {
             $request->validate([
-                'reason'=>'required|string|max:255'
+                'reason' => 'required|string|max:255'
             ]);
             $user->status = Status::USER_BAN;
             $user->ban_reason = $request->reason;
             $notify[] = ['success','User banned successfully'];
-        }else{
+        } else {
             $user->status = Status::USER_ACTIVE;
             $user->ban_reason = null;
             $notify[] = ['success','User unbanned successfully'];
         }
         $user->save();
         return back()->withNotify($notify);
-
     }
 
     public function showNotificationSingleForm($id)
@@ -425,7 +447,7 @@ class ManageUsersController extends Controller
         $user = User::findOrFail($id);
         if (!gs('en') && !gs('sn') && !gs('pn')) {
             $notify[] = ['warning','Notification options are disabled currently'];
-            return to_route('admin.users.detail',$user->id)->withNotify($notify);
+            return to_route('admin.users.detail', $user->id)->withNotify($notify);
         }
         $pageTitle = 'Send Notification to ' . $user->username;
         return view('admin.users.notification_single', compact('pageTitle', 'user'));
@@ -446,21 +468,21 @@ class ManageUsersController extends Controller
         }
 
         $imageUrl = null;
-        if($request->via == 'push' && $request->hasFile('image')){
+        if ($request->via == 'push' && $request->hasFile('image')) {
             $imageUrl = fileUploader($request->image, getFilePath('push'));
         }
 
-        $template = NotificationTemplate::where('act', 'DEFAULT')->where($request->via.'_status', Status::ENABLE)->exists();
-        if(!$template){
+        $template = NotificationTemplate::where('act', 'DEFAULT')->where($request->via . '_status', Status::ENABLE)->exists();
+        if (!$template) {
             $notify[] = ['warning', 'Default notification template is not enabled'];
             return back()->withNotify($notify);
         }
 
         $user = User::findOrFail($id);
-        notify($user,'DEFAULT',[
-            'subject'=>$request->subject,
-            'message'=>$request->message,
-        ],[$request->via],pushImage:$imageUrl);
+        notify($user, 'DEFAULT', [
+            'subject' => $request->subject,
+            'message' => $request->message,
+        ], [$request->via], pushImage:$imageUrl);
         $notify[] = ['success', 'Notification sent successfully'];
         return back()->withNotify($notify);
     }
@@ -507,8 +529,8 @@ class ManageUsersController extends Controller
         }
 
 
-        $template = NotificationTemplate::where('act', 'DEFAULT')->where($request->via.'_status', Status::ENABLE)->exists();
-        if(!$template){
+        $template = NotificationTemplate::where('act', 'DEFAULT')->where($request->via . '_status', Status::ENABLE)->exists();
+        if (!$template) {
             $notify[] = ['warning', 'Default notification template is not enabled'];
             return back()->withNotify($notify);
         }
@@ -530,7 +552,7 @@ class ManageUsersController extends Controller
         if (session()->has("SEND_NOTIFICATION")) {
             $totalUserCount = session('SEND_NOTIFICATION')['total_user'];
         } else {
-            $totalUserCount = (clone $userQuery)->count() - ($request->start-1);
+            $totalUserCount = (clone $userQuery)->count() - ($request->start - 1);
         }
 
 
@@ -589,7 +611,8 @@ class ManageUsersController extends Controller
         return redirect($url)->withNotify($notify);
     }
 
-    public function countBySegment($methodName){
+    public function countBySegment($methodName)
+    {
         return User::active()->$methodName()->count();
     }
 
@@ -610,11 +633,12 @@ class ManageUsersController extends Controller
         ]);
     }
 
-    public function notificationLog($id){
+    public function notificationLog($id)
+    {
         $user = User::findOrFail($id);
-        $pageTitle = 'Notifications Sent to '.$user->username;
-        $logs = NotificationLog::where('user_id',$id)->with('user')->orderBy('id','desc')->paginate(getPaginate());
-        return view('admin.reports.notification_history', compact('pageTitle','logs','user'));
+        $pageTitle = 'Notifications Sent to ' . $user->username;
+        $logs = NotificationLog::where('user_id', $id)->with('user')->orderBy('id', 'desc')->paginate(getPaginate());
+        return view('admin.reports.notification_history', compact('pageTitle', 'logs', 'user'));
     }
 
     public function wins($id)

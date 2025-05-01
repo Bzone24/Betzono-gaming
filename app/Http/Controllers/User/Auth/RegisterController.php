@@ -73,8 +73,22 @@ class RegisterController extends Controller
             $notify[] = ['error', 'Invalid captcha provided'];
             return back()->withNotify($notify);
         }
+        $data = $request->all();
+        $referBy = $data['referBy'] ?? '';
+        //session()->get('reference');
+        if ($referBy) {
+            $referUser = User::where('username', $referBy)->first();
+            if (!$referUser) {
+                $notify[] = ['error', 'Invalid referral username'];
+                return back()->withNotify($notify)->withInput($request->except('password'));
+            }
+            $data['ref_by'] = $referUser->id;
+        } else {
+            $data['ref_by'] = 0;
+        }
 
-        event(new Registered($user = $this->create($request->all())));
+
+        event(new Registered($user = $this->create($data)));
 
         $this->guard()->login($user);
 
@@ -84,15 +98,10 @@ class RegisterController extends Controller
 
     protected function create(array $data)
     {
-        $referBy = session()->get('reference');
-        if ($referBy) {
-            $referUser = User::where('username', $referBy)->first();
-        } else {
-            $referUser = null;
-        } 
+  
         $userName =  $data['username'];
        /* $api = new ApiHandler();
- 
+
         $apiData = [
             'username' => $userName,
             'password' => $data['password'],
@@ -113,7 +122,7 @@ class RegisterController extends Controller
             $notify[] = ['error', $response['errorMessage']];
             return back()->withNotify($notify);
         }else{
-           
+
             $fast_create_url = $response['data']['fastLoginUrl'];
         }
             */
@@ -123,15 +132,15 @@ class RegisterController extends Controller
         $user->email = strtolower($data['email']);
         $user->firstname = $data['firstname'];
         $user->username = $userName;
-        $user->mobile =  $data['mobile']??null;
+        $user->mobile =  $data['mobile'] ?? null;
         $user->profile_complete = 1;
-        $user->dial_code =  $data['mobile_code']??null;
-        $user->country_name = $data['country']??null;
-        $user->country_code = $data['country_code']??null;
-        $user->fast_create_url = $fast_create_url??null; 
+        $user->dial_code =  $data['mobile_code'] ?? null;
+        $user->country_name = $data['country'] ?? null;
+        $user->country_code = $data['country_code'] ?? null;
+        $user->fast_create_url = $fast_create_url ?? null;
         $user->lastname = $data['lastname'];
         $user->password = Hash::make($data['password']);
-        $user->ref_by = $referUser ? $referUser->id : 0;
+        $user->ref_by = $data['ref_by'] ??  0;
         $user->kv = gs('kv') ? Status::NO : Status::YES;
         $user->ev = gs('ev') ? Status::NO : Status::YES;
         $user->sv = gs('sv') ? Status::NO : Status::YES;
@@ -143,6 +152,7 @@ class RegisterController extends Controller
         $user->api_login_url = isset($response['data']['fastLoginUrl']) ? $response['data']['fastLoginUrl'] : "";
         $user->user_type = User::USER_TYPE_USER;
         $user->save();
+      
         //trigger welcome mail to user
         notify($user, 'DEFAULT', [
             'subject' => 'Welcome to ' . gs('app_name'),

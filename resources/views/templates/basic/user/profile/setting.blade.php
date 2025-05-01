@@ -9,6 +9,11 @@
                             <form class="register prevent-double-click" action="" method="post">
                                 @csrf
                                 <div class="row">
+                                <div class="form-group col-sm-12">
+                                        <label class="col-form-label" for="username">@lang('Username'):</label>
+                                        <input class="form--control" id="username" name="username" type="text" value="{{ $user->username }}" placeholder="@lang('Username')" minlength="3" readonly>
+                                    </div>
+
                                     <div class="form-group col-sm-6">
                                         <label class="col-form-label" for="InputFirstname">@lang('First Name'):</label>
                                         <input class="form--control" id="InputFirstname" name="firstname" type="text" value="{{ $user->firstname }}" placeholder="@lang('First Name')" minlength="3">
