@@ -275,13 +275,8 @@
             $('.checkUser').on('keyup focusout', function (e) {
                 var value = $(this).val();
                 var name = $(this).attr('name');
-
-               
-
-
                 if(value){
-
-                    checkUser(value, name);
+                        checkUser(value, name);
                 }else{
                     if (name == 'referBy') { 
                         $(`.referByExist`).text('');
