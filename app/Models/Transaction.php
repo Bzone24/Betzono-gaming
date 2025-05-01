@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class Transaction extends Model
 {
@@ -16,7 +17,7 @@ class Transaction extends Model
     const TYPE_USER_TRANSFER_IN = 'USER_TRANSFER_IN';
     const TYPE_USER_DEPOSIT = 'USER_DEPOSIT';
     const TYPE_USER_WITHDRAW = 'USER_WITHDRAW';
-    const TYPE_USER_BET_VKINGPLAYS= 'USER_BET_VKINGPLAYS';
+    const TYPE_USER_BET_VKINGPLAYS = 'USER_BET_VKINGPLAYS';
 
     public static function getTypeOptions(): array
     {
@@ -66,5 +67,8 @@ class Transaction extends Model
     {
         return $this->belongsTo(User::class, 'other_id', 'id');
     }
-
+    public function getCasinoBetHistoryInfo()
+    {
+        return  DB::table('casino_bets_history')->where("transactionId", $this->trx)->first();
+    }
 }
