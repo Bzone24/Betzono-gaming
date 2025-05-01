@@ -52,6 +52,9 @@
                                 <th>@lang('User')</th>
                                 <th>@lang('TRX')</th>
                                 <th>@lang('Transacted')</th>
+                                <th>@lang('TpGame')</th>
+                                <th>@lang('TableCode')</th>
+
                                 <th>@lang('Amount')</th>
                                 <th>@lang('Post Balance')</th>
                                 <th>@lang('Type')</th>
@@ -69,6 +72,12 @@
 
                                     <td>
                                         <strong>{{ $trx->trx }}</strong>
+                                    </td>
+                                    <td>
+                                        <strong>{{ $trx->tpGameId }}</strong>
+                                    </td>
+                                    <td>
+                                        <strong>{{ $trx->tableCode }}</strong>
                                     </td>
 
                                     <td>
