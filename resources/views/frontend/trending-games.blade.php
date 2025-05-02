@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>StakEye - Unlock Your Luck (Sports Betting & Casino Games Play with cryptocurrency,Usdt  </title>
+    <title>StakEye - Unlock Your Luck Sports Betting & Casino Games Play with cryptocurrency,Usdt  </title>
     <meta name="description" content="Gaming & Betting with cryptocurrency" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/newhome/img/favicon.png')}}" />
@@ -105,10 +105,10 @@
                     <div class="post-slide">
                         <!--<a href="{{$autologinUrl}}">-->
                         <!--<a href="https://stakeye.com/livecasino">-->
-                        <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_ARou">
+                        <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_DraTig">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/casino-main1.png')}}" alt="slide">-->
-                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/c3c93001-5906-4980-152a-a6dce3789f00/main" alt="slide">
+                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/f45574de-b7ce-4a19-2f36-8478cf004f00/main" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
@@ -119,10 +119,10 @@
                     </div>
                     <div class="post-slide">
                         <!--<a href="{{$autologinUrl}}">-->
-                             <a href="https://cric.stakeye.com/">
+                             <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_SupAndBah">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/sports-main1.png')}}" alt="slide">-->
-                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/0e5386b9-341b-4e38-6592-9892ff8a9f00/main" alt="slide">
+                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/4386300b-0eb8-4f2c-1ff6-bde2043e8c00/main" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
@@ -131,16 +131,12 @@
                             </div>
                         </a>
                     </div>
-                    <div class="post-slide">
+                     <div class="post-slide">
                         <!--<a href="{{$autologinUrl}}">-->
-                        @if(Auth::check())
-                        <a href="{{route('games.play-game','number_prediction')}}">
-                        @else
-                        <a href="{{route('user.login')}}">
-                        @endif
+                             <a href="javascript:void(0)" class="lobby-game" data-gameid="601" data-gametableid="ez_odtp">
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/satta.png')}}" alt="slide">-->
-                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/72d2a87f-60ef-4576-c77d-049bc6994700/main" alt="slide">
+                                <!--<img src="{{ asset('assets/newhome/img/sliders/sports-main1.png')}}" alt="slide">-->
+                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/de75d36a-f174-47c0-ca1e-ef5e876b9200/main" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
@@ -149,6 +145,24 @@
                             </div>
                         </a>
                     </div>
+                    <!--<div class="post-slide">-->
+                        <!--<a href="{{$autologinUrl}}">-->
+                    <!--    @if(Auth::check())-->
+                    <!--    <a href="{{route('games.play-game','number_prediction')}}">-->
+                    <!--    @else-->
+                    <!--    <a href="{{route('user.login')}}">-->
+                    <!--    @endif-->
+                    <!--        <div class="post-img">-->
+                                <!--<img src="{{ asset('assets/newhome/img/sliders/satta.png')}}" alt="slide">-->
+                    <!--            <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/72d2a87f-60ef-4576-c77d-049bc6994700/main" alt="slide">-->
+                    <!--        </div>-->
+                    <!--        <div class="d-flex align-items-center gap-1 py-1">-->
+                    <!--            <span class="set-green-circle"></span>-->
+                    <!--            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+                    <!--            <span class="set-sm-text">playing</span>-->
+                    <!--        </div>-->
+                    <!--    </a>-->
+                    <!--</div>-->
                       <div class="post-slide">
                         <!--<a href="{{$autologinUrl}}">-->
                          @if(Auth::check())
@@ -241,17 +255,18 @@
             <div class="col-md-12">
                 <h2 class="slider-main-title">Continue Playing</h2>
                 <div id="continue-slider" class="owl-carousel">
-                    <div class="post-slide">
-                         @if(Auth::check())
-                        <a href="{{route('games.play-game','number_prediction')}}">
-                        @else
-                        <a href="{{route('user.login')}}">
-                        @endif
+                     <div class="post-slide">
+                         <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_ARou">
+                         <!--@if(Auth::check())-->
+                        <!--<a href="{{route('games.play-game','number_prediction')}}">-->
+                        <!--@else-->
+                        <!--<a href="{{route('user.login')}}">-->
+                        <!--@endif-->
                             <div class="post-img">
-                            <!--<img src="https://cdn.cloudd.site/vking/lobby/20230716018045.webp" alt="slide">-->
-                             <!--<img src="{{ asset('assets/newhome/img/sliders/satta-home.png')}}" alt="slide"> -->
-                             <!--image banner satta-->
-                             <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/0a89af08-8ed4-44c4-2c74-e168cbbb1b00/style1" alt="slide">
+                                <!--<img src="https://cdn.cloudd.site/vking/lobby/20230704532492.webp" alt="slide">-->
+                                 <!--<img src="{{ asset('assets/newhome/img/sliders/super_andar_bahar_ev.jpg')}}" alt="slide"> -->
+                                  <!--auto roullete banner-->
+                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/3abe6b9a-61c3-4163-2b86-4e59c00d9500/main" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
@@ -260,6 +275,25 @@
                             </div>
                         </a>
                     </div>
+                    <!--<div class="post-slide">-->
+                    <!--     @if(Auth::check())-->
+                    <!--    <a href="{{route('games.play-game','number_prediction')}}">-->
+                    <!--    @else-->
+                    <!--    <a href="{{route('user.login')}}">-->
+                    <!--    @endif-->
+                    <!--        <div class="post-img">-->
+                            <!--<img src="https://cdn.cloudd.site/vking/lobby/20230716018045.webp" alt="slide">-->
+                             <!--<img src="{{ asset('assets/newhome/img/sliders/satta-home.png')}}" alt="slide"> -->
+                             <!--image banner satta-->
+                    <!--         <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/7b5c570b-a480-4371-5bdc-1b8521492600/style1" alt="slide">-->
+                    <!--        </div>-->
+                    <!--        <div class="d-flex align-items-center gap-1 py-1">-->
+                    <!--            <span class="set-green-circle"></span>-->
+                    <!--            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+                    <!--            <span class="set-sm-text">playing</span>-->
+                    <!--        </div>-->
+                    <!--    </a>-->
+                    <!--</div>-->
                     <!--<div class="post-slide">-->
                         <!--@if(Auth::check())-->
                         <!--<a href="{{route('games.play-game','color_prediction')}}">-->
@@ -296,12 +330,12 @@
                         </a>
                     </div>
                     <div class="post-slide">
-                    <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_Rou">
+                    <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_FPCraps">
                             <div class="post-img">
                                  <!--<img src="{{ asset('assets/newhome/img/sliders/live-roullete-at.png')}}" alt="slide">
     -->
     <!--live casino banner-->
-                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/975610f6-c32d-4a21-6bab-e5ab7018a100/style1" alt="slide">
+                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/a3bd5403-d2c5-4075-113f-5122218dd900/main" alt="slide">
                                 <!--<img src="https://cdn.cloudd.site/vking/lobby/20230709492583.webp" alt="slide">-->
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
@@ -312,11 +346,11 @@
                         </a>
                     </div>
                     <div class="post-slide">
-                    <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_DraTig">
+                    <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_SpRou">
                             <div class="post-img">
                                  <!--<img src="{{ asset('assets/newhome/img/sliders/dragon_tiger_ev.jpg')}}" alt="slide"> -->
                                  <!--Dragon tiger banner-->
-                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/0ccb4da8-e8bc-4fb9-0dc6-ffd3236c4400/style1" alt="slide"> 
+                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/04d0da24-6073-4e83-6e3a-9cef4a011900/main" alt="slide"> 
                                 <!--<img src="https://cdn.cloudd.site/vking/lobby/20230708445186.webp" alt="slide">-->
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
@@ -361,10 +395,10 @@
                 <h2 class="slider-main-title">Live Roulette </h2>
                 <div id="stake-originals" class="owl-carousel">
                     <div class="post-slide">
-                        <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_ARou">
+                        <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="Evo_Craps">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/auto1.png')}}" alt="slide">-->
-                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/d2f0645b-4da8-490a-a8b8-c08e14ab6700/style1" alt="slide">
+                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/90433ba9-52a6-4156-90ce-3dba61e2ad00/main" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
@@ -374,10 +408,10 @@
                         </a>
                     </div>
                     <div class="post-slide">
-                        <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_LigRou">
+                        <a href="javascript:void(0)" class="lobby-game" data-gameid="601" data-gametableid="ez_bac">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/lightning_roulette_ev.jpg')}}" alt="slide">-->
-                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/86a88a16-9546-41aa-3ef0-12c1c3893b00/style1" alt="slide">
+                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/4b3ca71a-986d-4bcd-1f10-35fa4296c800/main" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
@@ -387,10 +421,10 @@
                         </a>
                     </div>
                     <div class="post-slide">
-                        <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_HindiRoulette">
+                        <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_dbRoulette">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/xxxtreme_lightning_roulette_ev.jpg')}}" alt="slide">-->
-                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/38457e54-0fe5-4115-6e7b-7482a6e73400/style1" alt="slide">
+                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/635126f9-65a6-4484-0a71-2537821fdd00/style1" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
@@ -767,127 +801,127 @@
     </div>
 
     <!-- SLIDERS -->
-    <div class="container set-none-slider-menu">
-        <div class="row">
-            <div class="col-md-12">
-                <h2 class="slider-main-title">Trending Sports</h2>
-                <div id="trending-sports" class="owl-carousel">
-                    <div class="post-slide">
+    <!--<div class="container set-none-slider-menu">-->
+    <!--    <div class="row">-->
+    <!--        <div class="col-md-12">-->
+    <!--            <h2 class="slider-main-title">Trending Sports</h2>-->
+    <!--            <div id="trending-sports" class="owl-carousel">-->
+    <!--                <div class="post-slide">-->
                        <!--<a href="{{$autologinUrl}}">-->
-                       <a href="https://cric.stakeye.com/">
-                            <div class="post-img">
+    <!--                   <a href="https://cric.stakeye.com/">-->
+    <!--                        <div class="post-img">-->
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/cricket1.png')}}" alt="slide">-->
-                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/8fe5acfa-f3ac-45e4-0107-215cec608000/style1" alt="slide">
-                            </div>
-                            <div class="d-flex align-items-center gap-1 py-1">
-                                <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
-                                <span class="set-sm-text">playing</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="post-slide">
+    <!--                            <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/8fe5acfa-f3ac-45e4-0107-215cec608000/style1" alt="slide">-->
+    <!--                        </div>-->
+    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
+    <!--                            <span class="set-green-circle"></span>-->
+    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <span class="set-sm-text">playing</span>-->
+    <!--                        </div>-->
+    <!--                    </a>-->
+    <!--                </div>-->
+    <!--                <div class="post-slide">-->
                         <!--<a href="{{$autologinUrl}}">-->
-                        <a href="https://cric.stakeye.com/">
-                            <div class="post-img">
+    <!--                    <a href="https://cric.stakeye.com/">-->
+    <!--                        <div class="post-img">-->
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/soccer1.png')}}" alt="slide">-->
-                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/a907d557-2b7a-451c-dfe4-a4c9a6f7f800/style1" alt="slide">
-                            </div>
-                            <div class="d-flex align-items-center gap-1 py-1">
-                                <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
-                                <span class="set-sm-text">playing</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="post-slide">
+    <!--                            <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/a907d557-2b7a-451c-dfe4-a4c9a6f7f800/style1" alt="slide">-->
+    <!--                        </div>-->
+    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
+    <!--                            <span class="set-green-circle"></span>-->
+    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <span class="set-sm-text">playing</span>-->
+    <!--                        </div>-->
+    <!--                    </a>-->
+    <!--                </div>-->
+    <!--                <div class="post-slide">-->
                        <!--<a href="{{$autologinUrl}}">-->
-                       <a href="https://cric.stakeye.com/">
-                            <div class="post-img">
+    <!--                   <a href="https://cric.stakeye.com/">-->
+    <!--                        <div class="post-img">-->
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/tennis1.png')}}" alt="slide">-->
-                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/66122c16-e10e-4e23-52d2-fc4f0456d900/style1" alt="slide">
-                            </div>
-                            <div class="d-flex align-items-center gap-1 py-1">
-                                <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
-                                <span class="set-sm-text">playing</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="post-slide">
+    <!--                            <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/66122c16-e10e-4e23-52d2-fc4f0456d900/style1" alt="slide">-->
+    <!--                        </div>-->
+    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
+    <!--                            <span class="set-green-circle"></span>-->
+    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <span class="set-sm-text">playing</span>-->
+    <!--                        </div>-->
+    <!--                    </a>-->
+    <!--                </div>-->
+    <!--                <div class="post-slide">-->
                         <!--<a href="{{$autologinUrl}}">-->
-                        <a href="https://cric.stakeye.com/">
-                            <div class="post-img">
+    <!--                    <a href="https://cric.stakeye.com/">-->
+    <!--                        <div class="post-img">-->
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/boxing1.png')}}" alt="slide">-->
-                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/74dc9faa-0503-4e8f-b0aa-e7e588ea4f00/style1" alt="slide">
-                            </div>
-                            <div class="d-flex align-items-center gap-1 py-1">
-                                <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
-                                <span class="set-sm-text">playing</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="post-slide">
+    <!--                            <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/74dc9faa-0503-4e8f-b0aa-e7e588ea4f00/style1" alt="slide">-->
+    <!--                        </div>-->
+    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
+    <!--                            <span class="set-green-circle"></span>-->
+    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <span class="set-sm-text">playing</span>-->
+    <!--                        </div>-->
+    <!--                    </a>-->
+    <!--                </div>-->
+    <!--                <div class="post-slide">-->
                         <!--<a href="{{$autologinUrl}}">-->
-                        <a href="https://cric.stakeye.com/">
-                            <div class="post-img">
+    <!--                    <a href="https://cric.stakeye.com/">-->
+    <!--                        <div class="post-img">-->
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/ab1.png')}}" alt="slide">-->
-                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/79814954-c110-4d41-c206-b0b987359800/style1" alt="slide">
-                            </div>
-                            <div class="d-flex align-items-center gap-1 py-1">
-                                <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
-                                <span class="set-sm-text">playing</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="post-slide">
+    <!--                            <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/79814954-c110-4d41-c206-b0b987359800/style1" alt="slide">-->
+    <!--                        </div>-->
+    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
+    <!--                            <span class="set-green-circle"></span>-->
+    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <span class="set-sm-text">playing</span>-->
+    <!--                        </div>-->
+    <!--                    </a>-->
+    <!--                </div>-->
+    <!--                <div class="post-slide">-->
                         <!--<a href="{{$autologinUrl}}">-->
-                        <a href="https://cric.stakeye.com/">
-                            <div class="post-img">
+    <!--                    <a href="https://cric.stakeye.com/">-->
+    <!--                        <div class="post-img">-->
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/table-tennis1.png')}}" alt="slide">-->
-                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/751508b2-7734-4d06-47ac-77c5ea17bd00/style1" alt="slide">
-                            </div>
-                            <div class="d-flex align-items-center gap-1 py-1">
-                                <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
-                                <span class="set-sm-text">playing</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="post-slide">
+    <!--                            <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/751508b2-7734-4d06-47ac-77c5ea17bd00/style1" alt="slide">-->
+    <!--                        </div>-->
+    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
+    <!--                            <span class="set-green-circle"></span>-->
+    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <span class="set-sm-text">playing</span>-->
+    <!--                        </div>-->
+    <!--                    </a>-->
+    <!--                </div>-->
+    <!--                <div class="post-slide">-->
                         <!--<a href="{{$autologinUrl}}">-->
-                        <a href="https://cric.stakeye.com/">
-                            <div class="post-img">
+    <!--                    <a href="https://cric.stakeye.com/">-->
+    <!--                        <div class="post-img">-->
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/basketball1.png')}}" alt="slide">-->
-                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/159290d1-ce66-4a00-ea3c-2e9226b10f00/style1" alt="slide">
-                            </div>
-                            <div class="d-flex align-items-center gap-1 py-1">
-                                <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
-                                <span class="set-sm-text">playing</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="post-slide">
+    <!--                            <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/159290d1-ce66-4a00-ea3c-2e9226b10f00/style1" alt="slide">-->
+    <!--                        </div>-->
+    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
+    <!--                            <span class="set-green-circle"></span>-->
+    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <span class="set-sm-text">playing</span>-->
+    <!--                        </div>-->
+    <!--                    </a>-->
+    <!--                </div>-->
+    <!--                <div class="post-slide">-->
                         <!--<a href="{{$autologinUrl}}">-->
-                        <a href="https://cric.stakeye.com/">
-                            <div class="post-img">
+    <!--                    <a href="https://cric.stakeye.com/">-->
+    <!--                        <div class="post-img">-->
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/rugby1.png')}}" alt="slide">-->
-                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/82d22949-026c-41cf-85b7-8243c2057900/style1" alt="slide">
-                            </div>
-                            <div class="d-flex align-items-center gap-1 py-1">
-                                <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
-                                <span class="set-sm-text">playing</span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!--                            <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/82d22949-026c-41cf-85b7-8243c2057900/style1" alt="slide">-->
+    <!--                        </div>-->
+    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
+    <!--                            <span class="set-green-circle"></span>-->
+    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <span class="set-sm-text">playing</span>-->
+    <!--                        </div>-->
+    <!--                    </a>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--</div>-->
     
 
     <!-- SLIDERS -->
@@ -1368,224 +1402,224 @@
     </div>
 
     <!-- SLIDERS -->
-    <div class="container set-none-slider-menu mt-4 mt-lg-5">
-        <div class="row">
-            <div class="col-md-12">
-                <h2 class="slider-main-title">New Games</h2>
-                <div id="random-3-slider" class="owl-carousel">
-                    <div class="post-slide">
-                        <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-alphaeagle">
-                            <div class="post-img">
+    <!--<div class="container set-none-slider-menu mt-4 mt-lg-5">-->
+    <!--    <div class="row">-->
+    <!--        <div class="col-md-12">-->
+    <!--            <h2 class="slider-main-title">New Games</h2>-->
+    <!--            <div id="random-3-slider" class="owl-carousel">-->
+    <!--                <div class="post-slide">-->
+    <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-alphaeagle">-->
+    <!--                        <div class="post-img">-->
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/slots/rt-1.jpg')}}" alt="slide">-->
-                                <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1201.jpg" alt="slide">
-                            </div>
-                            <div class="d-flex align-items-center gap-1 py-1">
-                                <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
-                                <span class="set-sm-text">playing</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="post-slide">
-                        <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-jokerbombs">
-                            <div class="post-img">
+    <!--                            <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1201.jpg" alt="slide">-->
+    <!--                        </div>-->
+    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
+    <!--                            <span class="set-green-circle"></span>-->
+    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <span class="set-sm-text">playing</span>-->
+    <!--                        </div>-->
+    <!--                    </a>-->
+    <!--                </div>-->
+    <!--                <div class="post-slide">-->
+    <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-jokerbombs">-->
+    <!--                        <div class="post-img">-->
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/slots/rt-2.jpg')}}" alt="slide">-->
-                                 <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1117.jpg" alt="slide">
-                            </div>
-                            <div class="d-flex align-items-center gap-1 py-1">
-                                <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
-                                <span class="set-sm-text">playing</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="post-slide">
-                       <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-mysterymotel">
-                            <div class="post-img">
+    <!--                             <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1117.jpg" alt="slide">-->
+    <!--                        </div>-->
+    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
+    <!--                            <span class="set-green-circle"></span>-->
+    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <span class="set-sm-text">playing</span>-->
+    <!--                        </div>-->
+    <!--                    </a>-->
+    <!--                </div>-->
+    <!--                <div class="post-slide">-->
+    <!--                   <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-mysterymotel">-->
+    <!--                        <div class="post-img">-->
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/slots/rt-3.jpg')}}" alt="slide">-->
-                                 <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1071.jpg" alt="slide">
-                            </div>
-                            <div class="d-flex align-items-center gap-1 py-1">
-                                <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
-                                <span class="set-sm-text">playing</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="post-slide">
-                       <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-buffalostacknsync">
-                            <div class="post-img">
+    <!--                             <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1071.jpg" alt="slide">-->
+    <!--                        </div>-->
+    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
+    <!--                            <span class="set-green-circle"></span>-->
+    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <span class="set-sm-text">playing</span>-->
+    <!--                        </div>-->
+    <!--                    </a>-->
+    <!--                </div>-->
+    <!--                <div class="post-slide">-->
+    <!--                   <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-buffalostacknsync">-->
+    <!--                        <div class="post-img">-->
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/slots/rt-4.jpg')}}" alt="slide">-->
-                                 <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1176.jpg" alt="slide">
-                            </div>
-                            <div class="d-flex align-items-center gap-1 py-1">
-                                <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
-                                <span class="set-sm-text">playing</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="post-slide">
-                        <a href="javascript:void(0)" class="lobby-game" data-gameid="1007" data-gametableid="HAK-franksfarm">
-                            <div class="post-img">
+    <!--                             <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1176.jpg" alt="slide">-->
+    <!--                        </div>-->
+    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
+    <!--                            <span class="set-green-circle"></span>-->
+    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <span class="set-sm-text">playing</span>-->
+    <!--                        </div>-->
+    <!--                    </a>-->
+    <!--                </div>-->
+    <!--                <div class="post-slide">-->
+    <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="1007" data-gametableid="HAK-franksfarm">-->
+    <!--                        <div class="post-img">-->
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/slots/rt-6.jpg')}}" alt="slide">-->
-                                 <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1225.jpg" alt="slide">
-                            </div>
-                            <div class="d-flex align-items-center gap-1 py-1">
-                                <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
-                                <span class="set-sm-text">playing</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="post-slide">
-                        <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-dragonsdomain">
-                            <div class="post-img">
+    <!--                             <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1225.jpg" alt="slide">-->
+    <!--                        </div>-->
+    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
+    <!--                            <span class="set-green-circle"></span>-->
+    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <span class="set-sm-text">playing</span>-->
+    <!--                        </div>-->
+    <!--                    </a>-->
+    <!--                </div>-->
+    <!--                <div class="post-slide">-->
+    <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-dragonsdomain">-->
+    <!--                        <div class="post-img">-->
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/slots/rt-7.jpg')}}" alt="slide">-->
-                                 <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1360.jpg" alt="slide">
-                            </div>
-                            <div class="d-flex align-items-center gap-1 py-1">
-                                <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
-                                <span class="set-sm-text">playing</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="post-slide">
-                        <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-doublerainbow">
-                            <div class="post-img">
+    <!--                             <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1360.jpg" alt="slide">-->
+    <!--                        </div>-->
+    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
+    <!--                            <span class="set-green-circle"></span>-->
+    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <span class="set-sm-text">playing</span>-->
+    <!--                        </div>-->
+    <!--                    </a>-->
+    <!--                </div>-->
+    <!--                <div class="post-slide">-->
+    <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-doublerainbow">-->
+    <!--                        <div class="post-img">-->
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/slots/rt-8.jpg')}}" alt="slide">-->
-                                 <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1144.jpg" alt="slide">
-                            </div>
-                            <div class="d-flex align-items-center gap-1 py-1">
-                                <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
-                                <span class="set-sm-text">playing</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="post-slide">
-                       <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-cubes2">
-                            <div class="post-img">
+    <!--                             <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1144.jpg" alt="slide">-->
+    <!--                        </div>-->
+    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
+    <!--                            <span class="set-green-circle"></span>-->
+    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <span class="set-sm-text">playing</span>-->
+    <!--                        </div>-->
+    <!--                    </a>-->
+    <!--                </div>-->
+    <!--                <div class="post-slide">-->
+    <!--                   <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-cubes2">-->
+    <!--                        <div class="post-img">-->
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/slots/rt-17.jpg')}}" alt="slide">-->
-                                 <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1069.jpg" alt="slide">
-                            </div>
-                            <div class="d-flex align-items-center gap-1 py-1">
-                                <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
-                                <span class="set-sm-text">playing</span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!--                             <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1069.jpg" alt="slide">-->
+    <!--                        </div>-->
+    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
+    <!--                            <span class="set-green-circle"></span>-->
+    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <span class="set-sm-text">playing</span>-->
+    <!--                        </div>-->
+    <!--                    </a>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--</div>-->
 
     
     <!-- END SLIDERS -->
      
     <!-- LIVE EVENTS SLIDER -->
-    <section class="container">
-        <div class="set-inner-event-box mt-5">
-            <div class="single-event-box">
-                <a href="https://cric.stakeye.com//">
-                    <div>
-                        <img src="{{ asset('assets/newhome/img/events/tennis-balls.png')}}" alt="event" height="">
-                    </div>
-                    <p class="my-2">Tennis</p>
-                </a>
-            </div>
-            <div class="single-event-box">
-                <a href="https://cric.stakeye.com//">
-                    <div>
-                        <img src="{{ asset('assets/newhome/img/events/football.png')}}" alt="event" height="">
-                    </div>
-                    <p class="my-2">Soccer</p>
-                </a>
-            </div>
-            <div class="single-event-box">
-                <a href="https://cric.stakeye.com//">
-                    <div>
-                        <img src="{{ asset('assets/newhome/img/events/cricket-ball.png')}}" alt="event" height="">
-                    </div>
-                    <p class="my-2">Cricket</p>
-                </a>
-            </div>
-            <div class="single-event-box">
-                <a href="https://cric.stakeye.com//">
-                    <div>
-                        <img src="{{ asset('assets/newhome/img/events/ball-of-basketball.png')}}" alt="event" height="">
-                    </div>
-                    <p class="my-2">Baske...</p>
-                </a>
-            </div>
-            <div class="single-event-box">
-                <a href="https://cric.stakeye.com//">
-                    <div>
-                        <img src="{{ asset('assets/newhome/img/events/ice-hockey.png')}}" alt="event" height="">
-                    </div>
-                    <p class="my-2">Ice Ho...</p>
-                </a>
-            </div>
-            <div class="single-event-box">
-                <a href="https://cric.stakeye.com//">
-                    <div>
-                        <img src="{{ asset('assets/newhome/img/events/table-tennis.png')}}" alt="event" height="">
-                    </div>
-                    <p class="my-2">Table...</p>
-                </a>
-            </div>
-            <div class="single-event-box">
-                <a href="https://cric.stakeye.com//">
-                    <div>
-                        <img src="{{ asset('assets/newhome/img/events/football.png')}}" alt="event" height="">
-                    </div>
-                    <p class="my-2">Darts</p>
-                </a>
-            </div>
-            <div class="single-event-box">
-                <a href="https://cric.stakeye.com//">
-                    <div>
-                        <img src="{{ asset('assets/newhome/img/events/rugby-balls.png')}}" alt="event" height="">
-                    </div>
-                    <p class="my-2">Rugby</p>
-                </a>
-            </div>
-            <div class="single-event-box">
-                <a href="https://cric.stakeye.com//">
-                    <div>
-                        <img src="{{ asset('assets/newhome/img/events/block.png')}}" alt="event" height="">
-                    </div>
-                    <p class="my-2">Hand...</p>
-                </a>
-            </div>
-            <div class="single-event-box">
-                <a href="https://cric.stakeye.com//">
-                    <div>
-                        <img src="{{ asset('assets/newhome/img/events/snooker.png')}}" alt="event" height="">
-                    </div>
-                    <p class="my-2">Snook...</p>
-                </a>
-            </div>
-            <div class="single-event-box">
-                <a href="https://cric.stakeye.com//">
-                    <div>
-                        <img src="{{ asset('assets/newhome/img/events/football.png')}}" alt="event" height="">
-                    </div>
-                    <p class="my-2">CS2</p>
-                </a>
-            </div>
-            <div class="single-event-box">
-                <a href="https://cric.stakeye.com//">
-                    <div>
-                        <img src="{{ asset('assets/newhome/img/events/dota-2.png')}}" alt="event" height="">
-                    </div>
-                    <p class="my-2">Dota 2</p>
-                </a>
-            </div>
-        </div>
-    </section>
+    <!--<section class="container">-->
+    <!--    <div class="set-inner-event-box mt-5">-->
+    <!--        <div class="single-event-box">-->
+    <!--            <a href="https://cric.stakeye.com//">-->
+    <!--                <div>-->
+    <!--                    <img src="{{ asset('assets/newhome/img/events/tennis-balls.png')}}" alt="event" height="">-->
+    <!--                </div>-->
+    <!--                <p class="my-2">Tennis</p>-->
+    <!--            </a>-->
+    <!--        </div>-->
+    <!--        <div class="single-event-box">-->
+    <!--            <a href="https://cric.stakeye.com//">-->
+    <!--                <div>-->
+    <!--                    <img src="{{ asset('assets/newhome/img/events/football.png')}}" alt="event" height="">-->
+    <!--                </div>-->
+    <!--                <p class="my-2">Soccer</p>-->
+    <!--            </a>-->
+    <!--        </div>-->
+    <!--        <div class="single-event-box">-->
+    <!--            <a href="https://cric.stakeye.com//">-->
+    <!--                <div>-->
+    <!--                    <img src="{{ asset('assets/newhome/img/events/cricket-ball.png')}}" alt="event" height="">-->
+    <!--                </div>-->
+    <!--                <p class="my-2">Cricket</p>-->
+    <!--            </a>-->
+    <!--        </div>-->
+    <!--        <div class="single-event-box">-->
+    <!--            <a href="https://cric.stakeye.com//">-->
+    <!--                <div>-->
+    <!--                    <img src="{{ asset('assets/newhome/img/events/ball-of-basketball.png')}}" alt="event" height="">-->
+    <!--                </div>-->
+    <!--                <p class="my-2">Baske...</p>-->
+    <!--            </a>-->
+    <!--        </div>-->
+    <!--        <div class="single-event-box">-->
+    <!--            <a href="https://cric.stakeye.com//">-->
+    <!--                <div>-->
+    <!--                    <img src="{{ asset('assets/newhome/img/events/ice-hockey.png')}}" alt="event" height="">-->
+    <!--                </div>-->
+    <!--                <p class="my-2">Ice Ho...</p>-->
+    <!--            </a>-->
+    <!--        </div>-->
+    <!--        <div class="single-event-box">-->
+    <!--            <a href="https://cric.stakeye.com//">-->
+    <!--                <div>-->
+    <!--                    <img src="{{ asset('assets/newhome/img/events/table-tennis.png')}}" alt="event" height="">-->
+    <!--                </div>-->
+    <!--                <p class="my-2">Table...</p>-->
+    <!--            </a>-->
+    <!--        </div>-->
+    <!--        <div class="single-event-box">-->
+    <!--            <a href="https://cric.stakeye.com//">-->
+    <!--                <div>-->
+    <!--                    <img src="{{ asset('assets/newhome/img/events/football.png')}}" alt="event" height="">-->
+    <!--                </div>-->
+    <!--                <p class="my-2">Darts</p>-->
+    <!--            </a>-->
+    <!--        </div>-->
+    <!--        <div class="single-event-box">-->
+    <!--            <a href="https://cric.stakeye.com//">-->
+    <!--                <div>-->
+    <!--                    <img src="{{ asset('assets/newhome/img/events/rugby-balls.png')}}" alt="event" height="">-->
+    <!--                </div>-->
+    <!--                <p class="my-2">Rugby</p>-->
+    <!--            </a>-->
+    <!--        </div>-->
+    <!--        <div class="single-event-box">-->
+    <!--            <a href="https://cric.stakeye.com//">-->
+    <!--                <div>-->
+    <!--                    <img src="{{ asset('assets/newhome/img/events/block.png')}}" alt="event" height="">-->
+    <!--                </div>-->
+    <!--                <p class="my-2">Hand...</p>-->
+    <!--            </a>-->
+    <!--        </div>-->
+    <!--        <div class="single-event-box">-->
+    <!--            <a href="https://cric.stakeye.com//">-->
+    <!--                <div>-->
+    <!--                    <img src="{{ asset('assets/newhome/img/events/snooker.png')}}" alt="event" height="">-->
+    <!--                </div>-->
+    <!--                <p class="my-2">Snook...</p>-->
+    <!--            </a>-->
+    <!--        </div>-->
+    <!--        <div class="single-event-box">-->
+    <!--            <a href="https://cric.stakeye.com//">-->
+    <!--                <div>-->
+    <!--                    <img src="{{ asset('assets/newhome/img/events/football.png')}}" alt="event" height="">-->
+    <!--                </div>-->
+    <!--                <p class="my-2">CS2</p>-->
+    <!--            </a>-->
+    <!--        </div>-->
+    <!--        <div class="single-event-box">-->
+    <!--            <a href="https://cric.stakeye.com//">-->
+    <!--                <div>-->
+    <!--                    <img src="{{ asset('assets/newhome/img/events/dota-2.png')}}" alt="event" height="">-->
+    <!--                </div>-->
+    <!--                <p class="my-2">Dota 2</p>-->
+    <!--            </a>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--</section>-->
 
 
     <!-- Faq Section Start -->
@@ -1695,42 +1729,42 @@
 
 
 
- <section id="supporting-section" class="">
-    <div class="container">
+ <!--<section id="supporting-section" class="">-->
+ <!--   <div class="container">-->
         <!-- Section Title -->
-        <hr/>
+ <!--       <hr/>-->
         <!-- Content Row -->
        
 
 
 
             <!-- Payment Icons -->
-            <div class="col-md-7 text-center">
-                <h3 class=" common-gre-color"  style="font-size:36px!important">Payments</h3>
-                <div class="row justify-content-center">
-                    <div class="col-4 col-md-3 mb-3">
-                        <img src="{{ asset('assets/newhome/img/Payment_icons/gpay.png')}}" alt="GPay" class="payment-icon">
-                    </div>
-                    <div class="col-4 col-md-3 mb-3">
-                        <img src="{{ asset('assets/newhome/img/Payment_icons/upi.png')}}" alt="UPI" class="payment-icon">
-                    </div>
-                    <div class="col-4 col-md-3 mb-3">
-                        <img src="{{ asset('assets/newhome/img/Payment_icons/paypal.png')}}" alt="PayPal" class="payment-icon">
-                    </div>
-                    <div class="col-4 col-md-3 mb-3">
-                        <img src="{{ asset('assets/newhome/img/Payment_icons/visa.png')}}" alt="Visa" class="payment-icon">
-                    </div>
+ <!--           <div class="col-md-7 text-center">-->
+ <!--               <h3 class=" common-gre-color"  style="font-size:36px!important">Payments</h3>-->
+ <!--               <div class="row justify-content-center">-->
+ <!--                   <div class="col-4 col-md-3 mb-3">-->
+ <!--                       <img src="{{ asset('assets/newhome/img/Payment_icons/gpay.png')}}" alt="GPay" class="payment-icon">-->
+ <!--                   </div>-->
+ <!--                   <div class="col-4 col-md-3 mb-3">-->
+ <!--                       <img src="{{ asset('assets/newhome/img/Payment_icons/upi.png')}}" alt="UPI" class="payment-icon">-->
+ <!--                   </div>-->
+ <!--                   <div class="col-4 col-md-3 mb-3">-->
+ <!--                       <img src="{{ asset('assets/newhome/img/Payment_icons/paypal.png')}}" alt="PayPal" class="payment-icon">-->
+ <!--                   </div>-->
+ <!--                   <div class="col-4 col-md-3 mb-3">-->
+ <!--                       <img src="{{ asset('assets/newhome/img/Payment_icons/visa.png')}}" alt="Visa" class="payment-icon">-->
+ <!--                   </div>-->
                     <!--<div class="col-4 col-md-3 mb-3">-->
                     <!--    <img src="{{ asset('assets/newhome/img/Payment_icons/card.png')}}" alt="Card" class="payment-icon">-->
                     <!--</div>-->
-                    <div class="col-4 col-md-3 mb-3">
-                        <img src="{{ asset('assets/newhome/img/Payment_icons/bitcoin.png')}}" alt="Bitcoin" class="payment-icon">
-                    </div>
-                    <div class="col-4 col-md-3 mb-3">
-                        <img src="{{ asset('assets/newhome/img/Payment_icons/tether.png')}}" alt="Tether" class="payment-icon">
-                    </div>
-                </div>
-            </div>
+ <!--                   <div class="col-4 col-md-3 mb-3">-->
+ <!--                       <img src="{{ asset('assets/newhome/img/Payment_icons/bitcoin.png')}}" alt="Bitcoin" class="payment-icon">-->
+ <!--                   </div>-->
+ <!--                   <div class="col-4 col-md-3 mb-3">-->
+ <!--                       <img src="{{ asset('assets/newhome/img/Payment_icons/tether.png')}}" alt="Tether" class="payment-icon">-->
+ <!--                   </div>-->
+ <!--               </div>-->
+ <!--           </div>-->
  <div class="row align">
             
             <div class="col-md-5 text-center socail-media-div">
@@ -1973,7 +2007,7 @@
                 items : 4,
                 itemsDesktop:[1199,4],
                 itemsDesktopSmall:[980,3],
-                itemsMobile : [600,2],
+                itemsMobile : [600,3],
                 navigation:true,
                 navigationText:["",""],
                 pagination:true,

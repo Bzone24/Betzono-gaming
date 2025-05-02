@@ -212,8 +212,8 @@ $kycInstruction = getContent('kyc\.content', true);
                 <div id="slots-slider" class="owl-carousel">
                     <div class="post-slide">
                         <!--<a href="{{$autologinUrl}}">-->
-                        <!--<a href="https://stakeye.com/livecasino">-->
-                        <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_ARou">
+                        <a href="https://stakeye.com/trending-games">
+                        <!--<a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_ARou">-->
                         
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/casino-main1.png')}}" alt="slide">-->
@@ -1662,8 +1662,8 @@ $kycInstruction = getContent('kyc\.content', true);
                 </a>
             </div>
                       <div class="single-event-box">
-                <!--<a href="https://stakeye.com/livecasino/">-->
-                <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_ARou">
+                <a href="https://stakeye.com/trending-games">
+                <!--<a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_ARou">-->
                     <div>
                         <img src="{{ asset('assets/newhome/img/poker-cards.png')}}" alt="event" height="">
                     </div>
