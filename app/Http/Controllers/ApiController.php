@@ -562,7 +562,7 @@ public function placeBet(Request $request)
             'roundId' => $request->roundId,
             'balance' => $user->balance,
             'transactionId' => $request->transactionId,
-            'partnertxnId' => $request->partnertxnId ?? null,
+            'partnertxnId'     => "stakeye-".$trx->id,
             'tableCode' => $request->tableCode,
             'status' => 0,
             'errorMessage' => 'Success',

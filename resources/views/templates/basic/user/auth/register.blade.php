@@ -24,12 +24,12 @@
                                         <div class="form-group col-12">
                                             <label for="referenceBy">@lang('Reference By') </label>
                                             <div class="custom--field">
-                                                <input class="form--control checkUser" id="referenceBy " name="referBy" type="text"
+                                                <input class="form--control checkUser" id="referenceBy " name="refby" type="text"
                                                        value="{{ session()->get('reference') }}"  @if (session()->get('reference') != null)
                                                        readonly
                                                        @endif 
                                                        />
-                                                       <span class="text--danger referByExist"></span>
+                                                       <span class="text--danger refbyExist"></span>
                                                 
                                             </div>
                                         </div>
@@ -275,20 +275,17 @@
             $('.checkUser').on('keyup focusout', function (e) {
                 var value = $(this).val();
                 var name = $(this).attr('name');
-                if(value){
-                        checkUser(value, name);
-                }else{
-                    if (name == 'referBy') { 
-                        $(`.referByExist`).text('');
-                        $(".registerUserBtn").prop("disabled",false);
-                    } 
+                $(`.${name}Exist`).text(''); 
+                if(value != ''){
+                    checkUser(value, name); 
+                    
                 }
             });
 
             function checkUser(value, name) {
                 var url = "{{ route('user.checkUser') }}";
                 var token = '{{ csrf_token() }}';
-
+             
                 if (name == 'mobile') {
                     var mobile = `${value}`;
                     var data = {
@@ -304,7 +301,7 @@
                     }
                 }
 
-                if (name == 'referBy') {
+                if (name == 'refby') {
                     var data = {
                         username: value,
                         _token: token
@@ -313,22 +310,25 @@
 
                 
                 $.post(url, data, function (response) {
-                    if (name == 'referBy') { 
+                    if (name == 'refby') { 
                         if (response.data != false) {
-                            
-                            $(`.${response.type}Exist`).text('');
+                            $(`.${name}Exist`).removeClass("text--danger");
+                            $(`.${name}Exist`).addClass("text--success");
+                            $(`.${name}Exist`).text('Vaild referal.');
                             $(".registerUserBtn").prop("disabled",false);
                         } else {
-                            $(`.referByExist`).text(`${response.field} invaild referal`);
+                            $(`.${name}Exist`).removeClass("text--success");
+                            $(`.${name}Exist`).addClass("text--danger");
+                            $(`.${name}Exist`).text(`Invaild referal`);
                             $(".registerUserBtn").prop("disabled",true);
                         }
                     }else{
 
                         if (response.data != false) {
-                            $(`.${response.type}Exist`).text(`${response.field} already exist`);
+                            $(`.${name}Exist`).text(`${response.field} already exist`);
                             $(".registerUserBtn").prop("disabled",true);
                         } else {
-                            $(`.${response.type}Exist`).text('');
+                            $(`.${name}Exist`).text('');
                             $(".registerUserBtn").prop("disabled",false);
                         }
                     }
