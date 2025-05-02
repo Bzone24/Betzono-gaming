@@ -74,7 +74,7 @@ class RegisterController extends Controller
             return back()->withNotify($notify);
         }
         $data = $request->all();
-        $referBy = $data['referBy'] ?? '';
+        $referBy = $data['refby'] ?? '';
         //session()->get('reference');
         if ($referBy) {
             $referUser = User::where('username', $referBy)->first();
@@ -82,9 +82,9 @@ class RegisterController extends Controller
                 $notify[] = ['error', 'Invalid referral username'];
                 return back()->withNotify($notify)->withInput($request->except('password'));
             }
-            $data['ref_by'] = $referUser->id;
+            $data['refby'] = $referUser->id;
         } else {
-            $data['ref_by'] = 0;
+            $data['refby'] = 0;
         }
 
 
@@ -140,7 +140,7 @@ class RegisterController extends Controller
         $user->fast_create_url = $fast_create_url ?? null;
         $user->lastname = $data['lastname'];
         $user->password = Hash::make($data['password']);
-        $user->ref_by = $data['ref_by'] ??  0;
+        $user->ref_by = $data['refby'] ??  0;
         $user->kv = gs('kv') ? Status::NO : Status::YES;
         $user->ev = gs('ev') ? Status::NO : Status::YES;
         $user->sv = gs('sv') ? Status::NO : Status::YES;
