@@ -18,6 +18,8 @@ class Transaction extends Model
     const TYPE_USER_DEPOSIT = 'USER_DEPOSIT';
     const TYPE_USER_WITHDRAW = 'USER_WITHDRAW';
     const TYPE_USER_BET_VKINGPLAYS = 'USER_BET_VKINGPLAYS';
+    const TYPE_USER_BET_SPORTSGAME = 'USER_BET_SPORTSGAME';
+    
 
     public static function getTypeOptions(): array
     {
@@ -49,6 +51,7 @@ class Transaction extends Model
             self::TYPE_USER_DEPOSIT => __('User Deposited'),
             self::TYPE_USER_WITHDRAW => __('User Withdrawal'),
             self::TYPE_USER_BET_VKINGPLAYS => __('-'),
+            self::TYPE_USER_BET_SPORTSGAME => __('-'),
         ];
     }
 
@@ -70,5 +73,9 @@ class Transaction extends Model
     public function getCasinoBetHistoryInfo()
     {
         return  DB::table('casino_bets_history')->where("transactionId", $this->trx)->first();
+    }
+    public function getSportsBetHistoryInfo()
+    {
+        return  DB::table('sports_bets_history')->where("transactionId", $this->trx)->first();
     }
 }

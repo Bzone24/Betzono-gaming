@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\SportsApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,4 +30,17 @@ Route::controller(ApiController::class)->group(function () {
     Route::post('/get-lobby-url', 'getLobbyUrl')->name('get.lobby.url');
     Route::post('/games/insert', 'insertGames')->name('insertGames');
     Route::post('/games/search', 'searchGame')->name('searchGame');
+});
+
+Route::controller(SportsApiController::class)->prefix('sports')->group(function () {
+    Route::post('/clientAuthentication', 'ClientAuthentication')->name('ClientAuthentication'); 
+    Route::post('/getBalance', 'getBalance')->name('GetBalance');
+    Route::post('/placeBet', 'placeBet')->name('PlaceBet');
+    Route::post('/cancelPlaceBet', 'CancelBet')->name('CancelPlaceBet');
+    Route::post('/marketCancel', 'marketCancel')->name('MarketCancel');
+    Route::post('/settleMarket', 'settleMarket')->name('SettleMarket');
+    Route::post('/resettle', 'resettle')->name('Resettle');
+    Route::post('/cancelSettledMarket', 'cancelSettledMarket')->name('CancelSettledMarket');
+    Route::post('/cashout', 'cashout')->name('Cashout');
+    Route::post('/cancelCashout', 'cancelCashout')->name('CancelCashout'); 
 });
