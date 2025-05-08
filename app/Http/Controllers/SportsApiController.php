@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Cache;
 
 class SportsApiController extends Controller
 {
+     
+
     public function deposit(Request $request)
     {
 
@@ -108,12 +110,12 @@ class SportsApiController extends Controller
             }
             $payload = [
             "userName"   => $user->username,
-            "agentCode"  => "stakeye",
+            "agentCode"  => "stakeyedemo",
             "tpGameId"   => $request->gameId,
             "tpGameTableId" => $request->gameTableId,
             "isAllowBet" => true,
             "isDemoUser" => true,
-            "returnUrl"  => "https://stakeye.com"
+            "returnUrl"  => "https://stakeyedemo.com"
             ];
 
     
@@ -153,7 +155,7 @@ class SportsApiController extends Controller
 
             $client = new Client();
             $headers = ['Content-Type' => 'application/json'];
-            $body = json_encode(['agentCode' => 'stakeye']);
+            $body = json_encode(['agentCode' => 'stakeyedemo']);
 
             $response = $client->post('https://api.vkingplays.com/api/GameList', [
                 'headers' => $headers,
@@ -223,7 +225,7 @@ class SportsApiController extends Controller
                 ], 404);
             }
 
-            $allowedPartnerId = ['stakeye'];
+            $allowedPartnerId = ['stakeyedemo'];
 
             if (!in_array($request->partnerId, $allowedPartnerId)) {
                 return response()->json([
@@ -231,6 +233,33 @@ class SportsApiController extends Controller
                 'errorMessage' => 'Invalid partnerId',
                 ], 401);
             }
+
+            //call api
+            $client = new Client();
+
+        
+            $client = new Client();
+
+            $response = $client->post('https://stakeyeapi.powerplay247.com/api/ClientAuthentication', [
+            'headers' => [
+            'X-App' => '{{PartnerX-app}}',
+            'Content-Type' => 'application/json',
+            ],
+            'json' => [
+            'partnerId' => $request->partnerId,
+            'userName' => $request->userName,
+            'isDemo' => $request->isDemo ?? false,
+            'isBetAllow' => $request->isBetAllow,
+            'isActive' => $request->isActive,
+            'point' => $request->point,
+            'isDarkTheme' => $request->isDarkTheme ?? false,
+            'sportName' => $request->sportName,
+            ],
+            ]);
+
+            $data = json_decode($response->getBody(), true);
+
+            dd($data);
         
             DB::table('login_history')->insert([
             'userName'      => $request->userName,
@@ -306,7 +335,7 @@ class SportsApiController extends Controller
                 ], 404);
             }
 
-            $allowedAgentCodes = ['stakeye'];
+            $allowedAgentCodes = ['stakeyedemo'];
 
             if (!in_array($request->agentCode, $allowedAgentCodes)) {
                 return response()->json([
@@ -387,7 +416,7 @@ class SportsApiController extends Controller
             ], 404);
         }
 
-        $allowedPartnerId = ['stakeye'];
+        $allowedPartnerId = ['stakeyedemo'];
 
         if (!in_array($request->partnerId, $allowedPartnerId)) {
             return response()->json([
@@ -469,7 +498,7 @@ class SportsApiController extends Controller
             ], 404);
         }
 
-        if (!in_array($request->partnerId, ['stakeye'])) {
+        if (!in_array($request->partnerId, ['stakeyedemo'])) {
             return response()->json([
             'status' => 109,
             'errorMessage' => 'Invalid partnerId',
@@ -500,7 +529,7 @@ class SportsApiController extends Controller
 
         DB::beginTransaction();
         try {
-            if ($type === 'CR') {
+            if ($type === 2) {
                 $user->increment('balance', $request->amount);
                 $trxType = '+';
             } else {
@@ -516,7 +545,7 @@ class SportsApiController extends Controller
             'userName'           => $request->userName,
             'partnerId'          => $request->PartnerId,
             'transactionId'      => $request->TransactionID,
-            'transactionType'    => $request->transactionType,
+            'transactionType'    => $request->transactionType == 2 ? 'CR' : 'DR',
             'amount'             => $request->amount,
             'eventTypeName'      => $request->Eventtypename,
             'competitionName'    => $request->Competitionname,
@@ -567,7 +596,7 @@ class SportsApiController extends Controller
                 'agentCode' => $request->partnerId,
                 'balance' => $user->balance,
                 'transactionId' => $request->transactionId,
-                'partnertxnId'     => "stakeye-" . $trx->id,
+                'partnertxnId'     => "stakeyedemo-" . $trx->id,
                 'status' => 0,
                 'errorMessage' => 'Success',
             ], 200);
@@ -627,7 +656,7 @@ class SportsApiController extends Controller
             ], 404);
         }
 
-        if (!in_array($request->partnerId, ['stakeye'])) {
+        if (!in_array($request->partnerId, ['stakeyedemo'])) {
             return response()->json([
             'status'       => 109,
             'errorMessage' => 'Invalid partnerId',
@@ -684,7 +713,7 @@ class SportsApiController extends Controller
         $originalType = null;
 
         if (!empty($originalBet->transactionType)) {
-            $originalType = strtoupper(trim($originalBet->transactionType));
+            $originalType = strtoupper(trim($originalBet->transactionType == 2 ? 'CR' : 'DR'));
         } elseif (Cache::has('bet_transaction_type_' . $request->reversetransactionId)) {
             $originalType = strtoupper(trim(Cache::get('bet_transaction_type_' . $request->reversetransactionId)));
         } else {
@@ -709,7 +738,7 @@ class SportsApiController extends Controller
             'userName'           => $request->userName,
             'partnerId'          => $request->PartnerId,
             'transactionId'      => $request->TransactionID,
-            'transactionType'    => $request->transactionType,
+            'transactionType'    => $request->transactionType == 2 ? 'CR' : 'DR',
             'amount'             => $request->amount,
             'eventTypeName'      => $request->Eventtypename,
             'competitionName'    => $request->Competitionname,
@@ -815,7 +844,7 @@ class SportsApiController extends Controller
             ], 404);
         }
     
-        $allowedAgentCodes = ['stakeye'];
+        $allowedAgentCodes = ['stakeyedemo'];
         if (!in_array($request->partnerId, $allowedAgentCodes)) {
             return response()->json([
                 'userName'     => $request->userName,
@@ -1011,9 +1040,7 @@ class SportsApiController extends Controller
             'Point'         => 'required|integer',
             
         ]);
-
-        //default cr
-        $request->transactionType = 'CR';
+ 
  
         if ($validator->fails()) {
             return response()->json([
@@ -1040,7 +1067,7 @@ class SportsApiController extends Controller
             ], 404);
         }
         
-        $allowedAgentCodes = ['stakeye'];
+        $allowedAgentCodes = ['stakeyedemo'];
 
         if (!in_array($request->partnerId, $allowedAgentCodes)) {
             return response()->json([
@@ -1121,7 +1148,7 @@ class SportsApiController extends Controller
         
         try {
             $payoffAmount = $request->PayableAmount;
-            $transactionType = $request->transactionType;
+            $transactionType = $request->transactionType == 2 ? 'CR' : 'DR';
            // Handle balance update according to transaction type
             if (strtolower($transactionType) == 'cr') {
                 $user->increment('balance', $payoffAmount);
@@ -1193,7 +1220,7 @@ class SportsApiController extends Controller
                 'balance'          => number_format($user->balance, 2, '.', ''), // Ensuring proper decimal format
                 'transactionType'  => $transactionType,
                 'transactionId'    => $request->transactionId,
-                'partnertxnId'     => "stakeye-" . $transaction->id,
+                'partnertxnId'     => "stakeyedemo-" . $transaction->id,
                 'netpl'            => $request->netpl ?? 0,
                 'payoff'           => $payoffAmount ?? 0,
                 'status'           => 0,
@@ -1251,7 +1278,7 @@ class SportsApiController extends Controller
             ], 404);
         }
     
-        $allowedAgentCodes = ['stakeye'];
+        $allowedAgentCodes = ['stakeyedemo'];
         if (!in_array($request->partnerId, $allowedAgentCodes)) {
             return response()->json([
                 'userName'     => $request->userName,
@@ -1474,7 +1501,7 @@ class SportsApiController extends Controller
             ], 404);
         }
     
-        $allowedAgentCodes = ['stakeye'];
+        $allowedAgentCodes = ['stakeyedemo'];
         if (!in_array($request->partnerId, $allowedAgentCodes)) {
             return response()->json([
                 'userName'     => $request->userName,
@@ -1571,7 +1598,7 @@ class SportsApiController extends Controller
                 'userName'         => $request->userName,
                 'tpGameId'         => $request->tpGameId ?? null,
                 'roundId'          => $request->roundId ?? null,
-                'transactionType'  => $request->transactionType,
+                'transactionType'  => $request->transactionType == 2 ? 'CR' : 'DR',
                 'transactionId'    => $adjustmentTxnId,
                 'tableCode'        => $request->tableCode,
                 'netpl'            => $newAmount,
@@ -1609,10 +1636,10 @@ class SportsApiController extends Controller
             return response()->json([
                 'userName'        => $request->userName,
                 'agentCode'       => $request->partnerId,
-                'tpGameId'        => $request->tpGameId??null,
-                'roundId'         => $request->roundId??null,
+                'tpGameId'        => $request->tpGameId ?? null,
+                'roundId'         => $request->roundId ?? null,
                 'transactionId'   => $request->transactionId,
-                'transactionType' => $request->transactionType,
+                'transactionType' => $request->transactionType == 2 ? 'CR' : 'DR',
                 'tableCode'       => $request->tableCode,
                 'balance'         => $user->balance,
                 'previousAmount'  => $previousPayoff,
@@ -1627,7 +1654,7 @@ class SportsApiController extends Controller
                 'userName'     => $request->userName,
                 'partnerId'    => $request->partnerId,
                 'status'       => 106,
-                'balance'      => $user->balance ?? 0.00, 
+                'balance'      => $user->balance ?? 0.00,
                 'errorMessage' => 'Failed to resettle game',
                 'error'        => $e->getMessage(),
             ], 500);
@@ -1673,7 +1700,7 @@ class SportsApiController extends Controller
             ], 404);
         }
     
-        $allowedAgentCodes = ['stakeye'];
+        $allowedAgentCodes = ['stakeyedemo'];
         if (!in_array($request->partnerId, $allowedAgentCodes)) {
             return response()->json([
                 'userName'     => $request->userName,
@@ -1684,7 +1711,7 @@ class SportsApiController extends Controller
             ], 401);
         }
     
-     die;
+        die;
         DB::beginTransaction();
         try {
             // Check if already resettled
@@ -1770,7 +1797,7 @@ class SportsApiController extends Controller
                 'userName'         => $request->userName,
                 'tpGameId'         => $request->tpGameId ?? null,
                 'roundId'          => $request->roundId ?? null,
-                'transactionType'  => $request->transactionType,
+                'transactionType'  => $request->transactionType == 2 ? 'CR' : 'DR',
                 'transactionId'    => $adjustmentTxnId,
                 'tableCode'        => $request->tableCode,
                 'netpl'            => $newAmount,
@@ -1808,10 +1835,10 @@ class SportsApiController extends Controller
             return response()->json([
                 'userName'        => $request->userName,
                 'agentCode'       => $request->partnerId,
-                'tpGameId'        => $request->tpGameId??null,
-                'roundId'         => $request->roundId??null,
+                'tpGameId'        => $request->tpGameId ?? null,
+                'roundId'         => $request->roundId ?? null,
                 'transactionId'   => $request->transactionId,
-                'transactionType' => $request->transactionType,
+                'transactionType' => $request->transactionType == 2 ? 'CR' : 'DR',
                 'tableCode'       => $request->tableCode,
                 'balance'         => $user->balance,
                 'previousAmount'  => $previousPayoff,
@@ -1826,7 +1853,7 @@ class SportsApiController extends Controller
                 'userName'     => $request->userName,
                 'partnerId'    => $request->partnerId,
                 'status'       => 106,
-                'balance'      => $user->balance ?? 0.00, 
+                'balance'      => $user->balance ?? 0.00,
                 'errorMessage' => 'Failed to resettle game',
                 'error'        => $e->getMessage(),
             ], 500);
@@ -1873,7 +1900,7 @@ class SportsApiController extends Controller
             ], 404);
         }
     
-        $allowedAgentCodes = ['stakeye'];
+        $allowedAgentCodes = ['stakeyedemo'];
         if (!in_array($request->partnerId, $allowedAgentCodes)) {
             return response()->json([
                 'userName'     => $request->userName,
@@ -1884,7 +1911,7 @@ class SportsApiController extends Controller
             ], 401);
         }
     
-     die;
+        die;
         DB::beginTransaction();
         try {
             // Check if already resettled
@@ -1970,7 +1997,7 @@ class SportsApiController extends Controller
                 'userName'         => $request->userName,
                 'tpGameId'         => $request->tpGameId ?? null,
                 'roundId'          => $request->roundId ?? null,
-                'transactionType'  => $request->transactionType,
+                'transactionType'  => $request->transactionType == 2 ? 'CR' : 'DR',
                 'transactionId'    => $adjustmentTxnId,
                 'tableCode'        => $request->tableCode,
                 'netpl'            => $newAmount,
@@ -2008,10 +2035,10 @@ class SportsApiController extends Controller
             return response()->json([
                 'userName'        => $request->userName,
                 'agentCode'       => $request->partnerId,
-                'tpGameId'        => $request->tpGameId??null,
-                'roundId'         => $request->roundId??null,
+                'tpGameId'        => $request->tpGameId ?? null,
+                'roundId'         => $request->roundId ?? null,
                 'transactionId'   => $request->transactionId,
-                'transactionType' => $request->transactionType,
+                'transactionType' => $request->transactionType == 2 ? 'CR' : 'DR',
                 'tableCode'       => $request->tableCode,
                 'balance'         => $user->balance,
                 'previousAmount'  => $previousPayoff,
@@ -2026,7 +2053,7 @@ class SportsApiController extends Controller
                 'userName'     => $request->userName,
                 'partnerId'    => $request->partnerId,
                 'status'       => 106,
-                'balance'      => $user->balance ?? 0.00, 
+                'balance'      => $user->balance ?? 0.00,
                 'errorMessage' => 'Failed to resettle game',
                 'error'        => $e->getMessage(),
             ], 500);
