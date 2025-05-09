@@ -16,198 +16,85 @@ use Illuminate\Support\Facades\Cache;
 class SportsApiController extends Controller
 {
      
+    //set x-app in variable
+    protected $xApp = 'CED86870-A667-450F-B5D1-5EE7717324EA';
+    //set partner id in variable
+    protected $allowedParentIds = ['stakeyedemo'];
+    //set vendor url
+    protected $authenticationUrl = 'https://stakeyeapi.powerplay247.com/api/Iframe/ClientAuthentication';
 
-    public function deposit(Request $request)
+    public function __construct()
     {
-
-        // Define the validation rules
-        $validator = Validator::make($request->all(), [
-            'user_id' => 'required|exists:users,api_user_id',
-            'amount' => 'required|integer|min:1',
-            'transaction_id' => 'required',
-        ]);
-
-        // If validation fails, return a JSON response with the errors
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => $validator->errors(),
-            ], 422);
-        }
-
-        $check = Transaction::where('trx', $request->transsaction_id)->first();
-
-        if ($check) {
-            return response()->json([
-                'status' => 'error',
-                'transaction' => $check->trx,
-                'message' => 'Transaction already exists!',
-            ], 422);
-        }
-
-        $user = User::where('api_user_id', $request->user_id)->first();
-        $amount = $request->amount;
-        $user->balance += $amount;
-        $user->save();
-
-        $transaction = new Transaction();
-        $transaction->trx_type = '+';
-        $transaction->remark = 'balance_add';
-        $transaction->user_id = $user->id;
-        $transaction->amount = $amount;
-        $transaction->post_balance = $user->balance;
-        $transaction->charge = 0;
-        $transaction->trx =  $request->transaction_id;
-        $transaction->details = "Funds withdrawal from Game Zone";
-        $transaction->type = Transaction::TYPE_USER_TRANSFER_IN;
-        $transaction->save();
-
-        // Validation passed, continue processing...
-        return response()->json([
-            'status' => 'success',
-            'transaction' => $transaction->trx,
-            'message' => 'Deposit request raised successfully!',
-        ]);
+        //check request have header x-app and x-app value = 'CED86870-A667-450F-B5D1-5EE7717324EA'
+        $this->middleware(function ($request, $next) {
+            if ($request->header('x-app') !== $this->xApp) {
+                return response()->json(['error' => 'Unauthorized'], 401);
+            }
+            return $next($request);
+        });
     }
-    
-    public function checkBalance(Request $request)
+    /**
+     * Get Balance
+     */
+    public function getBalance(Request $request)
     {
         // Define the validation rules
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required|exists:users,api_user_id',
+            'Username'   => 'required|string',
+            'PartnerId'   => 'nullable|string'
         ]);
 
-        // If validation fails, return a JSON response with the errors
         if ($validator->fails()) {
             return response()->json([
-                'status' => 'error',
-                'errors' => $validator->errors(),
-            ], 422);
+                'status' => 422,
+                'data' => 0.00,
+                'errorMessage' => 'Validation Error',
+                'errors'  => $validator->errors(),
+            ], 400);
         }
- 
-        $user = User::where('api_user_id', $request->user_id)->first();
+        
+        $user = User::where('Username', $request->Username)->first();
+
         if (!$user) {
             return response()->json([
-                'status' => 'error',
-                'message' => 'User not exists!',
-            ], 422);
+                'status' => 422,
+                'data' => 0.00,
+                'errorMessage' => 'Invalid user',
+            ], 404);
         }
-        // Validation passed, continue processing...
+
+        if (!in_array($request->PartnerId, $this->allowedParentIds)) {
+            return response()->json([
+                'status' => 422,
+                'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
+                'errorMessage' => 'Invalid partner id',
+            ], 401);
+        }
+
         return response()->json([
-            'status' => 'success',
-            'balance' => $user->balance,
-            'message' => 'Balance fetched successfully!',
-        ]);
+            'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
+            'status' => 100,
+            'errorMessage' => 'Success'
+        ], 200);
     }
-    
-    public function getLobbyUrl(Request $request)
-    {
-        try {
-            $user = User::where('username', $request->username)->first();
-
-            if (!$user) {
-                return response()->json(['error' => 'User not found'], 404);
-            }
-            $payload = [
-            "userName"   => $user->username,
-            "agentCode"  => "stakeyedemo",
-            "tpGameId"   => $request->gameId,
-            "tpGameTableId" => $request->gameTableId,
-            "isAllowBet" => true,
-            "isDemoUser" => true,
-            "returnUrl"  => "https://stakeyedemo.com"
-            ];
-
-    
-            // Remove optional fields if they are NULL
-            if (!empty($user->firstname)) {
-                $payload["firstName"] = $user->firstname;
-            }
-            if (!empty($user->lastname)) {
-                $payload["lastName"] = $user->lastname;
-            }
-            $client = new Client();
-    
-            // Make API request using Guzzle
-            $response = $client->post('https://api.vkingplays.com/api/Login', [
-                'headers' => [
-                    'Content-Type' => 'application/json',
-                    'Accept'       => 'application/json',
-                ],
-                'json' => $payload, // Send payload as JSON
-            ]);
-            $data = json_decode($response->getBody()->getContents(), true);
-    
-            if ($data['status'] == "0" && isset($data['lobbyURL'])) {
-                return response()->json($data);
-            } else {
-                return response()->json(['error' => $data['errorMessage'] ?? 'Unknown error'], 400);
-            }
-        } catch (Exception $e) {
-            return response()->json(['error' => 'An error occurred', 'message' => $e->getMessage()], 500);
-        }
-    }
-
-    public function insertGames()
-    {
-        try {
-            DB::beginTransaction(); // Start Transaction
-
-            $client = new Client();
-            $headers = ['Content-Type' => 'application/json'];
-            $body = json_encode(['agentCode' => 'stakeyedemo']);
-
-            $response = $client->post('https://api.vkingplays.com/api/GameList', [
-                'headers' => $headers,
-                'body' => $body
-            ]);
-
-            $data = json_decode($response->getBody(), true);
-
-            if (!isset($data['gameList'])) {
-                return response()->json(['message' => 'Invalid API response'], 400);
-            }
-
-            foreach ($data['gameList'] as $game) {
-                foreach ($game['data'] as $table) {
-                    Game::updateOrCreate(
-                        ['table_code' => $table['tableCode']],
-                        [
-                            'game_code' => $game['gameCode'],
-                            'game_name' => $game['gameName'],
-                            'table_name' => $table['tableName'],
-                            'image_url' => $table['imageUrl'] ?? null,
-                            'type' => $table['type'] ?? 'default'
-                        ]
-                    );
-                }
-            }
-
-            DB::commit();
-            return response()->json(['message' => 'Games inserted successfully'], 201);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return response()->json(['message' => 'Error: ' . $e->getMessage()], 500);
-        }
-    }
-
+    //fetch gameurl
     public function ClientAuthentication(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'partnerId'      => 'required|string',
-            'userName'       => 'required|string',
-            'isDemo'       => 'nullable|string',
+            'Username'       => 'required|string',
+            'isDemo'       => 'nullable|boolean',
             'isBetAllow'      => 'required|boolean',
             'isActive'       => 'required|boolean',
             'point' => 'required|numeric',
             'isDarkTheme'      => 'required|boolean',
-            'sportName' => 'required|string',
-            'event' => 'required|string',
+            
         ]);
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => 105,
+                'status' => 422,
+                'data' => 0.00,
                 'errorMessage' => 'Validation Error',
                 'errors' => $validator->errors(),
             ], 400);
@@ -216,53 +103,75 @@ class SportsApiController extends Controller
         DB::beginTransaction();
         
         try {
-            $user = User::where('username', $request->userName)->first();
+            $user = User::where('Username', $request->Username)->first();
 
             if (!$user) {
                 return response()->json([
                 'status' => 104,
+                'data' => 0.00,
                 'errorMessage' => 'User account does not exist',
                 ], 404);
             }
 
-            $allowedPartnerId = ['stakeyedemo'];
-
-            if (!in_array($request->partnerId, $allowedPartnerId)) {
+            if (!in_array($request->partnerId, $this->allowedParentIds)) {
                 return response()->json([
                 'status' => 109,
+                'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
                 'errorMessage' => 'Invalid partnerId',
                 ], 401);
             }
 
             //call api
-            $client = new Client();
-
-        
-            $client = new Client();
-
-            $response = $client->post('https://stakeyeapi.powerplay247.com/api/ClientAuthentication', [
-            'headers' => [
-            'X-App' => '{{PartnerX-app}}',
-            'Content-Type' => 'application/json',
-            ],
-            'json' => [
+           
+            $params = [
             'partnerId' => $request->partnerId,
-            'userName' => $request->userName,
+            'Username' => $request->Username,
             'isDemo' => $request->isDemo ?? false,
             'isBetAllow' => $request->isBetAllow,
             'isActive' => $request->isActive,
-            'point' => $request->point,
+            'point' => $request->point ?? 1,
             'isDarkTheme' => $request->isDarkTheme ?? false,
-            'sportName' => $request->sportName,
-            ],
-            ]);
+            'sportName' => $request->sportName ?? "Cricket",
+            "event" => "",
+            ];
+            // Initialize cURL
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => $this->authenticationUrl,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => json_encode($params),
+                CURLOPT_HTTPHEADER => array(
+                    'X-App: ' . $this->xApp,
+                    'Content-Type: application/json'
+                ),
+            ));
 
-            $data = json_decode($response->getBody(), true);
-
-            dd($data);
-        
+            $response = curl_exec($curl);
+            curl_close($curl);
+            $responseData = json_decode($response, true);
+            if ($responseData['status'] != 100) {
+                return response()->json([
+                'status' => $responseData['status'],
+                'errorMessage' => $responseData['errorMessage'],
+                ], 400);
+            }
+            $returnUrl = $responseData['data']['url'] ?? null;
+            //if game url is empty then return error
+            if (empty($returnUrl)) {
+                return response()->json([
+                'status' => 102,
+                'errorMessage' => 'Url not available.',
+                ], 400);
+            }
+            // Save login history
             DB::table('login_history')->insert([
-            'userName'      => $request->userName,
+            'Username'      => $request->Username,
             'agentCode'     => $request->partnerId,
             'tpGameId'      => $request->tpGameId ?? null,
             'tpGameTableId' => $request->tpGameTableId ?? null,
@@ -270,7 +179,7 @@ class SportsApiController extends Controller
             'lastName'      => $user->lastname,
             'isAllowBet'    => $request->isBetAllow,
             'isDemoUser'    => $request->isDemo,
-            'returnUrl'     => $request->returnUrl ?? null,
+            'returnUrl'     => $returnUrl,
             'type' => 'sports',
             'status'        => 0, // Assuming 0 means success
             'created_at'    => now(),
@@ -281,9 +190,9 @@ class SportsApiController extends Controller
             DB::commit();
 
             return response()->json([
-            'agentCode' => $request->agentCode,
-            'userName' => $user->username,
-            'gameURL' => $request->returnUrl ?? '',
+            'agentCode' => $request->partnerId,
+            'Username' => $user->Username,
+            'gameURL' => $returnUrl ?? '',
             'status' => "0",
             'errorMessage' => 'Success',
             ], 200);
@@ -302,152 +211,17 @@ class SportsApiController extends Controller
         }
     }
 
-    public function validateUser(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'userName'   => 'required|string',
-            'agentCode'  => 'required|string',
-            'tpGameId'   => 'required|integer',
-            'methodName' => 'required|string|in:validateuser',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'userName' => $request->userName,
-                'agentCode' => $request->agentCode,
-                'status' => 105,
-                'errorMessage' => 'Validation Error',
-                'errors'  => $validator->errors(),
-                'Point' => 0.00,
-            ], 400);
-        }
-        
-        try {
-            $user = User::where('username', $request->userName)->first();
-
-            if (!$user) {
-                return response()->json([
-                'userName' => $request->userName,
-                'agentCode' => $request->agentCode,
-                'status' => 104,
-                'errorMessage' => 'Invalid user',
-                'Point' => 0.00,
-                ], 404);
-            }
-
-            $allowedAgentCodes = ['stakeyedemo'];
-
-            if (!in_array($request->agentCode, $allowedAgentCodes)) {
-                return response()->json([
-                'userName' => $request->userName,
-                'agentCode' => $request->agentCode,
-                'status' => 109,
-                'errorMessage' => 'Invalid agent code',
-                'Point' => 0.00,
-                ], 401);
-            }
-
-            $gameExists = DB::table('games')
-            ->where('game_code', $request->tpGameId)
-            ->exists();
-
-            if (!$gameExists) {
-                return response()->json([
-                'status'       => 102,
-                'errorMessage' => 'Invalid tpGameId',
-                ], 400);
-            }
-        
-            return response()->json([
-            'agentCode' => $request->agentCode,
-            'currencyId' => null,
-            'userName' => $user->username,
-            'isAllowBet' => true,
-            'isDemoUser' => false,
-            'point' => 1,
-            'partnerShip' => [],
-            'balance' => $user->balance,
-            'status' => 0,
-            'errorMessage' => 'Success'
-            ], 200);
-        } catch (\Throwable $th) {
-            return response()->json([
-                'status' => 106,
-                'errorMessage' => 'An unexpected error occurred',
-                'Point' => 0.00,
-                'trace' => [
-                    'message' => $th->getMessage(),
-                    'file' => $th->getFile(),
-                    'line' => $th->getLine(),
-                    'trace' => $th->getTraceAsString()
-                ] ?? null,
-            ], 500);
-        }
-    }
-
-    public function getBalance(Request $request)
-    {
-        // Define the validation rules
-        $validator = Validator::make($request->all(), [
-            'userName'   => 'required|string',
-            'partnerId'   => 'nullable|string'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'userName' => $request->userName,
-                'partnerId' => $request->partnerId,
-                'status' => 105,
-                'data' => 0.00,
-                'errorMessage' => 'Validation Error',
-                'errors'  => $validator->errors(),
-            ], 400);
-        }
-        
-        $user = User::where('username', $request->userName)->first();
-
-        if (!$user) {
-            return response()->json([
-                'userName' => $request->userName,
-                'partnerId' => $request->partnerId,
-                'status' => 104,
-                'data' => 0.00,
-                'errorMessage' => 'Invalid user',
-            ], 404);
-        }
-
-        $allowedPartnerId = ['stakeyedemo'];
-
-        if (!in_array($request->partnerId, $allowedPartnerId)) {
-            return response()->json([
-                'userName' => $request->userName,
-                'partnerId' => $request->partnerId,
-                'status' => 109,
-                'data' => 0.00,
-                'errorMessage' => 'Invalid partner id',
-            ], 401);
-        }
-
-        return response()->json([
-            'partnerId' => $request->partnerId,
-            'userName' => $user->username,
-            'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
-            'status' => 0,
-            'errorMessage' => 'Success'
-        ], 200);
-    }
-
-    /**
+ /**
  * Place a bet for casino games
  */
     public function placeBet(Request $request)
     {
         $validator = Validator::make($request->all(), [
-        'userName'          => 'required|string',
+        'Username'          => 'required|string',
         'PartnerId'         => 'required|string',
         'TransactionID'     => 'required|string',
-        'transactionType'   => 'required|integer',
-        'amount'            => 'required|numeric|min:0.01',
+        'TransactionType'   => 'required|integer',
+        'Amount'            => 'required|numeric|min:0.01',
         'Eventtypename'           => 'required|string',
         'Competitionname'           => 'required|string',
         'Eventname'           => 'required|string',
@@ -463,64 +237,68 @@ class SportsApiController extends Controller
         'Point'     => 'required|integer',
         'SessionPoint'         => 'nullable|numeric',
         ]);
-
-        if ($request->amount < 0.01) {
+ 
+        if ($request->Amount < 0.01) {
             return response()->json([
-            'status'       => 108,
+            'status'       => 422,
+            'data' => 0,
             'errorMessage' => 'Invalid amount',
             ], 400);
         }
-    
+
         if ($validator->fails()) {
             $errors = $validator->errors();
             if ($errors->has('amount') && in_array('Invalid Amount', $errors->get('amount'))) {
                 return response()->json([
-                'status'       => 108,
-                'errorMessage' => 'Invalid Amount',
+                    'status'       => 422,
+                    'data' => 0.00,
+                    'errorMessage' => 'Invalid Amount',
                 ], 400);
             }
 
             return response()->json([
-            'userName'     => $request->userName ?? '',
-            'partnerId'    => $request->PartnerId ?? '',
-            'status'       => 105,
-            'balance'      => 0.00,
+            'status'       => 422,
+            'data' => 0.00,
             'errorMessage' => 'Validation Error',
             'errors'       => $validator->errors(),
             ], 400);
         }
 
-        $user = User::where('username', $request->userName)->first();
+        $user = User::where('Username', $request->Username)->first();
         if (!$user) {
             return response()->json([
-            'status' => 104,
-            'errorMessage' => 'User not found',
+                'status'       => 422,
+                'data' => 0.00,
+                'errorMessage' => 'User not found',
             ], 404);
         }
 
-        if (!in_array($request->partnerId, ['stakeyedemo'])) {
+        if (!in_array($request->PartnerId, $this->allowedParentIds)) {
             return response()->json([
-            'status' => 109,
-            'errorMessage' => 'Invalid partnerId',
+             'status'       => 422,
+             'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
+             'errorMessage' => 'Invalid partnerId',
             ], 401);
         }
 
         // Only check if exact same transaction already placed
         $exists = DB::table('sports_bets_history')
-        ->where('transactionId', $request->transactionId)
+        ->where('transactionId', $request->TransactionID)
         ->where('methodName', 'placebet')
         ->exists();
 
         if ($exists) {
             return response()->json([
-            'status' => 102,
-            'errorMessage' => 'Invalid Request',
+                'status'       => 422,
+               'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
+                'errorMessage' => 'Invalid Request',
             ], 400);
         }
 
-        if ($user->balance < $request->amount) {
+        if ($user->balance < $request->Amount) {
             return response()->json([
-            'status' => 100,
+                'status'       => 422,
+               'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
             'errorMessage' => 'Insufficient balance',
             ], 400);
         }
@@ -530,46 +308,43 @@ class SportsApiController extends Controller
         DB::beginTransaction();
         try {
             if ($type === 2) {
-                $user->increment('balance', $request->amount);
+                $user->increment('balance', $request->Amount);
                 $trxType = '+';
             } else {
-                $user->decrement('balance', $request->amount);
+                $user->decrement('balance', $request->Amount);
                 $trxType = '-';
             }
 
             // 💾 Save to cache
             Cache::put('bet_transaction_type_' . $request->transactionId, $type, now()->addHours(24));
 
+ 
             // ✅ Insert into DB
             DB::table('sports_bets_history')->insert([
-            'userName'           => $request->userName,
-            'partnerId'          => $request->PartnerId,
-            'transactionId'      => $request->TransactionID,
-            'transactionType'    => $request->transactionType == 2 ? 'CR' : 'DR',
-            'amount'             => $request->amount,
-            'eventTypeName'      => $request->Eventtypename,
-            'competitionName'    => $request->Competitionname,
-            'eventName'          => $request->Eventname,
-            'marketName'         => $request->Marketname,
-            'marketType'         => $request->Markettype,
-            'marketId'           => $request->MarketID,
-            'runnerName'         => $request->Runnername,
-            'runnerId'           => $request->RunnerID,
-            'betType'            => $request->BetType,
-            'rate'               => $request->Rate,
-            'stake'              => $request->Stake,
-            'isBetMatched'       => $request->isBetMatched,
-            'point'              => $request->Point,
-            'sessionPoint'       => $request->SessionPoint,
-            'status'             => 'placed',
-            'created_at'         => now(),
-            'updated_at'         => now(),
+                'Username'           => $request->Username,
+                'partnerId'          => $request->PartnerId,
+                'transactionId'      => $request->TransactionID,
+                'transactionType'    => $request->TransactionType == 2 ? 'Credit' : 'Debit',
+                'amount'             => $request->Amount,
+                'eventTypeName'      => $request->Eventtypename,
+                'competitionName'    => $request->Competitionname,
+                'eventName'          => $request->Eventname,
+                'marketName'         => $request->Marketname,
+                'marketType'         => $request->Markettype,
+                'marketId'           => $request->MarketID,
+                'runnerName'         => $request->Runnername,
+                'runnerId'           => $request->RunnerID,
+                'betType'            => $request->BetType,
+                'rate'               => $request->Rate,
+                'stake'              => $request->Stake,
+                'isBetMatched'       => $request->isBetMatched,
+                'point'              => $request->Point,
+                'sessionPoint'       => $request->SessionPoint,
+                'methodName' => 'placebet',
+                'status'             => 'placed',
+                'created_at'         => now(),
+                'updated_at'         => now(),
             ]);
-
-        
-
-
-
 
 
 
@@ -577,11 +352,11 @@ class SportsApiController extends Controller
             // 💰 Transaction log
             $trx = new Transaction();
             $trx->user_id = $user->id;
-            $trx->amount = $request->amount;
+            $trx->amount = $request->Amount;
             $trx->charge = 0;
             $trx->post_balance = $user->balance;
             $trx->trx_type = $trxType;
-            $trx->trx = $request->transactionId;
+            $trx->trx = $request->TransactionID;
             $trx->details = 'Sport game - ' . ($type === 'DR' ? 'Debit' : 'Credit');
             $trx->remark = ($type === 'DR' ? 'balance_subtract' : 'balance_add');
             $trx->type = Transaction::TYPE_USER_BET_SPORTSGAME;
@@ -592,23 +367,21 @@ class SportsApiController extends Controller
             DB::commit();
 
             return response()->json([
-                'userName' => $request->userName,
-                'agentCode' => $request->partnerId,
-                'balance' => $user->balance,
-                'transactionId' => $request->transactionId,
-                'partnertxnId'     => "stakeyedemo-" . $trx->id,
-                'status' => 0,
+                'status'       => 100,
+                'data' => $user->balance,
                 'errorMessage' => 'Success',
             ], 200);
         } catch (\Exception $e) {
             DB::rollBack();
             \Log::error('PlaceBet Error: ' . $e->getMessage());
             return response()->json([
-            'status' => 500,
+            'status' => 422,
+            'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
             'errorMessage' => 'Bet Failed',
             ]);
         }
     }
+
 
 /**
  * Cancel a previously placed bet
@@ -616,70 +389,74 @@ class SportsApiController extends Controller
     public function CancelBet(Request $request)
     {
         $validator = Validator::make($request->all(), [
-
-            'userName'          => 'required|string',
-            'PartnerId'         => 'required|string',
-            'TransactionID'     => 'required|string',
-            'transactionType'   => 'required|integer',
-            'amount'            => 'required|numeric|min:0.01',
-            'Eventtypename'           => 'required|string',
-            'Competitionname'           => 'required|string',
-            'Eventname'           => 'required|string',
-            'Marketname'           => 'required|string',
-            'Markettype'          => 'required|integer',
-            'MarketID'         => 'required|integer',
-            'Runnername'           => 'required|string',
-            'RunnerID'          => 'required|integer',
-            'BetType'             => 'required|integer',
-            'Rate'             => 'required|numeric',
-            'Stake'            => 'required|numeric',
-            'isBetMatched'            => 'required|boolean',
-            'Point'     => 'required|integer',
-            'ReverseTransactionId'         => 'required|string',
-
-
+        'Username'          => 'required|string',
+        'PartnerId'         => 'required|string',
+        'TransactionID'     => 'required|string',
+        'TransactionType'   => 'required|integer',
+        'Amount'            => 'required|numeric|min:0.01',
+        'Eventtypename'           => 'required|string',
+        'Competitionname'           => 'required|string',
+        'Eventname'           => 'required|string',
+        'Marketname'           => 'required|string',
+        'Markettype'          => 'required|integer',
+        'MarketID'         => 'required|integer',
+        'Runnername'           => 'required|string',
+        'RunnerID'          => 'required|integer',
+        'BetType'             => 'required|integer',
+        'Rate'             => 'required|numeric',
+        'Stake'            => 'required|numeric',
+        'isBetMatched'            => 'required|boolean',
+        'Point'     => 'required|integer',
+        'ReverseTransactionId'         => 'required|string',
         ]);
 
         if ($validator->fails()) {
             return response()->json([
-            'status'       => 105,
+            'status'       => 422,
+            'data' => 0.00,
             'errorMessage' => 'Validation Error',
             'errors'       => $validator->errors(),
             ], 400);
         }
 
-        $user = User::where('username', $request->userName)->first();
+        $user = User::where('Username', $request->Username)->first();
         if (!$user) {
             return response()->json([
-            'status'       => 104,
+            'status'       => 422,
+            'data' => 0.00,
             'errorMessage' => 'User not found',
             ], 404);
         }
 
-        if (!in_array($request->partnerId, ['stakeyedemo'])) {
+        if (!in_array($request->PartnerId, $this->allowedParentIds)) {
             return response()->json([
-            'status'       => 109,
+            'status'       => 422,
+            'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
             'errorMessage' => 'Invalid partnerId',
             ], 401);
         }
 
         // ✅ Original bet must exist
         $originalBet = DB::table('sports_bets_history')
-        ->where('transactionId', $request->reversetransactionId)
+        ->where('transactionId', $request->ReverseTransactionId)
+        ->where('Username', $request->Username)
+        ->where('partnerId', $request->PartnerId)
         ->where('methodName', 'placebet')
         ->first();
 
         if (!$originalBet) {
             return response()->json([
-            'status'       => 102,
+            'status'       => 422,
+            'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
             'errorMessage' => 'Invalid Request',
             ], 400);
         }
 
         // ✅ Amount must match
-        if ($request->amount != $originalBet->amount) {
+        if ($request->Amount != $originalBet->amount) {
             return response()->json([
-            'status'       => 108,
+            'status'       => 422,
+            'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
             'errorMessage' => 'Amount mismatch',
             ], 400);
         }
@@ -687,59 +464,59 @@ class SportsApiController extends Controller
         // ✅ Check if already cancelled using reversetransactionId
         $alreadyCancelled = DB::table('sports_bets_history')
         ->where('methodName', 'cancelbet')
-        ->where('transactionId', $request->reversetransactionId)
+        ->where('Username', $request->Username)
+        ->where('partnerId', $request->PartnerId)
+        ->where('ReverseTransactionId', $request->ReverseTransactionId)
         ->exists();
 
         if ($alreadyCancelled) {
             return response()->json([
-            'status'       => 111,
+            'status'       => 422,
+            'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
             'errorMessage' => 'Bet already cancelled',
             ], 400);
         }
 
         // ✅ Don't allow if already settled
         $settled = DB::table('sports_game_settlements_history')
-        ->where('transactionId', $request->reversetransactionId)
+        ->where('Username', $request->Username)
+        ->where('partnerId', $request->PartnerId)
+        ->where('transactionId', $request->ReverseTransactionId)
         ->exists();
 
         if ($settled) {
             return response()->json([
-            'status'       => 112,
+            'status'       => 422,
+            'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
             'errorMessage' => 'Bet already settled',
             ], 400);
         }
 
         // ✅ Determine original transaction type
         $originalType = null;
-
-        if (!empty($originalBet->transactionType)) {
-            $originalType = strtoupper(trim($originalBet->transactionType == 2 ? 'CR' : 'DR'));
-        } elseif (Cache::has('bet_transaction_type_' . $request->reversetransactionId)) {
-            $originalType = strtoupper(trim(Cache::get('bet_transaction_type_' . $request->reversetransactionId)));
+        if (!empty($originalBet->TransactionType)) {
+            $originalType = strtoupper(trim($originalBet->TransactionType == 2 ? 'CR' : 'DR'));
+        } elseif (Cache::has('bet_transaction_type_' . $request->ReverseTransactionId)) {
+            $originalType = strtoupper(trim(Cache::get('bet_transaction_type_' . $request->ReverseTransactionId)));
         } else {
             $originalType = 'DR'; // default if nothing found
         }
-
         DB::beginTransaction();
         try {
             if ($originalType === 'CR') {
-                $user->decrement('balance', $request->amount);
-                $cancelType = 'DR';
-                $trxType = '-';
+                  $user->decrement('balance', $request->Amount);
+                  $trxType = '-';
             } else {
-                $user->increment('balance', $request->amount);
-                $cancelType = 'CR';
-                $trxType = '+';
+                 $user->increment('balance', $request->Amount);
+                 $trxType = '+';
             }
-
-            DB::table('casino_bets_history')->insert([
-
-
-            'userName'           => $request->userName,
+             
+            DB::table('sports_bets_history')->insert([
+            'Username'           => $request->Username,
             'partnerId'          => $request->PartnerId,
             'transactionId'      => $request->TransactionID,
-            'transactionType'    => $request->transactionType == 2 ? 'CR' : 'DR',
-            'amount'             => $request->amount,
+            'transactionType'    => $request->TransactionType == 2 ? 'Credit' : 'Debit',
+            'amount'             => $request->Amount,
             'eventTypeName'      => $request->Eventtypename,
             'competitionName'    => $request->Competitionname,
             'eventName'          => $request->Eventname,
@@ -754,197 +531,187 @@ class SportsApiController extends Controller
             'isBetMatched'       => $request->isBetMatched,
             'point'              => $request->Point,
             'sessionPoint'       => $request->SessionPoint,
-            'status'             => 'placed',
+            'ReverseTransactionId' => $request->ReverseTransactionId,
+            'status'             => 'cancelbet',
+            'methodName' => 'cancelbet',
             'created_at'         => now(),
             'updated_at'         => now(),
 
             ]);
+ 
+             $trx = new Transaction();
+             $trx->user_id = $user->id;
+             $trx->amount = $request->Amount;
+             $trx->charge = 0;
+             $trx->post_balance = $user->balance;
+             $trx->trx_type = $trxType;
+             $trx->trx = $request->transactionId;
+             $trx->details = 'Bet cancellation adjustment';
+             $trx->remark = 'cancelbet';
+             $trx->type = Transaction::TYPE_USER_BET_SPORTSGAME;
+             $trx->created_at = now();
+             $trx->updated_at = now();
+             $trx->save();
 
-            $trx = new Transaction();
-            $trx->user_id = $user->id;
-            $trx->amount = $request->amount;
-            $trx->charge = 0;
-            $trx->post_balance = $user->balance;
-            $trx->trx_type = $trxType;
-            $trx->trx = $request->transactionId;
-            $trx->details = 'Bet cancellation adjustment';
-            $trx->remark = 'cancelbet';
-            $trx->type = Transaction::TYPE_USER_BET_SPORTSGAME;
-            $trx->created_at = now();
-            $trx->updated_at = now();
-            $trx->save();
+             // Cleanup cache
+             Cache::forget('bet_transaction_type_' . $request->ReverseTransactionId);
 
-            // Cleanup cache
-            Cache::forget('bet_transaction_type_' . $request->reversetransactionId);
+             DB::commit();
 
-            DB::commit();
-
-            return response()->json([
-                'userName'             => $request->userName,
-                'partnerId'            => $request->partnerId,
-                'transactionId'        => $request->transactionId,
-                'reversetransactionId' => $request->reversetransactionId,
-                'balance'              => $user->balance,
-                'status'               => 0,
+             return response()->json([
+                'status'               => 100,
+                'data'              => number_format($user->balance ?? 0.00, 2, '.', ''),
                 'errorMessage'         => 'Bet cancelled successfully',
-            ], 200);
+             ], 200);
         } catch (\Exception $e) {
             DB::rollBack();
             \Log::error('CancelBet Error: ' . $e->getMessage());
 
             return response()->json([
-            'status'       => 500,
+            'status'       => 422,
+            'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
             'errorMessage' => 'Cancel failed: ' . $e->getMessage(),
             ], 500);
         }
     }
-
-    
-
-
+/**
+ * Market Cancel
+ */
     public function marketCancel(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'userName'           => 'required|string',
-            'partnerId'          => 'required|string',
+            'Username'           => 'required|string',
+            'PartnerId'          => 'required|string',
             'TransactionID'            => 'required|string',
             'Markettype'           => 'required|integer',
-            'MarketID'          => 'required|string',
-            'TransactionType'           => 'required|string',
-            'amount'             => 'required|numeric|min:0'
+            'MarketID'          => 'required',
+            'TransactionType'           => 'required',
+            'Amount'             => 'required|numeric|min:0'
         ]);
     
         if ($validator->fails()) {
             $errors = $validator->errors();
             if ($errors->has('amount') && in_array('Invalid Amount', $errors->get('amount'))) {
                 return response()->json([
-                    'status'       => 108,
+                  'status'       => 422,
+                'data' => 0.00,
                     'errorMessage' => 'Invalid Amount',
                 ], 400);
             }
 
             return response()->json([
-                'userName'     => $request->userName ?? '',
-                'partnerId'    => $request->partnerId ?? '',
-                'status'       => 105,
-                'balance'      => 0.00,
+               'status'       => 422,
+                'data' => 0.00,
                 'errorMessage' => 'Validation Error',
                 'errors'       => $validator->errors(),
             ], 400);
         }
     
-        $user = User::where('username', $request->userName)->first();
+        $user = User::where('Username', $request->Username)->first();
         if (!$user) {
             return response()->json([
-                'userName'     => $request->userName,
-                'partnerId'    => $request->partnerId,
-                'status'       => 104,
-                'balance'      => 0.00,
+              'status'       => 422,
+            'data' => 0.00,
                 'errorMessage' => 'User not found',
             ], 404);
         }
     
-        $allowedAgentCodes = ['stakeyedemo'];
-        if (!in_array($request->partnerId, $allowedAgentCodes)) {
+        if (!in_array($request->PartnerId, $this->allowedParentIds)) {
             return response()->json([
-                'userName'     => $request->userName,
-                'partnerId'    => $request->partnerId,
-                'status'       => 109,
-                'balance'      => $user->balance,
-                'errorMessage' => 'Invalid agent code',
+             'status'       => 422,
+            'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
+                'errorMessage' => 'Invalid partnerId',
             ], 401);
         }
-    
-         die;
+  
     
         // Check for transaction ID to prevent duplicate cancellations
         $transactionId = Str::uuid()->toString();
-        $normalizedTableCode = str_replace('smt_', '', $request->tableCode);
     
-        DB::beginTransaction();
+         DB::beginTransaction();
         try {
             // Check if already canceled
-            // Check if this specific game cancellation already exists
-            $alreadyCanceled = DB::table('casino_game_cancellations')->where([
-                'vkingtransactionId' => $request->vkingtransactionId,
-                'userName'      => $request->userName,
-                'agentCode'     => $request->partnerId,
-                'roundId'       => $request->roundId,
-            ])->exists();
+            // Check market already cancelled
 
-            if ($alreadyCanceled) {
-                return response()->json([
-                    'userName'     => $request->userName,
-                    'partnerId'    => $request->partnerId,
-                    'status'       => 111,
-                    'balance'      => $user->balance,
-                    'errorMessage' => 'Bet already canceled',
-                ], 400);
-            }
-    
-            // Check if bet exists
-            $bet = DB::table('casino_bets_history')->where([
-                'roundId'   => $request->roundId,
-                'userName'  => $request->userName,
-                'agentCode' => $request->agentCode,
-                'tpGameId'  => $request->tpGameId,
+              // Check if bet exists
+            $bet = DB::table('sports_bets_history')->where([
+                'partnerId' => $request->PartnerId,
+                'userName'      => $request->Username,
+                'marketId'     => $request->MarketID,
             ])->first();
     
             if (!$bet) {
                 return response()->json([
-                    'status'       => 102,
-                    'errorMessage' => 'Invalid Request',
+                'status'       => 422,
+                'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
+                   'errorMessage' => 'Invalid Request',
                 ], 400);
             }
-    
-            // Get settlement data if exists
-            $settlement = DB::table('casino_game_settlements_history')->where([
-                'agentCode' => $request->agentCode,
-                'userName'  => $request->userName,
-                'roundId'   => $request->roundId,
-                'tpGameId'  => $request->tpGameId,
-            ])
-            ->where('methodName', '!=', 'cancelsettledgame')
-            ->first();
-            
-            // Get placed bet data
-            $placedBet = DB::table('casino_bets_history')->where([
-                'agentCode' => $request->agentCode,
-                'userName'  => $request->userName,
-                'roundid'   => $request->roundId,
-                'tpGameId'  => $request->tpGameId,
-            ])
-            ->first();
-            
-            // Validate amount matches
-            if ($placedBet && $placedBet->amount != $request->amount) {
+
+
+             //check already cancel
+             $alreadyCanceled = DB::table('sports_bets_history')->where([
+                'partnerId' => $request->PartnerId,
+                'userName'      => $request->Username,
+                'marketId'     => $request->MarketID,
+                'status'       => 'cancelbet',
+             ])->exists();
+ 
+            if ($alreadyCanceled) {
                 return response()->json([
-                    'status'       => 102,
+                   'status'       => 422,
+                'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
+                    'errorMessage' => 'Bet already canceled',
+                ], 400);
+            }
+ 
+          
+        
+            // Get settlement data if exists
+            $settlement = DB::table('sports_game_settlements_history')->where([
+                'partnerId' => $request->PartnerId,
+                'userName'  => $request->Username,
+                'marketId'   => $request->MarketID
+            ])
+             ->where('methodName', '!=', 'cancelsettledgame')
+             ->first();
+            
+             // Get placed bet data
+             $placedBet = DB::table('sports_bets_history')->where([
+                'partnerId' => $request->PartnerId,
+                'userName'  => $request->Username,
+                'marketId'   => $request->MarketID
+             ])
+             ->first();
+            
+             // Validate amount matches
+            if ($placedBet && $placedBet->amount != $request->Amount) {
+                return response()->json([
+                  'status'       => 422,
+                'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
                     'errorMessage' => 'Invalid Amount',
                 ], 400);
             }
             
             // If neither bet nor settlement exists, return error
             if (!$settlement && !$placedBet) {
-                return response()->json([
-                    'userName'     => $request->userName,
-                    'agentCode'    => $request->agentCode,
-                    'status'       => 114,
-                    'balance'      => $user->balance,
-                    'errorMessage' => 'No valid bet or settlement found for cancellation',
-                ], 400);
+                  return response()->json([
+                'status'       => 422,
+                'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
+                'errorMessage' => 'No valid bet or settlement found for cancellation',
+                  ], 400);
             }
             
             // Calculate correction amount
             $betAmount = $placedBet->amount ?? 0;
-            $payoffAmount = $settlement->payoff ?? 0;
+            $payoffAmount = $settlement->payableAmount ?? 0;
             $correctionAmount = $payoffAmount - $betAmount;
             
             // Apply balance correction
             if ($correctionAmount > 0) {
-                // If player won money, we need to take it back
-                $user->decrement('balance', $correctionAmount);
-                $trx_type = '-';
+                 // If player won money, we need to take it back
+                 $user->decrement('balance', $correctionAmount);
+                 $trx_type = '-';
             } elseif ($correctionAmount < 0) {
                 // If player lost money, we need to return it
                 $user->increment('balance', abs($correctionAmount));
@@ -953,26 +720,8 @@ class SportsApiController extends Controller
                 // No change needed
                 $trx_type = '=';
             }
-    
-            // Record the cancellation
-            DB::table('casino_game_cancellations')->insert([
-                'userName'           => $request->userName,
-                'tpGameId'           => $request->tpGameId,
-                'agentCode'          => $request->agentCode,
-                'amount'             => $correctionAmount,
-                'roundId'            => $request->roundId,
-                'vkingtransactionId' => $request->vkingtransactionId,
-                'tableCode'          => $normalizedTableCode,
-                'gameType'           => $request->gameType,
-                'runnerName'         => $request->runnerName,
-                'rate'               => $request->rate,
-                'stake'              => $request->stake,
-                'betType'            => $request->betType,
-                'created_at'         => now(),
-                'updated_at'         => now(),
-            ]);
-    
-            // Refresh user to get updated balance
+     
+         // Refresh user to get updated balance
             $user->refresh();
     
             // Record transaction if balance was changed
@@ -984,9 +733,9 @@ class SportsApiController extends Controller
                 $transaction->post_balance = $user->balance;
                 $transaction->trx_type = $trx_type;
                 $transaction->trx = $transactionId;
-                $transaction->details = 'Game cancellation balance adjustment';
-                $transaction->remark = 'cancel_game';
-                $transaction->type = Transaction::TYPE_USER_BET_VKINGPLAYS;
+                $transaction->details = 'Market cancellation balance adjustment';
+                $transaction->remark = 'cancel_market';
+                $transaction->type = Transaction::TYPE_USER_BET_SPORTSGAME;
                 $transaction->created_at = now();
                 $transaction->updated_at = now();
                 $transaction->save();
@@ -995,123 +744,102 @@ class SportsApiController extends Controller
             DB::commit();
     
             return response()->json([
-                'userName'     => $request->userName,
-                'agentCode'    => $request->agentCode,
-                'roundId'      => $request->roundId,
-                'tpGameId'     => $request->tpGameId,
-                'balance'      => $user->balance,
-                'status'       => 0,
+                'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
+                'status'       => 100,
                 'errorMessage' => 'Success',
             ], 200);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
-                'userName'     => $request->userName,
-                'agentCode'    => $request->agentCode,
-                'status'       => 106,
-                'balance'      => $user->balance ?? 0.00,
-                'errorMessage' => 'Failed to cancel game',
-                'error'        => $e->getMessage(),
+             'status'       => 422,
+              'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
+               'errorMessage' => 'Failed to cancel market',
+               'error'        => $e->getMessage(),
             ], 500);
         }
     }
     
-    
+/**
+ * Settle Market
+ */
 
     public function settleMarket(Request $request)
     {
        
         
         $validator = Validator::make($request->all(), [
-            'partnerId'        => 'required|string',
-            'userName'         => 'required|string',
-            'transactionId'    => 'required|string',
+            'PartnerId'        => 'required|string',
+            'Username'         => 'required|string',
+            'TransactionID'    => 'required|string',
             'Eventtypename'           => 'required|string',
             'Competitionname'           => 'required|string',
             'Eventname'           => 'required|string',
             'Marketname'           => 'required|string',
             'Markettype'          => 'required|integer',
             'MarketID'         => 'required|integer',
-            'transactionType'  => 'required|string',
+            'TransactionType'  => 'required',
             'PayableAmount'           => 'required|numeric|min:0',
-            'NetPL'          => 'required|string',
+            'NetPL'          => 'required',
             'CommissionAmount'           => 'required|numeric|min:0',
             'Commission'          => 'required|numeric|min:0',
             'Point'         => 'required|integer',
-            
         ]);
  
  
         if ($validator->fails()) {
             return response()->json([
-                'userName'     => $request->userName ?? '',
-                'partnerId'    => $request->partnerId ?? '',
-                'status'       => 105,
-                'balance'      => 0.00,
-                'roundid'      => $request->roundId ?? '',
+                'status'       => 422,
+                'data' => 0.00,
                 'errorMessage' => 'Validation Error',
                 'errors'       => $validator->errors(),
             ], 400);
         }
         
-        $user = User::where('username', $request->userName)->first();
+        $user = User::where('Username', $request->Username)->first();
 
         if (!$user) {
             return response()->json([
-                'userName'     => $request->userName,
-                'partnerId'    => $request->partnerId,
-                'status'       => 104,
-                'balance'      => 0.00,
-                'roundid'      => $request->roundId,
+               'status'       => 422,
+                'data' => 0.00,
                 'errorMessage' => 'User not found',
             ], 404);
         }
-        
-        $allowedAgentCodes = ['stakeyedemo'];
-
-        if (!in_array($request->partnerId, $allowedAgentCodes)) {
+        // Check if the partnerId is valid
+        if (!in_array($request->PartnerId, $this->allowedParentIds)) {
             return response()->json([
-                'userName'     => $request->userName,
-                'partnerId'    => $request->partnerId,
-                'status'       => 109,
-                'balance'      => $user->balance,
-                'roundid'      => $request->roundId,
+                'status'       => 422,
+                'balance'      => number_format($user->balance ?? 0.00, 2, '.', ''),
                 'errorMessage' => 'Invalid partnerId',
             ], 401);
         }
-
-      
-        
+   
         // Check if bet was already cancelled
         $cancelledBet = DB::table('sports_bets_history')->where([
-            'transactionId' => $request->transactionId,
-            'userName'     => $request->userName,
-            'partnerId'    => $request->partnerId,
+            'transactionId' => $request->TransactionID,
+            'Username'     => $request->Username,
+            'partnerId'    => $request->PartnerId,
             'methodName'   => 'cancelbet'
         ])->first();
    
         if ($cancelledBet) {
             return response()->json([
-                'userName'     => $request->userName,
-                'partnerId'    => $request->partnerId,
-                'status'       => 111,
-                'balance'      => $user->balance,
+                'status'       => 422,
+                'balance'      => number_format($user->balance ?? 0.00, 2, '.', ''),
                 'errorMessage' => 'Bet Already Cancelled'
             ], 400);
         }
         
         // Check if settlement already exists
         $existingSettlement = DB::table('sports_game_settlements_history')
-        ->where('transactionId', $request->transactionId)
+        ->where('transactionId', $request->TransactionID)
+        ->where('partnerId', $request->PartnerId)
+        ->where('Username', $request->Username)
         ->first();
  
         if ($existingSettlement) {
             return response()->json([
-                'userName'     => $request->userName,
-                'partnerId'    => $request->partnerId,
-                'roundId'      => $request->roundId,
-                'status'       => 112,
-                'balance'      => $user->balance,
+                'status'       => 422,
+                'balance'      => number_format($user->balance ?? 0.00, 2, '.', ''),
                 'errorMessage' => 'Transaction already settled',
             ], 400);
         }
@@ -1119,43 +847,29 @@ class SportsApiController extends Controller
 
         // Check if matching bet exists
         $matchingBet = DB::table('sports_bets_history')->where([
-             'transactionId'  => $request->transactionId,
+             'marketId'  => $request->MarketID,
+             'Username'     => $request->Username,
+             'partnerId'    => $request->PartnerId,
         ])->first();
       
         if (!$matchingBet) {
             return response()->json([
-                'status'       => 102,
+                'status'       => 422,
+                'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
                 'errorMessage' => 'Invalid Request',
             ], 400);
         }
-
-        // Verify transaction ID with game ID
-        $existingTxn = DB::table('sports_bets_history')->where([
-          'transactionId'  => $request->transactionId,
-        ])->first();
-        if (!$existingTxn) {
-            return response()->json([
-              'userName'     => $request->userName,
-              'partnerId'    => $request->partnerId,
-              'status'       => 102,
-              'balance'      => $user->balance,
-              'errorMessage' => 'Invalid tpGameId',
-            ], 400);
-        }
-     
-
+ 
         DB::beginTransaction();
         
         try {
             $payoffAmount = $request->PayableAmount;
-            $transactionType = $request->transactionType == 2 ? 'CR' : 'DR';
+            $transactionType = $request->TransactionType == 2 ? 'CR' : 'DR';
            // Handle balance update according to transaction type
-            if (strtolower($transactionType) == 'cr') {
+            if ($transactionType == 'CR') {
                 $user->increment('balance', $payoffAmount);
                 $balance = ['pay' => $payoffAmount , 'balance' => $user->balance ];
                 
-        
-            
                 $trx_type = '+';
                 $transactionDetails = 'Winning amount credited from Sports game';
                 $transactionRemark = 'balance_add';
@@ -1163,10 +877,8 @@ class SportsApiController extends Controller
                 if ($user->balance < $payoffAmount) {
                     DB::rollBack();
                     return response()->json([
-                        'userName'     => $request->userName,
-                        'partnerId'    => $request->partnerId,
                         'status'       => 100,
-                        'balance'      => $user->balance,
+                        'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
                         'errorMessage' => 'Insufficient balance',
                     ], 400);
                 }
@@ -1181,18 +893,28 @@ class SportsApiController extends Controller
             }
              
             // Store settlement history
-               DB::table('casino_game_settlements_history')->insert([
-                'userName'          => $request->userName,
-                'partnerId'         => $request->partnerId,
+               DB::table('sports_game_settlements_history')->insert([
+                'partnerId'         => $request->PartnerId,
+                'userName'          => $request->Username,
+                'transactionId'     => $request->TransactionID,
+                'marketId'           => $request->MarketID,
+                'marketType'     => $request->Markettype,
                 'transactionType'   => $transactionType,
-                'transactionId'     => $request->transactionId,
-                'netpl'             => $request->netpl,
-                'payoff'            => $payoffAmount,
-                'methodName'        => $request->methodName ?? 'settlegame',
+                'marketName'    => $request->Marketname,
+                'payableAmount'            => $payoffAmount,
+                'eventName'             => $request->Eventname,
+                'netpl'             => $request->NetPL,
+                'competitionName'             => $request->Competitionname,
+                'methodName'        =>  'settlegame',
+                'eventTypeName'             => $request->Eventtypename,
+                'point'            => $request->Point,
+                'commissionAmount'       => $request->CommissionAmount,
+                'commission'           => $request->Commission,
                 'status'            => 'settled',
                 'created_at'        => now(),
                 'updated_at'        => now(),
                ]);
+ 
             
             // Refresh user to get updated balance
             $user->refresh();
@@ -1204,7 +926,7 @@ class SportsApiController extends Controller
             $transaction->charge = 0;
             $transaction->post_balance = $user->balance;
             $transaction->trx_type = $trx_type;
-            $transaction->trx = $request->transactionId;
+            $transaction->trx = $request->TransactionID;
             $transaction->details = $transactionDetails;
             $transaction->remark = $transactionRemark;
             $transaction->type = Transaction::TYPE_USER_BET_SPORTSGAME;
@@ -1215,38 +937,215 @@ class SportsApiController extends Controller
             DB::commit();
 
             return response()->json([
-                'userName'         => $request->userName,
-                'partnerId'        => $request->partnerId,
-                'balance'          => number_format($user->balance, 2, '.', ''), // Ensuring proper decimal format
-                'transactionType'  => $transactionType,
-                'transactionId'    => $request->transactionId,
-                'partnertxnId'     => "stakeyedemo-" . $transaction->id,
-                'netpl'            => $request->netpl ?? 0,
-                'payoff'           => $payoffAmount ?? 0,
-                'status'           => 0,
+                'status'       => 100,
+                'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
                 'errorMessage'     => 'Success',
             ], 200);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
-                'userName'     => $request->userName,
-                'agentCode'    => $request->agentCode,
-                'status'       => 106,
-                'balance'      => $user->balance,
-                'roundid'      => $request->roundId,
+                'status'       => 422,
+                'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
                 'errorMessage' => 'Failed to settle game',
                 'error'        => $e->getMessage(),
             ], 500);
         }
     }
 
-   
 
+ 
+/**
+ * Resettle market
+ */
+  
+   
+    public function resettle(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'PartnerId'        => 'required|string',
+            'Username'         => 'required|string',
+            'TransactionID'    => 'required|string',
+            'Eventtypename'           => 'required|string',
+            'Competitionname'           => 'required|string',
+            'Eventname'           => 'required|string',
+            'Marketname'           => 'required|string',
+            'Markettype'          => 'required|integer',
+            'MarketID'         => 'required|integer',
+            'TransactionType'  => 'required',
+            'PayableAmount'           => 'required|numeric|min:0',
+            'NetPL'          => 'required',
+            'CommissionAmount'           => 'required|numeric|min:0',
+            'Commission'          => 'required|numeric|min:0',
+            'Point'         => 'required|integer',
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json([
+                'status'       => 422,
+                'data'      => 0.00,
+                'errorMessage' => 'Validation Error',
+                'errors'       => $validator->errors(),
+            ], 400);
+        }
+    
+        $user = User::where('Username', $request->Username)->first();
+        if (!$user) {
+            return response()->json([
+                'status'       => 422,
+                'data'      => 0.00,
+                'errorMessage' => 'User not found',
+            ], 404);
+        }
+     
+        if (!in_array($request->PartnerId, $this->allowedParentIds)) {
+            return response()->json([
+                'status'       => 422,
+                'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
+                'errorMessage' => 'Invalid partnerId',
+            ], 401);
+        }
+    
+     
+        DB::beginTransaction();
+        try {
+            // Check if already resettled
+            $alreadyResettled = DB::table('sports_game_settlements_history')->where([
+                'Username'      => $request->Username,
+                'partnerId'     => $request->PartnerId,
+                'marketId' => $request->MarketID,
+                'methodName'    => 'resettled',
+            ])->exists();
+    
+            if ($alreadyResettled) {
+                return response()->json([
+                    'status'       => 422,
+                    'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
+                    'errorMessage' => 'Already resettled',
+                ], 400);
+            }
+    
+            // Get previous payoff (from 'settlegame')
+            $previousPayoff = DB::table('sports_game_settlements_history')
+                ->where([
+                    'Username'      => $request->Username,
+                    'partnerId'     => $request->PartnerId,
+                    'marketId' => $request->MarketID,
+                    'methodName'    => 'settlegame',
+                ])
+                ->value('payableAmount');
+    
+            $newAmount = $request->PayableAmount;
+    
+            if ($previousPayoff === null) {
+                return response()->json([
+                    'status'       => 422,
+                    'data' => 0.00,
+                    'errorMessage' => 'Invalid Request',
+                ], 400);
+            }
+    
+            $difference = $newAmount - $previousPayoff;
+    
+            if ($difference === 0.0) {
+                return response()->json([
+                    'status'       => 422,
+                    'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
+                    'errorMessage' => 'No change in payoff. Nothing to update.',
+                ], 400);
+            }
+    
+            // Check if user has sufficient balance for negative adjustment
+            if ($difference < 0 && $user->balance < abs($difference)) {
+                return response()->json([
+                    'status'       => 422,
+                    'balance'      => number_format($user->balance ?? 0.00, 2, '.', ''),
+                    'errorMessage' => 'Insufficient balance for settlement adjustment',
+                ], 400);
+            }
+    
+            // Generate unique transaction ID for this adjustment
+            $adjustmentTxnId = (string) Str::uuid();
+            $transactionType = $request->TransactionType == 2 ? 'CR' : 'DR';
+            if ($difference > 0) {
+                // User gets more money
+                $user->increment('balance', $difference);
+                $trxType = '+';
+                $transactionDetails = 'Settlement adjustment - additional amount credited';
+                $transactionRemark = 'resettlegame_add';
+            } else {
+                // User gets less money (or owes more)
+                $user->decrement('balance', abs($difference));
+                $trxType = '-';
+                $transactionDetails = 'Settlement adjustment - amount deducted';
+                $transactionRemark = 'resettlegame_subtract';
+            }
+            // Insert new resettlement record
+                DB::table('sports_game_settlements_history')->insert([
+                    'partnerId'         => $request->PartnerId,
+                    'userName'          => $request->Username,
+                    'transactionId'     => $request->TransactionID,
+                    'marketId'           => $request->MarketID,
+                    'marketType'     => $request->Markettype,
+                    'transactionType'   => $transactionType,
+                    'marketName'    => $request->Marketname,
+                    'payableAmount'            => $newAmount,
+                    'eventName'             => $request->Eventname,
+                    'netpl'             => $newAmount,
+                    'competitionName'             => $request->Competitionname,
+                    'methodName'        =>  'resettled',
+                    'eventTypeName'             => $request->Eventtypename,
+                    'point'            => $request->Point,
+                    'commissionAmount'       => $request->CommissionAmount,
+                    'commission'           => $request->Commission,
+                    'status'            => 'resettled',
+                    'created_at'        => now(),
+                    'updated_at'        => now(),
+                   ]);
+  
+            // Log the transaction
+            $transaction = new Transaction();
+            $transaction->user_id = $user->id;
+            $transaction->amount = abs($difference);
+            $transaction->charge = 0;
+            $transaction->post_balance = $user->balance;
+            $transaction->trx_type = $trxType;
+            $transaction->trx = $adjustmentTxnId;
+            $transaction->details = $transactionDetails;
+            $transaction->remark = $transactionRemark;
+            $transaction->type = Transaction::TYPE_USER_BET_SPORTSGAME;
+            $transaction->created_at = now();
+            $transaction->updated_at = now();
+            $transaction->save();
+    
+            // Make sure we have the latest balance
+            $user->refresh();
+    
+            DB::commit();
+    
+            return response()->json([
+                'status'          => 100,
+                'data'         => number_format($user->balance ?? 0.00, 2, '.', ''),
+                'errorMessage'    => 'Resettle success',
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'status'       => 422,
+                'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
+                'errorMessage' => 'Failed to resettle game',
+                'error'        => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+/**
+ * Cancel Settled Market
+ */
     public function cancelSettledMarket(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'userName'     => 'required|string',
-            'partnerId'    => 'required|string',
+            'Username'     => 'required|string',
+            'PartnerId'    => 'required|string',
             'TransactionID'      => 'required|string',
             'Markettype'     => 'required|integer',
             'MarketID'    => 'required|integer',
@@ -1256,52 +1155,42 @@ class SportsApiController extends Controller
     
         if ($validator->fails()) {
             return response()->json([
-                'userName'     => $request->userName ?? '',
-                'partnerId'    => $request->partnerId ?? '',
-                'status'       => 105,
-                'balance'      => 0.00,
+                'status'       => 422,
+                'data'      => 0.00,
                 'errorMessage' => 'Validation Error',
                 'errors'       => $validator->errors(),
             ], 400);
         }
     
-        $user = User::where('username', $request->userName)->first();
+        $user = User::where('Username', $request->Username)->first();
     
         if (!$user) {
             return response()->json([
-                'userName'     => $request->userName,
-                'partnerId'    => $request->partnerId,
-                'status'       => 104,
-                'balance'      => 0.00,
-                'roundid'      => $request->roundId,
+                'status'       => 422,
+                'data'      => 0.00,
                 'errorMessage' => 'User not found',
             ], 404);
         }
     
-        $allowedAgentCodes = ['stakeyedemo'];
-        if (!in_array($request->partnerId, $allowedAgentCodes)) {
+        if (!in_array($request->PartnerId, $this->allowedParentIds)) {
             return response()->json([
-                'userName'     => $request->userName,
-                'partnerId'    => $request->partnerId,
-                'status'       => 109,
-                'balance'      => $user->balance,
-                'roundid'      => $request->roundId,
+                'status'       => 100,
+                'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
                 'errorMessage' => 'Invalid partnerId',
             ], 401);
         }
-      
-        $normalizedTableCode = str_replace('smt_', '', $request->tableCode);
-    
+       
         // Check if bet exists
         $bet = DB::table('sports_bets_history')->where([
-            'userName'  => $request->userName,
-            'partnerId' => $request->partnerId,
-            'TransactionID'  => $request->transactionId,
+            'Username'  => $request->Username,
+            'partnerId' => $request->PartnerId,
+            'marketId'  => $request->MarketID,
         ])->first();
     
         if (!$bet) {
             return response()->json([
-                'status'       => 102,
+                'status'       => 422,
+                'data' => 0.00,
                 'errorMessage' => 'Invalid Request',
             ], 400);
         }
@@ -1309,19 +1198,16 @@ class SportsApiController extends Controller
         // Check if settlement is already canceled
         // Check if this specific settlement is already canceled
         $alreadyCanceled = DB::table('sports_game_settlements_history')->where([
-            'userName'      => $request->userName,
-            'agentCode'     => $request->partnerId,
-            'transactionId' => $request->transactionId,
-            'methodName'    => 'cancelsettledgame',
+            'Username'  => $request->Username,
+            'partnerId' => $request->PartnerId,
+            'marketId'  => $request->MarketID,
+            'methodName'    => 'cancelSettledMarket',
         ])->exists();
 
         if ($alreadyCanceled) {
             return response()->json([
-                'userName'     => $request->userName,
-                'partnerId'    => $request->partnerId,
-                'status'       => 112,
-                'balance'      => $user->balance,
-                'roundid'      => $request->roundId,
+                'status'       => 422,
+                'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
                 'errorMessage' => 'Bet already canceled',
             ], 400);
         }
@@ -1330,36 +1216,33 @@ class SportsApiController extends Controller
         try {
             // Get settlement data
             $settlement = DB::table('sports_game_settlements_history')->where([
-                'agentCode' => $request->partnerId,
-                'userName'  => $request->userName,
-                'transactionId'  => $request->transactionId,
+                'Username'  => $request->Username,
+                'partnerId' => $request->PartnerId,
+                'marketId'  => $request->MarketID,
             ])
-            ->where('methodName', '!=', 'cancelsettledgame')
+            ->where('methodName', '!=', 'cancelSettledMarket')
             ->first();
             
             // Get placed bet data
             $placedBet = DB::table('sports_bets_history')->where([
-                'partnerId' => $request->partnerId,
-                'userName'  => $request->userName,
-                'transactionId'   => $request->transactionId,
+                'Username'  => $request->Username,
+                'partnerId' => $request->PartnerId,
+                'marketId'  => $request->MarketID,
             ])
             ->first();
             
             // If neither settlement nor placed bet exists, return error
             if (!$settlement && !$placedBet) {
                 return response()->json([
-                    'userName'     => $request->userName,
-                    'agentCode'    => $request->partnerId,
-                    'status'       => 114,
-                    'balance'      => $user->balance,
-                    'roundid'      => $request->roundId,
+                    'status'       => 422,
+                    'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
                     'errorMessage' => 'No valid bet or settlement found for cancellation',
                 ], 400);
             }
             
             // Get payoff amount (from settlement) and original bet amount
             $betAmount = $placedBet->amount ?? 0;
-            $payoffAmount = $settlement->amount ?? 0;
+            $payoffAmount = $settlement->payableAmount ?? 0;
             
             // We need to reverse the payoff that was applied during settlement
             if ($payoffAmount > 0) {
@@ -1367,11 +1250,8 @@ class SportsApiController extends Controller
                 if ($user->balance < $payoffAmount) {
                     DB::rollBack();
                     return response()->json([
-                        'userName'     => $request->userName,
-                        'agentCode'    => $request->partnerId,
-                        'status'       => 100,
-                        'balance'      => $user->balance,
-                        'roundid'      => $request->roundId,
+                        'status'       => 422,
+                        'balance'      => number_format($user->balance ?? 0.00, 2, '.', ''),
                         'errorMessage' => 'Insufficient balance to cancel settlement',
                     ], 400);
                 }
@@ -1390,27 +1270,30 @@ class SportsApiController extends Controller
                 $trx_type = '=';
                 $transactionDetails = 'Canceled settlement - no balance change';
             }
-            
-            // Generate transaction ID
-            $transactionId = (string) Str::uuid();
-    
-            // Record the cancellation in settlement history
+             
+           
+            $transactionType = $request->transactionType == 2 ? 'CR' : 'DR';
             DB::table('sports_game_settlements_history')->insert([
-                'userName'        => $request->userName,
-                'agentCode'       => $request->partnerId,
-                'tpGameId'        => $request->tpGameId ?? null,
-                'roundId'         => $request->roundId ?? null,
-                'transactionType' => 'DR',
-                'transactionId'   => $transactionId,
-                'tableCode'       => $normalizedTableCode,
-                'liability'       => $request->liability ?? 0,
-                'netpl'           => $request->netpl ?? 0,
-                'gametype'        => $request->gameType,
-                'methodName'      => $request->methodName,
-                'status'          => 'canceled',
-                'created_at'      => now(),
-                'updated_at'      => now(),
-            ]);
+                'partnerId'         => $request->PartnerId,
+                'userName'          => $request->Username,
+                'transactionId'     => $request->TransactionID,
+                'marketId'           => $request->MarketID,
+                'marketType'     => $request->Markettype,
+                'transactionType'   => $transactionType,
+                'marketName'    => $settlement->marketName,
+                'payableAmount'            => $payoffAmount,
+                'eventName'             => $settlement->Eventname ?? null,
+                'netpl'             => $payoffAmount,
+                'competitionName'             => $settlement->Competitionname ?? null,
+                'methodName'        =>  'cancelSettledMarket',
+                'eventTypeName'             => $settlement->Eventtypename ?? null,
+                'point'            => $settlement->Point ?? null,
+                'commissionAmount'       => $settlement->CommissionAmount ?? null,
+                'commission'           => $settlement->Commission ?? null,
+                'status'            => 'cancelSettledMarket',
+                'created_at'        => now(),
+                'updated_at'        => now(),
+               ]);
             
             // Record transaction if balance was changed
             if ($payoffAmount != 0) {
@@ -1420,10 +1303,10 @@ class SportsApiController extends Controller
                 $transaction->charge = 0;
                 $transaction->post_balance = $user->balance;
                 $transaction->trx_type = $trx_type;
-                $transaction->trx = $transactionId;
+                $transaction->trx = $request->TransactionID;
                 $transaction->details = $transactionDetails;
-                $transaction->remark = 'cancel_settled_game';
-                $transaction->type = Transaction::TYPE_USER_BET_VKINGPLAYS;
+                $transaction->remark = 'cancelSettledMarket';
+                $transaction->type = Transaction::TYPE_USER_BET_SPORTSGAME;
                 $transaction->created_at = now();
                 $transaction->updated_at = now();
                 $transaction->save();
@@ -1433,246 +1316,39 @@ class SportsApiController extends Controller
             DB::commit();
     
             return response()->json([
-                'userName'     => $request->userName,
-                'agentCode'    => $request->partnerId,
-                'tpGameId'     => $request->tpGameId,
-                'roundId'      => $request->roundId,
-                'tableCode'    => $normalizedTableCode,
-                'balance'      => $user->balance,
-                'status'       => 0,
-                'errorMessage' => 'Success',
+                'status'       => 100,
+                'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
             ], 200);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
-                'userName'     => $request->userName,
-                'agentCode'    => $request->partnerId,
-                'status'       => 106,
-                'balance'      => $user->balance ?? 0.00,
-                'roundid'      => $request->roundId,
+                'status'       => 422,
+                'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
                 'errorMessage' => 'Failed to cancel settled game',
                 'error'        => $e->getMessage(),
             ], 500);
         }
     }
     
-    
 
 
-    public function resettleGame(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'partnerId'        => 'required|string',
-            'userName'         => 'required|string',
-            'transactionId'    => 'required|string',
-            'Eventtypename'           => 'required|string',
-            'Competitionname'           => 'required|string',
-            'Eventname'           => 'required|string',
-            'Marketname'           => 'required|string',
-            'Markettype'          => 'required|integer',
-            'MarketID'         => 'required|integer',
-            'transactionType'  => 'required|string',
-            'PayableAmount'           => 'required|numeric|min:0',
-            'NetPL'          => 'required|string',
-            'CommissionAmount'           => 'required|numeric|min:0',
-            'Commission'          => 'required|numeric|min:0',
-            'Point'         => 'required|integer',
-        ]);
-    
-        if ($validator->fails()) {
-            return response()->json([
-                'userName'     => $request->userName ?? '',
-                'agentCode'    => $request->partnerId ?? '',
-                'status'       => 105,
-                'balance'      => 0.00,
-                'errorMessage' => 'Validation Error',
-                'errors'       => $validator->errors(),
-            ], 400);
-        }
-    
-        $user = User::where('username', $request->userName)->first();
-        if (!$user) {
-            return response()->json([
-                'userName'     => $request->userName,
-                'agentCode'    => $request->partnerId,
-                'status'       => 104,
-                'balance'      => 0.00,
-                'errorMessage' => 'User not found',
-            ], 404);
-        }
-    
-        $allowedAgentCodes = ['stakeyedemo'];
-        if (!in_array($request->partnerId, $allowedAgentCodes)) {
-            return response()->json([
-                'userName'     => $request->userName,
-                'agentCode'    => $request->partnerId,
-                'status'       => 109,
-                'balance'      => $user->balance,
-                'errorMessage' => 'Invalid partnerId',
-            ], 401);
-        }
-    
-     
-        DB::beginTransaction();
-        try {
-            // Check if already resettled
-            $alreadyResettled = DB::table('sports_game_settlements_history')->where([
-                'userName'      => $request->userName,
-                'agentCode'     => $request->partnerId,
-                'transactionId' => $request->transactionId,
-                'methodName'    => 'resettlegame',
-            ])->exists();
-    
-            if ($alreadyResettled) {
-                return response()->json([
-                    'userName'     => $request->userName,
-                    'agentCode'    => $request->partnerId,
-                    'status'       => 116,
-                    'balance'      => $user->balance,
-                    'errorMessage' => 'Already resettled',
-                ], 400);
-            }
-    
-            // Get previous payoff (from 'settlegame')
-            $previousPayoff = DB::table('sports_game_settlements_history')
-                ->where([
-              
-                    'userName'      => $request->userName,
-                    'agentCode'     => $request->partnerId,
-                    'methodName'    => 'settlegame',
-                ])
-                ->value('payoff');
-    
-            $newAmount = $request->amount;
-    
-            if ($previousPayoff === null) {
-                return response()->json([
-                    'status'       => 102,
-                    'errorMessage' => 'Invalid Request',
-                ], 400);
-            }
-    
-            $difference = $newAmount - $previousPayoff;
-    
-            if ($difference === 0.0) {
-                return response()->json([
-                    'userName'     => $request->userName,
-                    'agentCode'    => $request->partnerId,
-                    'status'       => 117,
-                    'balance'      => $user->balance,
-                    'errorMessage' => 'No change in payoff. Nothing to update.',
-                ], 400);
-            }
-    
-            // Check if user has sufficient balance for negative adjustment
-            if ($difference < 0 && $user->balance < abs($difference)) {
-                return response()->json([
-                    'userName'     => $request->userName,
-                    'agentCode'    => $request->partnerId,
-                    'status'       => 100,
-                    'balance'      => $user->balance,
-                    'errorMessage' => 'Insufficient balance for settlement adjustment',
-                ], 400);
-            }
-    
-            // Generate unique transaction ID for this adjustment
-            $adjustmentTxnId = (string) Str::uuid();
-    
-            if ($difference > 0) {
-                // User gets more money
-                $user->increment('balance', $difference);
-                $trxType = '+';
-                $transactionDetails = 'Settlement adjustment - additional amount credited';
-                $transactionRemark = 'resettlegame_add';
-            } else {
-                // User gets less money (or owes more)
-                $user->decrement('balance', abs($difference));
-                $trxType = '-';
-                $transactionDetails = 'Settlement adjustment - amount deducted';
-                $transactionRemark = 'resettlegame_subtract';
-            }
-    
-            // Insert new resettlement record
-            DB::table('sports_game_settlements_history')->insert([
-                'agentCode'        => $request->partnerId,
-                'userName'         => $request->userName,
-                'tpGameId'         => $request->tpGameId ?? null,
-                'roundId'          => $request->roundId ?? null,
-                'transactionType'  => $request->transactionType == 2 ? 'CR' : 'DR',
-                'transactionId'    => $adjustmentTxnId,
-                'tableCode'        => $request->tableCode,
-                'netpl'            => $newAmount,
-                'payoff'           => $newAmount,
-                'gametype'         => $request->gameType,
-                'methodName'       => $request->methodName,
-                'runnerName'       => $request->runnerName,
-                'rate'             => $request->rate,
-                'stake'            => $request->stake,
-                'status'           => 'resettled',
-                'created_at'       => now(),
-                'updated_at'       => now(),
-            ]);
-    
-            // Log the transaction
-            $transaction = new Transaction();
-            $transaction->user_id = $user->id;
-            $transaction->amount = abs($difference);
-            $transaction->charge = 0;
-            $transaction->post_balance = $user->balance;
-            $transaction->trx_type = $trxType;
-            $transaction->trx = $adjustmentTxnId;
-            $transaction->details = $transactionDetails;
-            $transaction->remark = $transactionRemark;
-            $transaction->type = Transaction::TYPE_USER_BET_VKINGPLAYS;
-            $transaction->created_at = now();
-            $transaction->updated_at = now();
-            $transaction->save();
-    
-            // Make sure we have the latest balance
-            $user->refresh();
-    
-            DB::commit();
-    
-            return response()->json([
-                'userName'        => $request->userName,
-                'agentCode'       => $request->partnerId,
-                'tpGameId'        => $request->tpGameId ?? null,
-                'roundId'         => $request->roundId ?? null,
-                'transactionId'   => $request->transactionId,
-                'transactionType' => $request->transactionType == 2 ? 'CR' : 'DR',
-                'tableCode'       => $request->tableCode,
-                'balance'         => $user->balance,
-                'previousAmount'  => $previousPayoff,
-                'newAmount'       => $newAmount,
-                'adjustment'      => $difference,
-                'status'          => 0,
-                'errorMessage'    => 'Resettle success',
-            ], 200);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return response()->json([
-                'userName'     => $request->userName,
-                'partnerId'    => $request->partnerId,
-                'status'       => 106,
-                'balance'      => $user->balance ?? 0.00,
-                'errorMessage' => 'Failed to resettle game',
-                'error'        => $e->getMessage(),
-            ], 500);
-        }
-    }
+ 
+    /**
+     * Cashout
+     */
+
     public function cashout(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'partnerId'        => 'required|string',
-            'userName'         => 'required|string',
-            'transactionId'    => 'required|string',
+            'PartnerId'        => 'required|string',
+            'Username'         => 'required|string',
             'Eventtypename'           => 'required|string',
             'Competitionname'           => 'required|string',
             'Eventname'           => 'required|string',
             'Marketname'           => 'required|string',
             'Markettype'          => 'required|integer',
             'MarketID'         => 'required|integer',
-            'transactionType'  => 'required|string',
+            'TransactionType'  => 'required',
             'TotalAmount'           => 'required|numeric|min:0',
             'cashout'          => 'required',
             'Point'         => 'required|integer',
@@ -1680,149 +1356,124 @@ class SportsApiController extends Controller
     
         if ($validator->fails()) {
             return response()->json([
-                'userName'     => $request->userName ?? '',
-                'partnerId'    => $request->partnerId ?? '',
-                'status'       => 105,
+                'status'       => 422,
                 'balance'      => 0.00,
                 'errorMessage' => 'Validation Error',
                 'errors'       => $validator->errors(),
             ], 400);
         }
     
-        $user = User::where('username', $request->userName)->first();
+        $user = User::where('Username', $request->Username)->first();
         if (!$user) {
             return response()->json([
-                'userName'     => $request->userName,
-                'partnerId'    => $request->partnerId,
-                'status'       => 104,
+                'status'       => 422,
                 'balance'      => 0.00,
                 'errorMessage' => 'User not found',
             ], 404);
         }
     
-        $allowedAgentCodes = ['stakeyedemo'];
-        if (!in_array($request->partnerId, $allowedAgentCodes)) {
+        if (!in_array($request->PartnerId, $this->allowedParentIds)) {
             return response()->json([
-                'userName'     => $request->userName,
-                'partnerId'    => $request->partnerId,
-                'status'       => 109,
-                'balance'      => $user->balance,
+                'status'       => 422,
+                'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
                 'errorMessage' => 'Invalid partnerId',
             ], 401);
         }
-    
-        die;
+     
         DB::beginTransaction();
         try {
             // Check if already resettled
             $alreadyResettled = DB::table('sports_game_settlements_history')->where([
-                'userName'      => $request->userName,
-                'agentCode'     => $request->partnerId,
-                'transactionId' => $request->transactionId,
-                'methodName'    => 'resettlegame',
+                'Username'      => $request->Username,
+                'partnerId'     => $request->PartnerId,
+                'marketId' => $request->MarketID,
+                'methodName'    => 'settlegame',
             ])->exists();
     
             if ($alreadyResettled) {
                 return response()->json([
-                    'userName'     => $request->userName,
-                    'agentCode'    => $request->partnerId,
-                    'status'       => 116,
-                    'balance'      => $user->balance,
-                    'errorMessage' => 'Already resettled',
+                    'status'       => 422,
+                    'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
+                    'errorMessage' => 'Already settled',
                 ], 400);
             }
+           
+
+            $alreadyResettled = DB::table('sports_game_settlements_history')->where([
+                'Username'      => $request->Username,
+                'partnerId'     => $request->PartnerId,
+                'marketId' => $request->MarketID,
+                'methodName'    => 'cashout',
+            ])->exists();
     
-            // Get previous payoff (from 'settlegame')
-            $previousPayoff = DB::table('sports_game_settlements_history')
-                ->where([
-              
-                    'userName'      => $request->userName,
-                    'agentCode'     => $request->partnerId,
-                    'methodName'    => 'settlegame',
-                ])
-                ->value('payoff');
-    
-            $newAmount = $request->amount;
-    
-            if ($previousPayoff === null) {
+            if ($alreadyResettled) {
                 return response()->json([
-                    'status'       => 102,
-                    'errorMessage' => 'Invalid Request',
+                    'status'       => 422,
+                    'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
+                    'errorMessage' => 'Already cashout',
                 ], 400);
             }
-    
-            $difference = $newAmount - $previousPayoff;
-    
-            if ($difference === 0.0) {
+            
+
+            $transactionType = $request->TransactionType == 2 ? 'CR' : 'DR';
+            $totalAmount = $request->TotalAmount ?? 0;
+            if ($totalAmount < 0) {
                 return response()->json([
-                    'userName'     => $request->userName,
-                    'agentCode'    => $request->partnerId,
-                    'status'       => 117,
-                    'balance'      => $user->balance,
-                    'errorMessage' => 'No change in payoff. Nothing to update.',
+                    'status'       => 422,
+                    'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
+                    'errorMessage' => 'Invalid Total Amount',
                 ], 400);
             }
-    
-            // Check if user has sufficient balance for negative adjustment
-            if ($difference < 0 && $user->balance < abs($difference)) {
-                return response()->json([
-                    'userName'     => $request->userName,
-                    'agentCode'    => $request->partnerId,
-                    'status'       => 100,
-                    'balance'      => $user->balance,
-                    'errorMessage' => 'Insufficient balance for settlement adjustment',
-                ], 400);
-            }
-    
-            // Generate unique transaction ID for this adjustment
-            $adjustmentTxnId = (string) Str::uuid();
-    
-            if ($difference > 0) {
+           
+            if ($transactionType == 'CR') {
                 // User gets more money
-                $user->increment('balance', $difference);
+                $user->increment('balance', abs($totalAmount));
                 $trxType = '+';
-                $transactionDetails = 'Settlement adjustment - additional amount credited';
-                $transactionRemark = 'resettlegame_add';
+                $transactionDetails = 'Cashout Adjustment - amount credited';
+                $transactionRemark = 'cashout_credit';
             } else {
                 // User gets less money (or owes more)
-                $user->decrement('balance', abs($difference));
+                $user->decrement('balance', abs($totalAmount));
                 $trxType = '-';
-                $transactionDetails = 'Settlement adjustment - amount deducted';
-                $transactionRemark = 'resettlegame_subtract';
+                $transactionDetails = 'Cashout Adjustment - amount deducted';
+                $transactionRemark = 'cashout_subtract';
             }
-    
             // Insert new resettlement record
+            $adjustmentTxnId = (string) Str::uuid();
             DB::table('sports_game_settlements_history')->insert([
-                'agentCode'        => $request->partnerId,
-                'userName'         => $request->userName,
-                'tpGameId'         => $request->tpGameId ?? null,
-                'roundId'          => $request->roundId ?? null,
-                'transactionType'  => $request->transactionType == 2 ? 'CR' : 'DR',
-                'transactionId'    => $adjustmentTxnId,
-                'tableCode'        => $request->tableCode,
-                'netpl'            => $newAmount,
-                'payoff'           => $newAmount,
-                'gametype'         => $request->gameType,
-                'methodName'       => $request->methodName,
-                'runnerName'       => $request->runnerName,
-                'rate'             => $request->rate,
-                'stake'            => $request->stake,
-                'status'           => 'resettled',
-                'created_at'       => now(),
-                'updated_at'       => now(),
-            ]);
-    
+                'partnerId'         => $request->PartnerId,
+                'userName'          => $request->Username,
+                'transactionId'     => $adjustmentTxnId,
+                'marketId'           => $request->MarketID,
+                'marketType'     => $request->Markettype,
+                'transactionType'   => $transactionType,
+                'marketName'    => $request->Marketname,
+                'payableAmount'            => $totalAmount,
+                'eventName'             => $request->Eventname ?? null,
+                'netpl'             => $totalAmount,
+                'competitionName'             => $request->Competitionname ?? null,
+                'methodName'        =>  'cashout',
+                'eventTypeName'             => $request->Eventtypename ?? null,
+                'point'            => $request->Point ?? null,
+                'commissionAmount'       => $request->CommissionAmount ?? null,
+                'commission'           => $request->Commission ?? null,
+                'status'            => 'cashout',
+                'cashout' => json_encode($request->cashout ?? []),
+                'created_at'        => now(),
+                'updated_at'        => now(),
+               ]);
+          
             // Log the transaction
             $transaction = new Transaction();
             $transaction->user_id = $user->id;
-            $transaction->amount = abs($difference);
+            $transaction->amount = abs($totalAmount);
             $transaction->charge = 0;
             $transaction->post_balance = $user->balance;
             $transaction->trx_type = $trxType;
             $transaction->trx = $adjustmentTxnId;
             $transaction->details = $transactionDetails;
             $transaction->remark = $transactionRemark;
-            $transaction->type = Transaction::TYPE_USER_BET_VKINGPLAYS;
+            $transaction->type = Transaction::TYPE_USER_BET_SPORTSGAME;
             $transaction->created_at = now();
             $transaction->updated_at = now();
             $transaction->save();
@@ -1833,28 +1484,16 @@ class SportsApiController extends Controller
             DB::commit();
     
             return response()->json([
-                'userName'        => $request->userName,
-                'agentCode'       => $request->partnerId,
-                'tpGameId'        => $request->tpGameId ?? null,
-                'roundId'         => $request->roundId ?? null,
-                'transactionId'   => $request->transactionId,
-                'transactionType' => $request->transactionType == 2 ? 'CR' : 'DR',
-                'tableCode'       => $request->tableCode,
-                'balance'         => $user->balance,
-                'previousAmount'  => $previousPayoff,
-                'newAmount'       => $newAmount,
-                'adjustment'      => $difference,
-                'status'          => 0,
-                'errorMessage'    => 'Resettle success',
+                  'data'         => number_format($user->balance ?? 0.00, 2, '.', ''),
+               'status'          => 100,
+                'errorMessage'    => 'cashout success',
             ], 200);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
-                'userName'     => $request->userName,
-                'partnerId'    => $request->partnerId,
-                'status'       => 106,
-                'balance'      => $user->balance ?? 0.00,
-                'errorMessage' => 'Failed to resettle game',
+                'status'       => 422,
+                'balance'      => number_format($user->balance ?? 0.00, 2, '.', ''),
+                'errorMessage' => 'Failed to cashout success',
                 'error'        => $e->getMessage(),
             ], 500);
         }
@@ -1863,16 +1502,15 @@ class SportsApiController extends Controller
     public function cancelCashout(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'partnerId'        => 'required|string',
-            'userName'         => 'required|string',
-            'transactionId'    => 'required|string',
+            'PartnerId'        => 'required|string',
+            'Username'         => 'required|string',
             'Eventtypename'           => 'required|string',
             'Competitionname'           => 'required|string',
             'Eventname'           => 'required|string',
             'Marketname'           => 'required|string',
             'Markettype'          => 'required|integer',
             'MarketID'         => 'required|integer',
-            'transactionType'  => 'required|string',
+            'TransactionType'  => 'required',
             'TotalAmount'           => 'required|numeric|min:0',
             'cashout'          => 'required',
             'Point'         => 'required|integer',
@@ -1880,149 +1518,153 @@ class SportsApiController extends Controller
     
         if ($validator->fails()) {
             return response()->json([
-                'userName'     => $request->userName ?? '',
-                'partnerId'    => $request->partnerId ?? '',
-                'status'       => 105,
+                'status'       => 422,
                 'balance'      => 0.00,
                 'errorMessage' => 'Validation Error',
                 'errors'       => $validator->errors(),
             ], 400);
         }
     
-        $user = User::where('username', $request->userName)->first();
+        $user = User::where('Username', $request->Username)->first();
         if (!$user) {
             return response()->json([
-                'userName'     => $request->userName,
-                'partnerId'    => $request->partnerId,
-                'status'       => 104,
+                'status'       => 422,
                 'balance'      => 0.00,
                 'errorMessage' => 'User not found',
             ], 404);
         }
     
-        $allowedAgentCodes = ['stakeyedemo'];
-        if (!in_array($request->partnerId, $allowedAgentCodes)) {
+        if (!in_array($request->PartnerId, $this->allowedParentIds)) {
             return response()->json([
-                'userName'     => $request->userName,
-                'partnerId'    => $request->partnerId,
-                'status'       => 109,
-                'balance'      => $user->balance,
+                'status'       => 422,
+                'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
                 'errorMessage' => 'Invalid partnerId',
             ], 401);
         }
-    
-        die;
+     
         DB::beginTransaction();
         try {
             // Check if already resettled
             $alreadyResettled = DB::table('sports_game_settlements_history')->where([
-                'userName'      => $request->userName,
-                'agentCode'     => $request->partnerId,
-                'transactionId' => $request->transactionId,
-                'methodName'    => 'resettlegame',
+                'Username'      => $request->Username,
+                'partnerId'     => $request->PartnerId,
+                'marketId' => $request->MarketID,
+                'methodName'    => 'settlegame',
             ])->exists();
     
             if ($alreadyResettled) {
                 return response()->json([
-                    'userName'     => $request->userName,
-                    'agentCode'    => $request->partnerId,
-                    'status'       => 116,
-                    'balance'      => $user->balance,
-                    'errorMessage' => 'Already resettled',
+                    'status'       => 422,
+                    'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
+                    'errorMessage' => 'Already settled',
                 ], 400);
             }
+           
+
+            $alreadyCashout = DB::table('sports_game_settlements_history')->where([
+                'Username'      => $request->Username,
+                'partnerId'     => $request->PartnerId,
+                'marketId' => $request->MarketID,
+                'methodName'    => 'cashout',
+            ])->exists();
     
-            // Get previous payoff (from 'settlegame')
-            $previousPayoff = DB::table('sports_game_settlements_history')
-                ->where([
-              
-                    'userName'      => $request->userName,
-                    'agentCode'     => $request->partnerId,
-                    'methodName'    => 'settlegame',
-                ])
-                ->value('payoff');
-    
-            $newAmount = $request->amount;
-    
-            if ($previousPayoff === null) {
+            if (!$alreadyCashout) {
                 return response()->json([
-                    'status'       => 102,
-                    'errorMessage' => 'Invalid Request',
+                    'status'       => 422,
+                    'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
+                    'errorMessage' => 'Already Cashout',
                 ], 400);
             }
-    
-            $difference = $newAmount - $previousPayoff;
-    
-            if ($difference === 0.0) {
+            
+            $alreadyCancelCashout = DB::table('sports_game_settlements_history')->where([
+                'Username'      => $request->Username,
+                'partnerId'     => $request->PartnerId,
+                'marketId' => $request->MarketID,
+                'methodName'    => 'cancelCashout',
+            ])->exists();
+            if ($alreadyCancelCashout) {
                 return response()->json([
-                    'userName'     => $request->userName,
-                    'agentCode'    => $request->partnerId,
-                    'status'       => 117,
-                    'balance'      => $user->balance,
-                    'errorMessage' => 'No change in payoff. Nothing to update.',
+                    'status'       => 422,
+                    'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
+                    'errorMessage' => 'Already cancel cashout',
                 ], 400);
             }
-    
-            // Check if user has sufficient balance for negative adjustment
-            if ($difference < 0 && $user->balance < abs($difference)) {
+            //check the previous cashout of same market to check balance
+
+            $totalAmount = $request->TotalAmount ?? 0;
+            $transactionType = $request->TransactionType == 2 ? 'CR' : 'DR';
+            $alreadyCashout = DB::table('sports_game_settlements_history')->where([
+                'Username'      => $request->Username,
+                'partnerId'     => $request->PartnerId,
+                'marketId' => $request->MarketID,
+                'methodName'    => 'cashout',
+            ])
+            ->first();
+            if ($alreadyCashout->payableAmount  != $totalAmount) {
                 return response()->json([
-                    'userName'     => $request->userName,
-                    'agentCode'    => $request->partnerId,
-                    'status'       => 100,
-                    'balance'      => $user->balance,
-                    'errorMessage' => 'Insufficient balance for settlement adjustment',
+                'status'       => 422,
+                'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
+                'errorMessage' => 'Invaild request',
                 ], 400);
             }
-    
-            // Generate unique transaction ID for this adjustment
-            $adjustmentTxnId = (string) Str::uuid();
-    
-            if ($difference > 0) {
+
+            if ($totalAmount < 0) {
+                return response()->json([
+                    'status'       => 422,
+                    'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
+                    'errorMessage' => 'Invalid Total Amount',
+                ], 400);
+            }
+           
+            if ($transactionType == 'CR') {
                 // User gets more money
-                $user->increment('balance', $difference);
+                $user->increment('balance', abs($totalAmount));
                 $trxType = '+';
-                $transactionDetails = 'Settlement adjustment - additional amount credited';
-                $transactionRemark = 'resettlegame_add';
+                $transactionDetails = 'Cancel Cashout Adjustment - amount credited';
+                $transactionRemark = 'cancel_cashout_credit';
             } else {
                 // User gets less money (or owes more)
-                $user->decrement('balance', abs($difference));
+                $user->decrement('balance', abs($totalAmount));
                 $trxType = '-';
-                $transactionDetails = 'Settlement adjustment - amount deducted';
-                $transactionRemark = 'resettlegame_subtract';
+                $transactionDetails = 'Cancel Cashout Adjustment - amount deducted';
+                $transactionRemark = 'cancel_cashout_subtract';
             }
-    
             // Insert new resettlement record
+            $adjustmentTxnId = (string) Str::uuid();
             DB::table('sports_game_settlements_history')->insert([
-                'agentCode'        => $request->partnerId,
-                'userName'         => $request->userName,
-                'tpGameId'         => $request->tpGameId ?? null,
-                'roundId'          => $request->roundId ?? null,
-                'transactionType'  => $request->transactionType == 2 ? 'CR' : 'DR',
-                'transactionId'    => $adjustmentTxnId,
-                'tableCode'        => $request->tableCode,
-                'netpl'            => $newAmount,
-                'payoff'           => $newAmount,
-                'gametype'         => $request->gameType,
-                'methodName'       => $request->methodName,
-                'runnerName'       => $request->runnerName,
-                'rate'             => $request->rate,
-                'stake'            => $request->stake,
-                'status'           => 'resettled',
-                'created_at'       => now(),
-                'updated_at'       => now(),
-            ]);
-    
+                'partnerId'         => $request->PartnerId,
+                'userName'          => $request->Username,
+                'transactionId'     => $adjustmentTxnId,
+                'marketId'           => $request->MarketID,
+                'marketType'     => $request->Markettype,
+                'transactionType'   => $transactionType,
+                'marketName'    => $request->Marketname,
+                'payableAmount'            => $totalAmount,
+                'eventName'             => $request->Eventname ?? null,
+                'netpl'             => $totalAmount,
+                'competitionName'             => $request->Competitionname ?? null,
+                'methodName'        =>  'cashout',
+                'eventTypeName'             => $request->Eventtypename ?? null,
+                'point'            => $request->Point ?? null,
+                'commissionAmount'       => $request->CommissionAmount ?? null,
+                'commission'           => $request->Commission ?? null,
+                'status'            => 'cashout',
+                'cashout' => json_encode($request->cashout ?? []),
+                'created_at'        => now(),
+                'updated_at'        => now(),
+               ]);
+          
             // Log the transaction
             $transaction = new Transaction();
             $transaction->user_id = $user->id;
-            $transaction->amount = abs($difference);
+            $transaction->amount = abs($totalAmount);
             $transaction->charge = 0;
             $transaction->post_balance = $user->balance;
             $transaction->trx_type = $trxType;
             $transaction->trx = $adjustmentTxnId;
             $transaction->details = $transactionDetails;
             $transaction->remark = $transactionRemark;
-            $transaction->type = Transaction::TYPE_USER_BET_VKINGPLAYS;
+            $transaction->type = Transaction::TYPE_USER_BET_SPORTSGAME;
             $transaction->created_at = now();
             $transaction->updated_at = now();
             $transaction->save();
@@ -2033,28 +1675,16 @@ class SportsApiController extends Controller
             DB::commit();
     
             return response()->json([
-                'userName'        => $request->userName,
-                'agentCode'       => $request->partnerId,
-                'tpGameId'        => $request->tpGameId ?? null,
-                'roundId'         => $request->roundId ?? null,
-                'transactionId'   => $request->transactionId,
-                'transactionType' => $request->transactionType == 2 ? 'CR' : 'DR',
-                'tableCode'       => $request->tableCode,
-                'balance'         => $user->balance,
-                'previousAmount'  => $previousPayoff,
-                'newAmount'       => $newAmount,
-                'adjustment'      => $difference,
-                'status'          => 0,
-                'errorMessage'    => 'Resettle success',
+                  'data'         => number_format($user->balance ?? 0.00, 2, '.', ''),
+               'status'          => 100,
+                'errorMessage'    => 'cancel cashout success',
             ], 200);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
-                'userName'     => $request->userName,
-                'partnerId'    => $request->partnerId,
-                'status'       => 106,
-                'balance'      => $user->balance ?? 0.00,
-                'errorMessage' => 'Failed to resettle game',
+                'status'       => 422,
+                'balance'      => number_format($user->balance ?? 0.00, 2, '.', ''),
+                'errorMessage' => 'Failed to cancel cashout success',
                 'error'        => $e->getMessage(),
             ], 500);
         }

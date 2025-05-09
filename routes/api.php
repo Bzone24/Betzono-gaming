@@ -33,14 +33,14 @@ Route::controller(ApiController::class)->group(function () {
 });
 
 Route::controller(SportsApiController::class)->prefix('sports')->group(function () {
-    Route::post('/clientAuthentication', 'ClientAuthentication')->name('ClientAuthentication'); 
-    Route::post('/getBalance', 'getBalance')->name('GetBalance');
-    Route::post('/placeBet', 'placeBet')->name('PlaceBet');
-    Route::post('/cancelPlaceBet', 'CancelBet')->name('CancelPlaceBet');
-    Route::post('/marketCancel', 'marketCancel')->name('MarketCancel');
-    Route::post('/settleMarket', 'settleMarket')->name('SettleMarket');
-    Route::post('/resettle', 'resettle')->name('Resettle');
-    Route::post('/cancelSettledMarket', 'cancelSettledMarket')->name('CancelSettledMarket');
-    Route::post('/cashout', 'cashout')->name('Cashout');
-    Route::post('/cancelCashout', 'cancelCashout')->name('CancelCashout'); 
+    Route::post('/ClientAuthentication', 'ClientAuthentication')->name('ClientAuthentication'); 
+    Route::post('/GetBalance', 'getBalance')->name('GetBalance');
+    Route::post('/PlaceBet', 'placeBet')->name('PlaceBet');
+    Route::post('/CancelPlaceBet', 'CancelBet')->name('CancelPlaceBet');
+    Route::post('/MarketCancel', 'marketCancel')->name('MarketCancel');
+    Route::post('/SettleMarket', 'settleMarket')->name('SettleMarket');
+    Route::post('/Resettle', 'resettle')->name('Resettle');
+    Route::post('/CancelSettledMarket', 'cancelSettledMarket')->name('CancelSettledMarket');
+    Route::post('/Cashout', 'cashout')->name('Cashout');
+    Route::post('/CancelCashout', 'cancelCashout')->name('CancelCashout'); 
 });
