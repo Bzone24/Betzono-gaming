@@ -127,8 +127,10 @@ $kycInstruction = getContent('kyc\.content', true);
                         </div>
                         </div>
                   </div>
+
+
                @if (auth()->user()->user_type == \App\Models\User::USER_TYPE_AGENT || $referredByRole !='AGENT' )
-                @endif
+               @endif
 
      
             

@@ -560,3 +560,4 @@ function isUserAgent($id){
 
     return $user->user_type === User::USER_TYPE_AGENT;
 }
+ 
