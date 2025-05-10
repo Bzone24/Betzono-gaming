@@ -2095,7 +2095,11 @@ $kycInstruction = getContent('kyc\.content', true);
                     xhrFields: {
                         withCredentials: true // Ensures Laravel session is maintained
                     },
+                    beforeSend: function() {
+                      $(".preloader").css("opacity",0).css("display","block");
+                    },
                     success: function(response) {
+                        $(".preloader").css("opacity",1).css("display","none");
                         if (response.lobbyURL) {
                             window.location.href = response.lobbyURL;
                         } else {
@@ -2103,6 +2107,7 @@ $kycInstruction = getContent('kyc\.content', true);
                         }
                     },
                     error: function(xhr) {
+                        $(".preloader").css("opacity",1).css("display","none");
                         alert("Error: " + xhr.responseJSON.error);
                     }
                 });
