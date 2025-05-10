@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+
 class LoginController extends Controller
 {
-
     use AuthenticatesUsers;
 
 
@@ -34,9 +34,8 @@ class LoginController extends Controller
 
     public function showLoginForm(Request $request)
     {
-        if($request->from){
-           
-            session()->put('from',$request->from);
+        if ($request->from) {
+            session()->put('from', $request->from);
         }
         
         $pageTitle = "Login";
@@ -49,7 +48,7 @@ class LoginController extends Controller
 
         $this->validateLogin($request);
 
-        if(!verifyCaptcha()){
+        if (!verifyCaptcha()) {
             $notify[] = ['error','Invalid captcha provided'];
             return back()->withNotify($notify);
         }
@@ -98,17 +97,15 @@ class LoginController extends Controller
             'password' => 'required|string',
         ]);
         //check if email added then redirect with notification
-        if($this->username() == 'email'){
+        if ($this->username() == 'email') {
             $validator->after(function ($validator) {
                     $validator->errors()->add($this->username(), 'Please enter username to make login');
-            
             });
         }
         if ($validator->fails()) {
             Intended::reAssignSession();
             $validator->validate();
         }
-
     }
 
     public function logout()
@@ -117,11 +114,13 @@ class LoginController extends Controller
         $user = User::find($this->guard()->user()->id);
         if ($user->sharingUserToken()->exists()) {
             $connections = $this->db_connections;
-            foreach($connections as $connection_name){
-               $this->logoutBetting($user,$connection_name); 
+            foreach ($connections as $connection_name) {
+                $this->logoutBetting($user, $connection_name);
             }
-            
         }
+        //delete game_url session
+        session()->forget('game_url');
+        
         $this->guard()->logout();
         request()->session()->invalidate();
 
@@ -130,84 +129,81 @@ class LoginController extends Controller
     }
 
 
-  public function authenticated(Request $request, $user)
+    public function authenticated(Request $request, $user)
     {
         try {
-        $user->tv = $user->ts == Status::VERIFIED ? Status::UNVERIFIED : Status::VERIFIED;
-        $user->save();
-        $ip = getRealIP();
-        $exist = UserLogin::where('user_ip',$ip)->first();
-        $userLogin = new UserLogin();
-        if ($exist) {
-            $userLogin->longitude =  $exist->longitude;
-            $userLogin->latitude =  $exist->latitude;
-            $userLogin->city =  $exist->city;
-            $userLogin->country_code = $exist->country_code;
-            $userLogin->country =  $exist->country;
-        }else{
-            $info = json_decode(json_encode(getIpInfo()), true);
-            $userLogin->longitude =  @implode(',',$info['long']);
-            $userLogin->latitude =  @implode(',',$info['lat']);
-            $userLogin->city =  @implode(',',$info['city']);
-            $userLogin->country_code = @implode(',',$info['code']);
-            $userLogin->country =  @implode(',', $info['country']);
-        }
+            $user->tv = $user->ts == Status::VERIFIED ? Status::UNVERIFIED : Status::VERIFIED;
+            $user->save();
+            $ip = getRealIP();
+            $exist = UserLogin::where('user_ip', $ip)->first();
+            $userLogin = new UserLogin();
+            if ($exist) {
+                $userLogin->longitude =  $exist->longitude;
+                $userLogin->latitude =  $exist->latitude;
+                $userLogin->city =  $exist->city;
+                $userLogin->country_code = $exist->country_code;
+                $userLogin->country =  $exist->country;
+            } else {
+                $info = json_decode(json_encode(getIpInfo()), true);
+                $userLogin->longitude =  @implode(',', $info['long']);
+                $userLogin->latitude =  @implode(',', $info['lat']);
+                $userLogin->city =  @implode(',', $info['city']);
+                $userLogin->country_code = @implode(',', $info['code']);
+                $userLogin->country =  @implode(',', $info['country']);
+            }
 
-        $userAgent = osBrowser();
-        $userLogin->user_id = $user->id;
-        $userLogin->user_ip =  $ip;
+            $userAgent = osBrowser();
+            $userLogin->user_id = $user->id;
+            $userLogin->user_ip =  $ip;
 
-        $userLogin->browser = @$userAgent['browser'];
-        $userLogin->os = @$userAgent['os_platform'];
-        $userLogin->save();
+            $userLogin->browser = @$userAgent['browser'];
+            $userLogin->os = @$userAgent['os_platform'];
+            $userLogin->save();
         
         //save betting share tokens
         
-        $sessionId = auth()->getSession()->getId();
+            $sessionId = auth()->getSession()->getId();
      
-         $token =hash('sha256', Str::random(64));
-          $user->sharingUserToken()
+            $token = hash('sha256', Str::random(64));
+            $user->sharingUserToken()
                 ->create([
                     'session_id' =>  $sessionId,
                     'token_used' => true,
-                    'status'=>true,
-                    'token'=>$token
+                    'status' => true,
+                    'token' => $token
                 ]);
         
-        $connections = $this->db_connections;
-        foreach($connections as $connection){
-             $this->saveSharingUserTokenData($user,$token,$connection);
-        }
+            $connections = $this->db_connections;
+            foreach ($connections as $connection) {
+                 $this->saveSharingUserTokenData($user, $token, $connection);
+            }
        
-        $from = session()->get('from');
+            $from = session()->get('from');
      
-     //return to betting 
-        if ($from === 'betting' && $token) {
-        $baseUrl = config('constant.betting_auto_login_url');
+     //return to betting
+            if ($from === 'betting' && $token) {
+                $baseUrl = config('constant.betting_auto_login_url');
             
-        $betting_url =$baseUrl.$token;
+                $betting_url = $baseUrl . $token;
         
-        return redirect()->away($betting_url);        
-                
-        }
+                return redirect()->away($betting_url);
+            }
         
         //return to cricket
-        if ($from === 'cricket' && $token) {
-        $baseUrl = config('constant.cricket_auto_login_url');
+            if ($from === 'cricket' && $token) {
+                $baseUrl = config('constant.cricket_auto_login_url');
             
-        $cricket_url =$baseUrl.$token;
+                $cricket_url = $baseUrl . $token;
         
-        return redirect()->away($cricket_url);        
-                
-        }
+                return redirect()->away($cricket_url);
+            }
         
        
-        $redirection = Intended::getRedirection();
-        return $redirection ? $redirection : to_route('user.home');
+            $redirection = Intended::getRedirection();
+            return $redirection ? $redirection : to_route('user.home');
         } catch (\Exception $e) {
             logger()->error($e);
         }
-       
     }
 
     public function autoLogin($id)
@@ -238,10 +234,10 @@ class LoginController extends Controller
         return to_route('user.home')->with('success', 'Logged in successfully.');
         //return redirect()->route('user.deposit.index')->with('success', 'Logged in successfully.');
     }
-     private function saveSharingUserTokenData(Object $user,string $token,string $db_connection){
+    private function saveSharingUserTokenData(object $user, string $token, string $db_connection)
+    {
         $user_ = DB::connection($db_connection)->table('users')->where('username', $user->username)->first(['id']);
-        if($user_){
-
+        if ($user_) {
             $tokens_data = [
                 'session_id' => null,
                 'user_id' => $user_->id,
@@ -255,16 +251,13 @@ class LoginController extends Controller
             DB::connection($db_connection)
             ->table('sharing_user_tokens')
             ->insertOrIgnore($tokens_data);
-
         }
-
-
     }
     
-     private function logoutBetting(Object $user,string $db_connection)
+    private function logoutBetting(object $user, string $db_connection)
     {
         try {
-            DB::connection($db_connection)->transaction(function () use ($user,$db_connection) {
+            DB::connection($db_connection)->transaction(function () use ($user, $db_connection) {
                 // Get main user and their latest session in one query
                 $user_second = DB::connection($db_connection)
                     ->table('users')
@@ -274,7 +267,7 @@ class LoginController extends Controller
                 if ($user_second) {
                     $sharing_token = SharingUserToken::where('session_id', auth()->getSession()->getId())->where('token_used', true)->first();
 
-                    // Get  The Main Table sharing token 
+                    // Get  The Main Table sharing token
                     $user_second_token =   DB::connection($db_connection)
                         ->table('sharing_user_tokens')
                         ->where('token', $sharing_token->token)
@@ -340,7 +333,7 @@ class LoginController extends Controller
     //         if ($betting_user) {
     //             $sharing_token = SharingUserToken::where('session_id', auth()->getSession()->getId())->where('token_used', true)->first();
 
-    //             // Get  The Main Table sharing token 
+    //             // Get  The Main Table sharing token
     //             $betting_user_token =   DB::connection('mysql_secondary')
     //                 ->table('sharing_user_tokens')
     //                 ->where('token', $sharing_token->token)
@@ -367,6 +360,4 @@ class LoginController extends Controller
     //     }
        
     // }
-    
-
 }
