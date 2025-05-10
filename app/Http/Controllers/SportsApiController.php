@@ -26,7 +26,6 @@ class SportsApiController extends Controller
     public function __construct()
     {
         //set allowed parent id
-        //check request have header x-app and x-app value = 'CED86870-A667-450F-B5D1-5EE7717324EA'
         $this->middleware(function ($request, $next) {
             if ($request->header('x-app') !== $this->xApp) {
                 return response()->json(['error' => 'Unauthorized'], 401);
@@ -174,7 +173,7 @@ class SportsApiController extends Controller
             }
             // Save login history
             DB::table('login_history')->insert([
-            'Username'      => $request->Username,
+            'userName'      => $request->Username,
             'agentCode'     => $request->partnerId,
             'tpGameId'      => $request->tpGameId ?? null,
             'tpGameTableId' => $request->tpGameTableId ?? null,
