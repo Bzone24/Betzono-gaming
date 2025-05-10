@@ -25,6 +25,7 @@ class SportsApiController extends Controller
 
     public function __construct()
     {
+        //set allowed parent id
         //check request have header x-app and x-app value = 'CED86870-A667-450F-B5D1-5EE7717324EA'
         $this->middleware(function ($request, $next) {
             if ($request->header('x-app') !== $this->xApp) {
@@ -80,6 +81,7 @@ class SportsApiController extends Controller
     //fetch gameurl
     public function ClientAuthentication(Request $request)
     {
+    
         $validator = Validator::make($request->all(), [
             'partnerId'      => 'required|string',
             'Username'       => 'required|string',
@@ -99,11 +101,12 @@ class SportsApiController extends Controller
                 'errors' => $validator->errors(),
             ], 400);
         }
+        
         // Check if the user exists
         DB::beginTransaction();
         
         try {
-            $user = User::where('Username', $request->Username)->first();
+            $user = User::where('username', $request->Username)->first();
 
             if (!$user) {
                 return response()->json([
@@ -303,7 +306,7 @@ class SportsApiController extends Controller
             ], 400);
         }
 
-        $type = strtoupper(trim($request->transactionType)); // 💥 Ensure upper case
+        $type = strtoupper(trim($request->TransactionType)); // 💥 Ensure upper case
 
         DB::beginTransaction();
         try {
@@ -1241,8 +1244,7 @@ class SportsApiController extends Controller
             }
             
             // Get payoff amount (from settlement) and original bet amount
-            $betAmount = $placedBet->amount ?? 0;
-            $payoffAmount = $settlement->payableAmount ?? 0;
+            $payoffAmount = $request->Amount ?? 0;
             
             // We need to reverse the payoff that was applied during settlement
             if ($payoffAmount > 0) {

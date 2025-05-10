@@ -2,27 +2,31 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Constants\Status;
-use App\Lib\ApiHandler;
-use App\Http\Controllers\Controller;
-use App\Lib\FormProcessor;
-use App\Lib\GoogleAuthenticator;
-use App\Models\CommissionLog;
-use App\Models\DeviceToken;
 use App\Models\Form;
-use App\Models\Referral;
-use App\Models\Ticket;
-use App\Models\Transaction;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
+use App\Models\Ticket;
+use App\Lib\ApiHandler;
+use App\Models\Referral;
+use App\Constants\Status;
+use App\Lib\FormProcessor;
 use App\Models\Withdrawal;
-use Illuminate\Validation\Rules\Password;
+use App\Models\DeviceToken;
+use App\Models\Transaction;
+use Illuminate\Http\Request;
+use App\Models\CommissionLog;
+use Illuminate\Validation\Rule;
+use App\Lib\GoogleAuthenticator;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
+    public $sportsPartnerId = 'stakeyedemo';
+    public $xApp = 'CED86870-A667-450F-B5D1-5EE7717324EA';
     public function home()
     {
         $pageTitle = 'Dashboard';
@@ -42,7 +46,7 @@ class UserController extends Controller
     public function transferHistory(Request $request)
     {
         $pageTitle = "Transfer Log";
-        $withdraws = Withdrawal::where('user_id', auth()->id())->where('type','TRANSFER')->where('status', '!=', Status::PAYMENT_INITIATE);
+        $withdraws = Withdrawal::where('user_id', auth()->id())->where('type', 'TRANSFER')->where('status', '!=', Status::PAYMENT_INITIATE);
         if ($request->search) {
             $withdraws = $withdraws->where('trx', $request->search);
         }
@@ -53,7 +57,7 @@ class UserController extends Controller
     public function gamezoneHistory(Request $request)
     {
         $pageTitle = "Gamezone Transfer Log";
-        $withdraws = Withdrawal::where('user_id', auth()->id())->where('type','TRANSFER')->where('status', '!=', Status::PAYMENT_INITIATE);
+        $withdraws = Withdrawal::where('user_id', auth()->id())->where('type', 'TRANSFER')->where('status', '!=', Status::PAYMENT_INITIATE);
         if ($request->search) {
             $withdraws = $withdraws->where('trx', $request->search);
         }
@@ -295,7 +299,7 @@ class UserController extends Controller
             $notify[] = ['error', $response['errorMessage']];
             return back()->withNotify($notify)->withInput($request->all());
         }else{
-           
+
             $fast_create_url = $response['data']['fastLoginUrl'];
         }
 */
@@ -314,7 +318,7 @@ class UserController extends Controller
         $user->country_name = @$request->country;
         $user->dial_code = $request->mobile_code;
         $user->user_type = User::USER_TYPE_USER;
-        $user->fast_create_url = null; 
+        $user->fast_create_url = null;
         $user->profile_complete = Status::YES;
         $user->ref_by = $loggedInUser->id;
 
@@ -325,11 +329,9 @@ class UserController extends Controller
             $user->kv = Status::KYC_UNVERIFIED;
 
             if ($user->kyc_data) {
-
                 foreach ($user->kyc_data as $kycData) {
-
                     if ($kycData->type == 'file') {
-                        fileManager()->removeFile(getFilePath('verify').'/'.$kycData->value);
+                        fileManager()->removeFile(getFilePath('verify') . '/' . $kycData->value);
                     }
                 }
             }
@@ -406,5 +408,44 @@ class UserController extends Controller
 
 
         return view('Template::user.referral.referred', compact('pageTitle', 'referrals'));
+    }
+
+
+    public function sportsGame()
+    {
+        $pageTitle = 'Sports Game';
+        $user = auth()->user();
+        //if not loggedin redirect to login page
+        if (!$user) {
+            $notify[] = ['error', 'Please login to access this page'];
+            return redirect()->route('user.login')->withNotify($notify);
+        }
+        //check game url is available in session
+       
+        if (!session()->has('game_url')) {
+            $request = new \Illuminate\Http\Request([
+            'partnerId'      => $this->sportsPartnerId,
+            'Username'       => 'root',
+            'isDemo'         => false,
+            'isBetAllow'     => true,
+            'isActive'       => true,
+            'point'          => 1,
+            'isDarkTheme'    => false,
+            'sportName'      => 'Cricket',
+            'event'          => '',
+                ]);
+                $response = app(\App\Http\Controllers\SportsApiController::class)->ClientAuthentication($request);
+                $data = json_decode($response->getContent(), true);
+            if (isset($data['gameURL'])) {
+                $gameUrl = $data['gameURL'];
+                session()->put('game_url', $gameUrl);
+            } else {
+                $gameUrl = '';
+            }
+        } else {
+            $gameUrl = session()->get('game_url') ?? '';
+        }
+
+        return view('Template::user.sports')->with('gameUrl',$gameUrl)->with('pageTitle', $pageTitle);
     }
 }
