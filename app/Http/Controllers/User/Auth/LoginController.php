@@ -118,8 +118,10 @@ class LoginController extends Controller
                 $this->logoutBetting($user, $connection_name);
             }
         }
-        //delete game_url session
-        session()->forget('game_url');
+          //delete game_url session
+        if (session()->has('game_url')) {
+            session()->forget('game_url');
+        }
         
         $this->guard()->logout();
         request()->session()->invalidate();
