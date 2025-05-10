@@ -425,12 +425,12 @@ class UserController extends Controller
         if (!session()->has('game_url')) {
             $request = new \Illuminate\Http\Request([
             'partnerId'      => $this->sportsPartnerId,
-            'Username'       => 'root',
-            'isDemo'         => false,
+            'Username'       => $user->username,
+            'isDemo'         => true,
             'isBetAllow'     => true,
             'isActive'       => true,
             'point'          => 1,
-            'isDarkTheme'    => false,
+            'isDarkTheme'    => true,
             'sportName'      => 'Cricket',
             'event'          => '',
                 ]);
