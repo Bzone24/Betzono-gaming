@@ -122,6 +122,11 @@ class LoginController extends Controller
             }
             
         }
+          //delete game_url session
+        if (session()->has('game_url')) {
+            session()->forget('game_url');
+        }
+        
         $this->guard()->logout();
         request()->session()->invalidate();
 
