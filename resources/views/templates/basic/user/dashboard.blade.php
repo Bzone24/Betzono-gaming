@@ -230,7 +230,8 @@ $kycInstruction = getContent('kyc\.content', true);
                     </div>
                     <div class="post-slide">
                         <!--<a href="{{$autologinUrl}}">-->
-                             <a href="{{$sportsLink}}">
+                             <!--<a href="{{$sportsLink}}">-->
+                             <a href="https://stakeye.com/sports">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/sports-main1.png')}}" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/0e5386b9-341b-4e38-6592-9892ff8a9f00/main" alt="slide">
@@ -698,7 +699,8 @@ $kycInstruction = getContent('kyc\.content', true);
                 <div id="trending-sports" class="owl-carousel">
                     <div class="post-slide">
                        <!--<a href="{{$autologinUrl}}">-->
-                       <a href="{{$sportsLink}}">
+                       <!--<a href="{{$sportsLink}}">-->
+                       <a href="https://stakeye.com/sports">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/cricket1.png')}}" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/8fe5acfa-f3ac-45e4-0107-215cec608000/style1" alt="slide">
@@ -712,7 +714,8 @@ $kycInstruction = getContent('kyc\.content', true);
                     </div>
                     <div class="post-slide">
                         <!--<a href="{{$autologinUrl}}">-->
-                        <a href="{{$sportsLink}}">
+                        <!--<a href="{{$sportsLink}}">-->
+                        <a href="https://stakeye.com/sports">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/soccer1.png')}}" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/a907d557-2b7a-451c-dfe4-a4c9a6f7f800/style1" alt="slide">
@@ -726,7 +729,8 @@ $kycInstruction = getContent('kyc\.content', true);
                     </div>
                     <div class="post-slide">
                        <!--<a href="{{$autologinUrl}}">-->
-                       <a href="{{$sportsLink}}">
+                       <!--<a href="{{$sportsLink}}">-->
+                       <a href="https://stakeye.com/sports">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/tennis1.png')}}" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/66122c16-e10e-4e23-52d2-fc4f0456d900/style1" alt="slide">
@@ -740,7 +744,8 @@ $kycInstruction = getContent('kyc\.content', true);
                     </div>
                     <div class="post-slide">
                         <!--<a href="{{$autologinUrl}}">-->
-                        <a href="{{$sportsLink}}">
+                        <!--<a href="{{$sportsLink}}">-->
+                        <a href="https://stakeye.com/sports">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/boxing1.png')}}" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/74dc9faa-0503-4e8f-b0aa-e7e588ea4f00/style1" alt="slide">
@@ -754,7 +759,8 @@ $kycInstruction = getContent('kyc\.content', true);
                     </div>
                     <div class="post-slide">
                         <!--<a href="{{$autologinUrl}}">-->
-                        <a href="{{$sportsLink}}">
+                        <!--<a href="{{$sportsLink}}">-->
+                        <a href="https://stakeye.com/sports">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/ab1.png')}}" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/79814954-c110-4d41-c206-b0b987359800/style1" alt="slide">
@@ -782,7 +788,8 @@ $kycInstruction = getContent('kyc\.content', true);
                     </div>
                     <div class="post-slide">
                         <!--<a href="{{$autologinUrl}}">-->
-                        <a href="{{$sportsLink}}">
+                        <!--<a href="{{$sportsLink}}">-->
+                        <a href="https://stakeye.com/sports">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/basketball1.png')}}" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/159290d1-ce66-4a00-ea3c-2e9226b10f00/style1" alt="slide">
@@ -796,7 +803,8 @@ $kycInstruction = getContent('kyc\.content', true);
                     </div>
                     <div class="post-slide">
                         <!--<a href="{{$autologinUrl}}">-->
-                        <a href="{{$sportsLink}}">
+                        <!--<a href="{{$sportsLink}}">-->
+                        <a href="https://stakeye.com/sports">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/rugby1.png')}}" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/82d22949-026c-41cf-85b7-8243c2057900/style1" alt="slide">
@@ -1412,7 +1420,8 @@ $kycInstruction = getContent('kyc\.content', true);
     <section class="container">
         <div class="set-inner-event-box mt-5">
             <div class="single-event-box">
-                <a href="{{$sportsLink}}/">
+                <!--<a href="{{$sportsLink}}/">-->
+                <a href="https://stakeye.com/sports">
                     <div>
                         <img src="{{ asset('assets/newhome/img/events/tennis-balls.png')}}" alt="event" height="">
                     </div>
@@ -1420,7 +1429,8 @@ $kycInstruction = getContent('kyc\.content', true);
                 </a>
             </div>
             <div class="single-event-box">
-                <a href="{{$sportsLink}}/">
+                <!--<a href="{{$sportsLink}}/">-->
+                <a href="https://stakeye.com/sports">
                     <div>
                         <img src="{{ asset('assets/newhome/img/events/football.png')}}" alt="event" height="">
                     </div>
@@ -1428,7 +1438,8 @@ $kycInstruction = getContent('kyc\.content', true);
                 </a>
             </div>
             <div class="single-event-box">
-                <a href="{{$sportsLink}}/">
+                <!--<a href="{{$sportsLink}}/">-->
+                <a href="https://stakeye.com/sports">
                     <div>
                         <img src="{{ asset('assets/newhome/img/events/cricket-ball.png')}}" alt="event" height="">
                     </div>
@@ -1656,7 +1667,8 @@ $kycInstruction = getContent('kyc\.content', true);
                 </a>
             </div>
             <div class="single-event-box">
-                <a href="{{$sportsLink}}">
+                <!--<a href="{{$sportsLink}}">-->
+                <a href="https://stakeye.com/sports">
                     <div>
                         <img src="{{ asset('assets/newhome/img/ball-of-basketball.png')}}" alt="event" height="">
                     </div>

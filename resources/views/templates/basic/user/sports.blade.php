@@ -21,44 +21,44 @@
    <!--dashboard section start -->
    
    
-  <section id="game" class="game-section pt-95 pb-95"> 
-<section id="supporting-section" class="">
-    <div class="container">
+<!--  <section id="game" class="game-section pt-95 pb-95"> -->
+<!--<section id="supporting-section" class="">-->
+<!--    <div class="container">-->
         <!-- Section Title -->
-        <hr/>
+<!--        <hr/>-->
         <!-- Content Row -->
-        <div class="row align">
+<!--        <div class="row align">-->
             
-            <div class="col-md-5 text-center socail-media-div">
-            <h3 class=" common-gre-color" style="font-size:36px!important">Follow Us</h3>
-                    <div class="row justify-content-center">
-                        <div class="col-2 col-md-2 mb-3">
-                            <a href="https://www.telegram.com" target="_blank">
-                                <img src="https://img.icons8.com/color/50/telegram-app.png" alt="Telegram" class="social-icon">
-                            </a>
-                        </div>
-                        <div class="col-2 col-md-2 mb-3">
-                            <a href="https://www.instagram.com" target="_blank">
-                                <img src="https://img.icons8.com/color/50/instagram-new.png" alt="Instagram" class="social-icon">
-                            </a>
-                        </div>
-                        <div class="col-2 col-md-2 mb-3">
-                            <a href="https://www.facebook.com" target="_blank">
-                                <img src="https://img.icons8.com/color/50/facebook-new.png" alt="Facebook" class="social-icon">
-                            </a>
-                        </div>
-                        <div class="col-2 col-md-2 mb-3">
-                            <a href="https://www.youtube.com" target="_blank">
-                                <img src="https://img.icons8.com/color/50/whatsapp.png" alt="WhatsApp" class="social-icon">
-                            </a>
-                        </div>
-                        <div class="col-2 col-md-2 mb-3">
-                            <a href="https://www.twitter.com" target="_blank">
-                                <img src="https://img.icons8.com/color/50/twitter.png" alt="Twitter" class="social-icon">
-                            </a>
-                        </div>
-                    </div>
-             </div>
+<!--            <div class="col-md-5 text-center socail-media-div">-->
+<!--            <h3 class=" common-gre-color" style="font-size:36px!important">Follow Us</h3>-->
+<!--                    <div class="row justify-content-center">-->
+<!--                        <div class="col-2 col-md-2 mb-3">-->
+<!--                            <a href="https://www.telegram.com" target="_blank">-->
+<!--                                <img src="https://img.icons8.com/color/50/telegram-app.png" alt="Telegram" class="social-icon">-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                        <div class="col-2 col-md-2 mb-3">-->
+<!--                            <a href="https://www.instagram.com" target="_blank">-->
+<!--                                <img src="https://img.icons8.com/color/50/instagram-new.png" alt="Instagram" class="social-icon">-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                        <div class="col-2 col-md-2 mb-3">-->
+<!--                            <a href="https://www.facebook.com" target="_blank">-->
+<!--                                <img src="https://img.icons8.com/color/50/facebook-new.png" alt="Facebook" class="social-icon">-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                        <div class="col-2 col-md-2 mb-3">-->
+<!--                            <a href="https://www.youtube.com" target="_blank">-->
+<!--                                <img src="https://img.icons8.com/color/50/whatsapp.png" alt="WhatsApp" class="social-icon">-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                        <div class="col-2 col-md-2 mb-3">-->
+<!--                            <a href="https://www.twitter.com" target="_blank">-->
+<!--                                <img src="https://img.icons8.com/color/50/twitter.png" alt="Twitter" class="social-icon">-->
+<!--                            </a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--             </div>-->
 
 
 
