@@ -84,7 +84,7 @@
                                         </td>
 
                                         <td> 
-                                        @if($trx->type == 'USER_BET_SPORTSGAME' && !empty($trx->getSportsBetHistoryInfo()->eventName))
+                                         @if($trx->type == 'USER_BET_SPORTSGAME' && !empty($trx->getSportsBetHistoryInfo()->eventName))
                                         <span class="d-block small">Event: {{$trx->getSportsBetHistoryInfo()->eventName??''}}</span>
                                         <span class="d-block small">Market: {{$trx->getSportsBetHistoryInfo()->marketName??''}}</span>
                                         <span class="d-block small">Runner: {{$trx->getSportsBetHistoryInfo()->runnerName??''}}</span>
