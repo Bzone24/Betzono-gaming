@@ -83,7 +83,16 @@
                                             {{ \App\Models\Transaction::getTypeName($trx->type) }} <!-- Display the Type -->
                                         </td>
 
-                                        <td>{{ __($trx->details) }}</td>
+                                        <td> 
+                                            @if($trx->type == 'USER_BET_SPORTSGAME')
+                                        <span>{{$trx->getSportsBetHistoryInfo()->eventName??''}}</span>
+                                         <span>{{$trx->getSportsBetHistoryInfo()->marketName??''}}</span>
+                                         <span>{{$trx->getSportsBetHistoryInfo()->runnerName??''}}</span>
+                                         <span>{{$trx->getSportsBetHistoryInfo()->betType??''}}</span>
+                                         <span>{{$trx->getSportsBetHistoryInfo()->rate??''}}</span>
+                                         
+                                         @endif
+                                         {{ __($trx->details) }}</td>
                                     </tr>
                                 @empty
                                     <tr>
