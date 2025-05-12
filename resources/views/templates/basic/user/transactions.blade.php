@@ -84,13 +84,12 @@
                                         </td>
 
                                         <td> 
-                                            @if($trx->type == 'USER_BET_SPORTSGAME')
-                                        <span>{{$trx->getSportsBetHistoryInfo()->eventName??''}}</span>
-                                         <span>{{$trx->getSportsBetHistoryInfo()->marketName??''}}</span>
-                                         <span>{{$trx->getSportsBetHistoryInfo()->runnerName??''}}</span>
-                                         <span>{{$trx->getSportsBetHistoryInfo()->betType??''}}</span>
-                                         <span>{{$trx->getSportsBetHistoryInfo()->rate??''}}</span>
-                                         
+                                         @if($trx->type == 'USER_BET_SPORTSGAME' && !empty($trx->getSportsBetHistoryInfo()->eventName))
+                                        <span class="d-block small">Event: {{$trx->getSportsBetHistoryInfo()->eventName??''}}</span>
+                                        <span class="d-block small">Market: {{$trx->getSportsBetHistoryInfo()->marketName??''}}</span>
+                                        <span class="d-block small">Runner: {{$trx->getSportsBetHistoryInfo()->runnerName??''}}</span>
+                                        <span class="d-block small">Type: {{$trx->getSportsBetHistoryInfo()->betType??''}}</span>
+                                        <span class="d-block small">Rate: {{$trx->getSportsBetHistoryInfo()->rate??''}}</span>
                                          @endif
                                          {{ __($trx->details) }}</td>
                                     </tr>
