@@ -198,7 +198,8 @@
                     </div>
                     <div class="post-slide">
                         <!--<a href="{{$autologinUrl}}">-->
-                             <a href="https://cric.stakeye.com/">
+                             <!--<a href="https://cric.stakeye.com/">-->
+                             <a href="https://stakeye.com/sports">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/sports-main1.png')}}" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/0e5386b9-341b-4e38-6592-9892ff8a9f00/main" alt="slide">
@@ -853,7 +854,8 @@
                 <div id="trending-sports" class="owl-carousel">
                     <div class="post-slide">
                        <!--<a href="{{$autologinUrl}}">-->
-                       <a href="https://cric.stakeye.com/">
+                       <!--<a href="https://cric.stakeye.com/">-->
+                       <a href="https://stakeye.com/sports">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/cricket1.png')}}" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/8fe5acfa-f3ac-45e4-0107-215cec608000/style1" alt="slide">
@@ -867,7 +869,8 @@
                     </div>
                     <div class="post-slide">
                         <!--<a href="{{$autologinUrl}}">-->
-                        <a href="https://cric.stakeye.com/">
+                        <!--<a href="https://cric.stakeye.com/">-->
+                        <a href="https://stakeye.com/sports">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/soccer1.png')}}" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/a907d557-2b7a-451c-dfe4-a4c9a6f7f800/style1" alt="slide">
@@ -881,7 +884,8 @@
                     </div>
                     <div class="post-slide">
                        <!--<a href="{{$autologinUrl}}">-->
-                       <a href="https://cric.stakeye.com/">
+                       <!--<a href="https://cric.stakeye.com/">-->
+                       <a href="https://stakeye.com/sports">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/tennis1.png')}}" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/66122c16-e10e-4e23-52d2-fc4f0456d900/style1" alt="slide">
@@ -895,7 +899,8 @@
                     </div>
                     <div class="post-slide">
                         <!--<a href="{{$autologinUrl}}">-->
-                        <a href="https://cric.stakeye.com/">
+                        <!--<a href="https://cric.stakeye.com/">-->
+                        <a href="https://stakeye.com/sports">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/boxing1.png')}}" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/74dc9faa-0503-4e8f-b0aa-e7e588ea4f00/style1" alt="slide">
@@ -1952,7 +1957,8 @@
                 </a>
             </div>
             <div class="single-event-box">
-                <a href="https://cric.stakeye.com//">
+                <!--<a href="https://cric.stakeye.com//">-->
+                <a href="https://stakeye.com/sports">
                     <div>
                         <img src="{{ asset('assets/newhome/img/ball-of-basketball.png')}}" alt="event" height="">
                     </div>
