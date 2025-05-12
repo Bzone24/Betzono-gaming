@@ -77,10 +77,41 @@
                                         {{ showDateTime($trx->created_at) }}<br>{{ diffForHumans($trx->created_at) }}
                                     </td>
                                     <td>
-                                        <strong>{{ $trx->getCasinoBetHistoryInfo()->tpGameId??($trx->getCasinoBetSettleHistoryInfo()->tpGameId??'N/A') }}</strong>
+                                            @if(!empty($trx->getCasinoBetHistoryInfo()->tpGameId))
+                                            <strong>
+                                            {{\App\Models\Game::where('id',$trx->getCasinoBetHistoryInfo()->tpGameId)->first()->game_name??'N/A'}}
+                                            </strong>
+
+                                                @elseif(!empty($trx->getCasinoBetSettleHistoryInfo()->tpGameId))
+                                                <strong>
+                                                    {{\App\Models\Game::where('id',$trx->getCasinoBetSettleHistoryInfo()->tpGameId)->first()->game_name??'N/A'}}
+                                                    </strong>
+                                                @else
+                                                <strong>
+                                                    N/A
+                                                    </strong>
+                                                @endif
+                                        
+                                                
                                     </td>
                                     <td>
-                                        <strong>{{ $trx->getCasinoBetHistoryInfo()->tableCode??($trx->getCasinoBetSettleHistoryInfo()->tableCode??'N/A') }}</strong>
+
+                                    @if(!empty($trx->getCasinoBetHistoryInfo()->tableCode))
+                                            <strong>
+                                            {{\App\Models\Game::where('table_code',$trx->getCasinoBetHistoryInfo()->tableCode)->first()->table_name??'N/A'}}
+                                            </strong>
+
+                                    @elseif(!empty($trx->getCasinoBetSettleHistoryInfo()->tableCode))
+                                                <strong>
+                                                    {{\App\Models\Game::where('table_code',$trx->getCasinoBetSettleHistoryInfo()->tableCode)->first()->table_name??'N/A'}}
+                                                    </strong>
+                                    @else
+                                                <strong>
+                                                    N/A
+                                                    </strong>
+                                    @endif
+
+ 
                                     </td>
                                     <td class="budget">
                                         <span class="fw-bold @if($trx->trx_type == '+')text--success @else text--danger @endif">
@@ -103,7 +134,13 @@
                                         </span>
                                     </td>
 
-                                    <td>{{ __($trx->details) }}</td>
+                                    <td>
+                                    
+                                    
+
+
+                                    
+                                    {{ __($trx->details) }}</td>
                                 </tr>
                             @empty
                                 <tr>

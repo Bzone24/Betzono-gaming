@@ -693,7 +693,7 @@ class SportsApiController extends Controller
             DB::rollBack();
             return response()->json([
              'status'       => 110,
-              'data' =>  'Failed to cancel market' 
+              'data' =>  'Failed to cancel market'
             ], 500);
         }
     }
@@ -869,13 +869,13 @@ class SportsApiController extends Controller
 
             return response()->json([
                 'status'       => 100,
-                'data' => number_format($user->balance ?? 0.00, 2, '.', ''), 
+                'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
             ], 200);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
                 'status'       => 110,
-                'data' =>   'Failed to settle game', 
+                'data' =>   'Failed to settle game',
             ], 500);
         }
     }
@@ -1050,7 +1050,7 @@ class SportsApiController extends Controller
             DB::rollBack();
             return response()->json([
                 'status'       => 110,
-                'data'      =>  'Failed to resettle game', 
+                'data'      =>  'Failed to resettle game',
             ], 500);
         }
     }
@@ -1231,7 +1231,7 @@ class SportsApiController extends Controller
             DB::rollBack();
             return response()->json([
                 'status'       => 110,
-                'data'      =>   'Failed to cancel settled game', 
+                'data'      =>   'Failed to cancel settled game',
             ], 500);
         }
     }
@@ -1283,6 +1283,14 @@ class SportsApiController extends Controller
         }
      
         DB::beginTransaction();
+        $ctransactionIds = [];
+        //get transactionids from cashout
+        if (!empty($request->cashout)) {
+            foreach ($request->cashout as $key => $value) {
+                $ctransactionIds[] = $value['TransactionID'];
+            }
+        }
+
         try {
             // Check if already resettled
             $alreadyResettled = DB::table('sports_game_settlements_history')->where([
@@ -1300,12 +1308,21 @@ class SportsApiController extends Controller
             }
            
 
-            $alreadyResettled = DB::table('sports_game_settlements_history')->where([
-                'Username'      => $request->Username,
-                'partnerId'     => $request->PartnerId,
-                'marketId' => $request->MarketID,
-                'methodName'    => 'cashout',
-            ])->exists();
+            if (!empty($ctransactionIds)) {
+                $alreadyResettled = DB::table('sports_game_settlements_history')->where([
+                    'Username'      => $request->Username,
+                    'partnerId'     => $request->PartnerId,
+                    'marketId'      => $request->MarketID,
+                    'methodName'    => 'cashout',
+                ])->whereIn('transactionId', $ctransactionIds)->exists();
+            } else {
+                $alreadyResettled = DB::table('sports_game_settlements_history')->where([
+                    'Username'      => $request->Username,
+                    'partnerId'     => $request->PartnerId,
+                    'marketId'      => $request->MarketID,
+                    'methodName'    => 'cashout',
+                ])->exists();
+            }
     
             if ($alreadyResettled) {
                 return response()->json([
@@ -1384,13 +1401,13 @@ class SportsApiController extends Controller
     
             return response()->json([
                   'data'         => number_format($user->balance ?? 0.00, 2, '.', ''),
-               'status'          => 100, 
+               'status'          => 100,
             ], 200);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
                 'status'       => 110,
-                'balance'      => 'Failed to cashout success' 
+                'balance'      => 'Failed to cashout success'
             ], 500);
         }
     }
@@ -1433,7 +1450,22 @@ class SportsApiController extends Controller
                 'data' => 'ParnterId not get in system'
             ], 200);
         }
-     
+        $ctransactionIds = [];
+        //get transactionids from cashout
+        if (!empty($request->cashout)) {
+            foreach ($request->cashout as $key => $value) {
+                $ctransactionIds[] = $value['TransactionID'];
+            }
+        }
+
+
+        $rtransactionIds = [];
+        //get transactionids from cashout
+        if (!empty($request->cashout)) {
+            foreach ($request->cashout as $key => $value) {
+                $rtransactionIds[] = $value['ReverseTransactionId'];
+            }
+        }
         DB::beginTransaction();
         try {
             // Check if already resettled
@@ -1451,13 +1483,21 @@ class SportsApiController extends Controller
                 ], 200);
             }
            
-
-            $alreadyCashout = DB::table('sports_game_settlements_history')->where([
+            if (!empty($rtransactionIds)) {
+                $alreadyCashout = DB::table('sports_game_settlements_history')->where([
                 'Username'      => $request->Username,
                 'partnerId'     => $request->PartnerId,
                 'marketId' => $request->MarketID,
                 'methodName'    => 'cashout',
-            ])->exists();
+                ])->whereIn('transactionId', $rtransactionIds)->exists(); 
+            }else{
+                $alreadyCashout = DB::table('sports_game_settlements_history')->where([
+                    'Username'      => $request->Username,
+                    'partnerId'     => $request->PartnerId,
+                    'marketId' => $request->MarketID,
+                    'methodName'    => 'cashout',
+                ])->exists();
+            }
     
             if (!$alreadyCashout) {
                 return response()->json([
@@ -1466,12 +1506,24 @@ class SportsApiController extends Controller
                 ], 200);
             }
             
-            $alreadyCancelCashout = DB::table('sports_game_settlements_history')->where([
+
+            // Check if this specific settlement is already canceled
+
+            if (!empty($ctransactionIds)) {
+                $alreadyCancelCashout = DB::table('sports_game_settlements_history')->where([
                 'Username'      => $request->Username,
                 'partnerId'     => $request->PartnerId,
                 'marketId' => $request->MarketID,
                 'methodName'    => 'cancelCashout',
-            ])->exists();
+                ])->whereIn('transactionId', $ctransactionIds)->exists();
+            } else {
+                $alreadyCancelCashout = DB::table('sports_game_settlements_history')->where([
+                'Username'      => $request->Username,
+                'partnerId'     => $request->PartnerId,
+                'marketId' => $request->MarketID,
+                'methodName'    => 'cancelCashout',
+                ])->exists();
+            }
             if ($alreadyCancelCashout) {
                 return response()->json([
                     'status'       => 109,
@@ -1562,14 +1614,14 @@ class SportsApiController extends Controller
             DB::commit();
     
             return response()->json([
-                'status'          => 100, 
+                'status'          => 100,
                   'data'         => number_format($user->balance ?? 0.00, 2, '.', '')
             ], 200);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
-                'status'       => 110, 
-                'data' => 'Failed to cancel cashout success', 
+                'status'       => 110,
+                'data' => 'Failed to cancel cashout success',
             ], 200);
         }
     }

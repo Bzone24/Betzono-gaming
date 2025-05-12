@@ -79,10 +79,10 @@ class Transaction extends Model
     {
         return  DB::table('casino_game_settlements_history')->where("transactionId", $this->trx)->first();
     }
-
-
+    
     public function getSportsBetHistoryInfo()
     {
         return  DB::table('sports_bets_history')->where("transactionId", $this->trx)->first();
     }
+    
 }
