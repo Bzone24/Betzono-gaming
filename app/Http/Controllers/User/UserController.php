@@ -426,7 +426,7 @@ class UserController extends Controller
             $request = new \Illuminate\Http\Request([
             'partnerId'      => $this->sportsPartnerId,
             'Username'       => $user->username,
-            'isDemo'         => true,
+            'isDemo'         => false,
             'isBetAllow'     => true,
             'isActive'       => true,
             'point'          => 1,

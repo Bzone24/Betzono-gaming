@@ -1186,24 +1186,7 @@ public function cancelBet(Request $request)
                 // This should never happen due to validation
                 throw new \Exception('Invalid transaction type');
             }
-               $balance = ['balance' => $user->balance , 'data' =>[
-                'userName'          => $request->userName,
-                'agentCode'         => $request->agentCode,
-                'tpGameId'          => $request->tpGameId,
-                'roundId'           => $request->roundId,
-                'transactionType'   => $transactionType,
-                'transactionId'     => $request->transactionId,
-                'tableCode'         => $request->tableCode,
-                'liability'         => $request->liability,
-                'netpl'             => $request->netpl,
-                'payoff'            => $payoffAmount,
-                'gametype'          => $request->gametype ?? '',
-                'methodName'        => $request->methodName??'settlegame',
-                'status'            => 'settled',
-                'created_at'        => now(),
-                'updated_at'        => now(),
-            ]];
-                
+             
             // Store settlement history
             DB::table('casino_game_settlements_history')->insert([
                 'userName'          => $request->userName,

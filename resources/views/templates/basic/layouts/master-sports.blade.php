@@ -32,7 +32,7 @@
 
     </div>
 
-    @include('Template::partials.footer')
+  
 @endsection
 
 @push('script')
