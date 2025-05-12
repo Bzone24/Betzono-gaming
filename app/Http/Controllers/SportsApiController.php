@@ -1384,8 +1384,7 @@ class SportsApiController extends Controller
     
             return response()->json([
                   'data'         => number_format($user->balance ?? 0.00, 2, '.', ''),
-               'status'          => 100,
-                'errorMessage'    => 'cashout success',
+               'status'          => 100, 
             ], 200);
         } catch (\Exception $e) {
             DB::rollBack();
