@@ -1489,8 +1489,8 @@ class SportsApiController extends Controller
                 'partnerId'     => $request->PartnerId,
                 'marketId' => $request->MarketID,
                 'methodName'    => 'cashout',
-                ])->whereIn('transactionId', $rtransactionIds)->exists(); 
-            }else{
+                ])->whereIn('transactionId', $rtransactionIds)->exists();
+            } else {
                 $alreadyCashout = DB::table('sports_game_settlements_history')->where([
                     'Username'      => $request->Username,
                     'partnerId'     => $request->PartnerId,
