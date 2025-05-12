@@ -28,7 +28,7 @@ class SportsApiController extends Controller
         //set allowed parent id
         $this->middleware(function ($request, $next) {
             if ($request->header('x-app') !== $this->xApp) {
-                return response()->json(['error' => 'Unauthorized'], 401);
+                return response()->json(['error' => 'Unauthorized'], 102);
             }
             return $next($request);
         });
@@ -46,10 +46,8 @@ class SportsApiController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => 422,
-                'data' => 0.00,
-                'errorMessage' => 'Validation Error',
-                'errors'  => $validator->errors(),
+                'status' => 101,
+                'data' => 'Parameter missing in request',
             ], 400);
         }
         
@@ -57,24 +55,21 @@ class SportsApiController extends Controller
 
         if (!$user) {
             return response()->json([
-                'status' => 422,
-                'data' => 0.00,
-                'errorMessage' => 'Invalid user',
+                'status' => 102,
+                'data' => 'Invalid user',
             ], 404);
         }
 
         if (!in_array($request->PartnerId, $this->allowedParentIds)) {
             return response()->json([
-                'status' => 422,
-                'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
-                'errorMessage' => 'Invalid partner id',
+                'status' => 103,
+                'data' => 'ParnterId not get in system'
             ], 401);
         }
 
         return response()->json([
             'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
-            'status' => 100,
-            'errorMessage' => 'Success'
+            'status' => 100
         ], 200);
     }
     //fetch gameurl
@@ -94,10 +89,8 @@ class SportsApiController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => 422,
-                'data' => 0.00,
-                'errorMessage' => 'Validation Error',
-                'errors' => $validator->errors(),
+                'status' => 101,
+                'data' => 'Parameter missing in request',
             ], 400);
         }
         
@@ -109,17 +102,15 @@ class SportsApiController extends Controller
 
             if (!$user) {
                 return response()->json([
-                'status' => 104,
-                'data' => 0.00,
-                'errorMessage' => 'User account does not exist',
+                'status' => 102,
+                'data' => 'User account does not exist'
                 ], 404);
             }
 
             if (!in_array($request->partnerId, $this->allowedParentIds)) {
                 return response()->json([
-                'status' => 109,
-                'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
-                'errorMessage' => 'Invalid partnerId',
+                'status' => 103,
+                'data' => 'ParnterId not get in system'
                 ], 401);
             }
 
@@ -160,15 +151,15 @@ class SportsApiController extends Controller
             if ($responseData['status'] != 100) {
                 return response()->json([
                 'status' => $responseData['status'],
-                'errorMessage' => $responseData['errorMessage'],
+                'data' => 'Unable to fetch URL',
                 ], 400);
             }
             $returnUrl = $responseData['data']['url'] ?? null;
             //if game url is empty then return error
             if (empty($returnUrl)) {
                 return response()->json([
-                'status' => 102,
-                'errorMessage' => 'Url not available.',
+                'status' => 110,
+                'data' => 'Url not available.',
                 ], 400);
             }
             // Save login history
@@ -195,14 +186,14 @@ class SportsApiController extends Controller
             'agentCode' => $request->partnerId,
             'Username' => $user->Username,
             'gameURL' => $returnUrl ?? '',
-            'status' => "0",
+            'status' => 100,
             'errorMessage' => 'Success',
             ], 200);
         } catch (\Throwable $e) {
             DB::rollBack();
             return response()->json([
                 'status' => 106,
-                'errorMessage' => 'An unexpected error occurred',
+                'data' => 'An unexpected error occurred',
                 'errorDetails' => [
                     'message' => $e->getMessage(),
                     'file' => $e->getFile(),
@@ -240,46 +231,27 @@ class SportsApiController extends Controller
         'SessionPoint'         => 'nullable|numeric',
         ]);
  
-        if ($request->Amount < 0.01) {
-            return response()->json([
-            'status'       => 422,
-            'data' => 0,
-            'errorMessage' => 'Invalid amount',
-            ], 400);
-        }
+      
 
         if ($validator->fails()) {
-            $errors = $validator->errors();
-            if ($errors->has('amount') && in_array('Invalid Amount', $errors->get('amount'))) {
-                return response()->json([
-                    'status'       => 422,
-                    'data' => 0.00,
-                    'errorMessage' => 'Invalid Amount',
-                ], 400);
-            }
-
             return response()->json([
-            'status'       => 422,
-            'data' => 0.00,
-            'errorMessage' => 'Validation Error',
-            'errors'       => $validator->errors(),
+                'status' => 101,
+                'data' => 'Parameter missing in request',
             ], 400);
         }
-
+        
         $user = User::where('Username', $request->Username)->first();
         if (!$user) {
             return response()->json([
-                'status'       => 422,
-                'data' => 0.00,
-                'errorMessage' => 'User not found',
+                'status'       => 102,
+                'data' =>   'User not found',
             ], 404);
         }
 
         if (!in_array($request->PartnerId, $this->allowedParentIds)) {
             return response()->json([
-             'status'       => 422,
-             'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
-             'errorMessage' => 'Invalid partnerId',
+             'status'       => 103,
+             'data' => 'ParnterId not get in system'
             ], 401);
         }
 
@@ -291,17 +263,15 @@ class SportsApiController extends Controller
 
         if ($exists) {
             return response()->json([
-                'status'       => 422,
-               'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
-                'errorMessage' => 'Invalid Request',
+                'status'       => 109,
+               'data' => 'Transaction_Duplication'
             ], 400);
         }
 
         if ($user->balance < $request->Amount) {
             return response()->json([
-                'status'       => 422,
-               'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
-            'errorMessage' => 'Insufficient balance',
+                'status'       => 108,
+               'data' =>   'Insufficient balance',
             ], 400);
         }
 
@@ -370,16 +340,13 @@ class SportsApiController extends Controller
 
             return response()->json([
                 'status'       => 100,
-                'data' => $user->balance,
-                'errorMessage' => 'Success',
+                'data' => $user->balance
             ], 200);
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error('PlaceBet Error: ' . $e->getMessage());
             return response()->json([
-            'status' => 422,
-            'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
-            'errorMessage' => 'Bet Failed',
+            'status' => 110,
+            'data' => 'Bet Failed',
             ]);
         }
     }
@@ -414,27 +381,23 @@ class SportsApiController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-            'status'       => 422,
-            'data' => 0.00,
-            'errorMessage' => 'Validation Error',
-            'errors'       => $validator->errors(),
+                'status' => 101,
+                'data' => 'Parameter missing in request',
             ], 400);
         }
 
         $user = User::where('Username', $request->Username)->first();
         if (!$user) {
             return response()->json([
-            'status'       => 422,
-            'data' => 0.00,
-            'errorMessage' => 'User not found',
+            'status'       => 102,
+                'data' =>   'User not found',
             ], 404);
         }
 
         if (!in_array($request->PartnerId, $this->allowedParentIds)) {
             return response()->json([
-            'status'       => 422,
-            'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
-            'errorMessage' => 'Invalid partnerId',
+             'status' => 103,
+                'data' => 'ParnterId not get in system'
             ], 401);
         }
 
@@ -448,18 +411,16 @@ class SportsApiController extends Controller
 
         if (!$originalBet) {
             return response()->json([
-            'status'       => 422,
-            'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
-            'errorMessage' => 'Invalid Request',
+            'status'       => 112,
+            'data' => 'Transaction id not found'
             ], 400);
         }
 
         // ✅ Amount must match
         if ($request->Amount != $originalBet->amount) {
             return response()->json([
-            'status'       => 422,
-            'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
-            'errorMessage' => 'Amount mismatch',
+            'status'       => 110,
+            'data' =>   'Amount mismatch',
             ], 400);
         }
 
@@ -473,9 +434,8 @@ class SportsApiController extends Controller
 
         if ($alreadyCancelled) {
             return response()->json([
-            'status'       => 422,
-            'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
-            'errorMessage' => 'Bet already cancelled',
+            'status'       => 109,
+            'data' =>  'Bet already cancelled',
             ], 400);
         }
 
@@ -488,9 +448,8 @@ class SportsApiController extends Controller
 
         if ($settled) {
             return response()->json([
-            'status'       => 422,
-            'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
-            'errorMessage' => 'Bet already settled',
+            'status'       => 111,
+            'data' =>  'Bet already settled',
             ], 400);
         }
 
@@ -563,16 +522,13 @@ class SportsApiController extends Controller
              return response()->json([
                 'status'               => 100,
                 'data'              => number_format($user->balance ?? 0.00, 2, '.', ''),
-                'errorMessage'         => 'Bet cancelled successfully',
              ], 200);
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error('CancelBet Error: ' . $e->getMessage());
-
+         
             return response()->json([
-            'status'       => 422,
-            'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
-            'errorMessage' => 'Cancel failed: ' . $e->getMessage(),
+            'status'       => 110,
+            'data' => 'Failed to cancel',
             ], 500);
         }
     }
@@ -592,37 +548,24 @@ class SportsApiController extends Controller
         ]);
     
         if ($validator->fails()) {
-            $errors = $validator->errors();
-            if ($errors->has('amount') && in_array('Invalid Amount', $errors->get('amount'))) {
-                return response()->json([
-                  'status'       => 422,
-                'data' => 0.00,
-                    'errorMessage' => 'Invalid Amount',
-                ], 400);
-            }
-
             return response()->json([
-               'status'       => 422,
-                'data' => 0.00,
-                'errorMessage' => 'Validation Error',
-                'errors'       => $validator->errors(),
+                'status' => 101,
+                'data' => 'Parameter missing in request',
             ], 400);
         }
     
         $user = User::where('Username', $request->Username)->first();
         if (!$user) {
             return response()->json([
-              'status'       => 422,
-            'data' => 0.00,
-                'errorMessage' => 'User not found',
+              'status'       => 102,
+                'data' =>   'User not found',
             ], 404);
         }
     
         if (!in_array($request->PartnerId, $this->allowedParentIds)) {
             return response()->json([
-             'status'       => 422,
-            'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
-                'errorMessage' => 'Invalid partnerId',
+             'status' => 103,
+                'data' => 'ParnterId not get in system'
             ], 401);
         }
   
@@ -644,9 +587,8 @@ class SportsApiController extends Controller
     
             if (!$bet) {
                 return response()->json([
-                'status'       => 422,
-                'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
-                   'errorMessage' => 'Invalid Request',
+                'status'       => 110,
+                'data' => 'Invalid Request',
                 ], 400);
             }
 
@@ -661,9 +603,8 @@ class SportsApiController extends Controller
  
             if ($alreadyCanceled) {
                 return response()->json([
-                   'status'       => 422,
-                'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
-                    'errorMessage' => 'Bet already canceled',
+                    'status'       => 109,
+                    'data' =>  'Bet already canceled',
                 ], 400);
             }
  
@@ -689,18 +630,16 @@ class SportsApiController extends Controller
              // Validate amount matches
             if ($placedBet && $placedBet->amount != $request->Amount) {
                 return response()->json([
-                  'status'       => 422,
-                'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
-                    'errorMessage' => 'Invalid Amount',
+                  'status'       => 110,
+                'data' =>  'Invalid Amount',
                 ], 400);
             }
             
             // If neither bet nor settlement exists, return error
             if (!$settlement && !$placedBet) {
                   return response()->json([
-                'status'       => 422,
-                'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
-                'errorMessage' => 'No valid bet or settlement found for cancellation',
+                'status'       => 109,
+                'data' =>  'No valid bet or settlement found for cancellation',
                   ], 400);
             }
             
@@ -753,10 +692,8 @@ class SportsApiController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
-             'status'       => 422,
-              'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
-               'errorMessage' => 'Failed to cancel market',
-               'error'        => $e->getMessage(),
+             'status'       => 110,
+              'data' =>  'Failed to cancel market' 
             ], 500);
         }
     }
@@ -790,10 +727,8 @@ class SportsApiController extends Controller
  
         if ($validator->fails()) {
             return response()->json([
-                'status'       => 422,
-                'data' => 0.00,
-                'errorMessage' => 'Validation Error',
-                'errors'       => $validator->errors(),
+                'status' => 101,
+                'data' => 'Parameter missing in request',
             ], 400);
         }
         
@@ -801,17 +736,15 @@ class SportsApiController extends Controller
 
         if (!$user) {
             return response()->json([
-               'status'       => 422,
-                'data' => 0.00,
-                'errorMessage' => 'User not found',
+              'status'       => 102,
+                'data' =>   'User not found',
             ], 404);
         }
         // Check if the partnerId is valid
         if (!in_array($request->PartnerId, $this->allowedParentIds)) {
             return response()->json([
-                'status'       => 422,
-                'balance'      => number_format($user->balance ?? 0.00, 2, '.', ''),
-                'errorMessage' => 'Invalid partnerId',
+                 'status' => 103,
+                'data' => 'ParnterId not get in system'
             ], 401);
         }
    
@@ -825,9 +758,8 @@ class SportsApiController extends Controller
    
         if ($cancelledBet) {
             return response()->json([
-                'status'       => 422,
-                'balance'      => number_format($user->balance ?? 0.00, 2, '.', ''),
-                'errorMessage' => 'Bet Already Cancelled'
+                'status'       => 109,
+                'balance'      =>  'Bet Already Cancelled'
             ], 400);
         }
         
@@ -840,9 +772,8 @@ class SportsApiController extends Controller
  
         if ($existingSettlement) {
             return response()->json([
-                'status'       => 422,
-                'balance'      => number_format($user->balance ?? 0.00, 2, '.', ''),
-                'errorMessage' => 'Transaction already settled',
+                'status'       => 109,
+                'balance'      =>  'Transaction already settled',
             ], 400);
         }
        
@@ -856,9 +787,8 @@ class SportsApiController extends Controller
       
         if (!$matchingBet) {
             return response()->json([
-                'status'       => 422,
-                'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
-                'errorMessage' => 'Invalid Request',
+                'status'       => 110,
+                'data' =>   'Invalid Request',
             ], 400);
         }
  
@@ -879,9 +809,8 @@ class SportsApiController extends Controller
                 if ($user->balance < $payoffAmount) {
                     DB::rollBack();
                     return response()->json([
-                        'status'       => 100,
-                        'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
-                        'errorMessage' => 'Insufficient balance',
+                        'status'       => 108,
+                        'data' =>  'Insufficient balance',
                     ], 400);
                 }
                 
@@ -940,16 +869,13 @@ class SportsApiController extends Controller
 
             return response()->json([
                 'status'       => 100,
-                'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
-                'errorMessage'     => 'Success',
+                'data' => number_format($user->balance ?? 0.00, 2, '.', ''), 
             ], 200);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
-                'status'       => 422,
-                'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
-                'errorMessage' => 'Failed to settle game',
-                'error'        => $e->getMessage(),
+                'status'       => 110,
+                'data' =>   'Failed to settle game', 
             ], 500);
         }
     }
@@ -983,27 +909,23 @@ class SportsApiController extends Controller
     
         if ($validator->fails()) {
             return response()->json([
-                'status'       => 422,
-                'data'      => 0.00,
-                'errorMessage' => 'Validation Error',
-                'errors'       => $validator->errors(),
+                'status' => 101,
+                'data' => 'Parameter missing in request',
             ], 400);
         }
     
         $user = User::where('Username', $request->Username)->first();
         if (!$user) {
             return response()->json([
-                'status'       => 422,
-                'data'      => 0.00,
-                'errorMessage' => 'User not found',
+               'status'       => 102,
+                'data' =>   'User not found',
             ], 404);
         }
      
         if (!in_array($request->PartnerId, $this->allowedParentIds)) {
             return response()->json([
-                'status'       => 422,
-                'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
-                'errorMessage' => 'Invalid partnerId',
+                'status' => 103,
+                'data' => 'ParnterId not get in system'
             ], 401);
         }
     
@@ -1020,9 +942,8 @@ class SportsApiController extends Controller
     
             if ($alreadyResettled) {
                 return response()->json([
-                    'status'       => 422,
-                    'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
-                    'errorMessage' => 'Already resettled',
+                    'status'       => 109,
+                    'data'      =>  'Already resettled',
                 ], 400);
             }
     
@@ -1040,9 +961,8 @@ class SportsApiController extends Controller
     
             if ($previousPayoff === null) {
                 return response()->json([
-                    'status'       => 422,
-                    'data' => 0.00,
-                    'errorMessage' => 'Invalid Request',
+                    'status'       => 111,
+                    'data' =>  'Invalid Request',
                 ], 400);
             }
     
@@ -1050,18 +970,16 @@ class SportsApiController extends Controller
     
             if ($difference === 0.0) {
                 return response()->json([
-                    'status'       => 422,
-                    'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
-                    'errorMessage' => 'No change in payoff. Nothing to update.',
+                    'status'       => 110,
+                    'data'      => 'No change in payoff. Nothing to update.',
                 ], 400);
             }
     
             // Check if user has sufficient balance for negative adjustment
             if ($difference < 0 && $user->balance < abs($difference)) {
                 return response()->json([
-                    'status'       => 422,
-                    'balance'      => number_format($user->balance ?? 0.00, 2, '.', ''),
-                    'errorMessage' => 'Insufficient balance for settlement adjustment',
+                    'status'       => 110,
+                    'balance'      =>  'Insufficient balance for settlement adjustment',
                 ], 400);
             }
     
@@ -1126,16 +1044,13 @@ class SportsApiController extends Controller
     
             return response()->json([
                 'status'          => 100,
-                'data'         => number_format($user->balance ?? 0.00, 2, '.', ''),
-                'errorMessage'    => 'Resettle success',
+                'data'         => number_format($user->balance ?? 0.00, 2, '.', '')
             ], 200);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
-                'status'       => 422,
-                'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
-                'errorMessage' => 'Failed to resettle game',
-                'error'        => $e->getMessage(),
+                'status'       => 110,
+                'data'      =>  'Failed to resettle game', 
             ], 500);
         }
     }
@@ -1157,10 +1072,8 @@ class SportsApiController extends Controller
     
         if ($validator->fails()) {
             return response()->json([
-                'status'       => 422,
-                'data'      => 0.00,
-                'errorMessage' => 'Validation Error',
-                'errors'       => $validator->errors(),
+                'status' => 101,
+                'data' => 'Parameter missing in request',
             ], 400);
         }
     
@@ -1168,17 +1081,15 @@ class SportsApiController extends Controller
     
         if (!$user) {
             return response()->json([
-                'status'       => 422,
-                'data'      => 0.00,
-                'errorMessage' => 'User not found',
+               'status'       => 102,
+                'data' =>   'User not found',
             ], 404);
         }
     
         if (!in_array($request->PartnerId, $this->allowedParentIds)) {
             return response()->json([
-                'status'       => 100,
-                'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
-                'errorMessage' => 'Invalid partnerId',
+                 'status' => 103,
+                'data' => 'ParnterId not get in system'
             ], 401);
         }
        
@@ -1191,9 +1102,8 @@ class SportsApiController extends Controller
     
         if (!$bet) {
             return response()->json([
-                'status'       => 422,
-                'data' => 0.00,
-                'errorMessage' => 'Invalid Request',
+                'status'       => 111,
+                'data' =>   'Invalid Request',
             ], 400);
         }
     
@@ -1208,9 +1118,8 @@ class SportsApiController extends Controller
 
         if ($alreadyCanceled) {
             return response()->json([
-                'status'       => 422,
-                'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
-                'errorMessage' => 'Bet already canceled',
+                'status'       => 109,
+                'data'      =>  'Bet already canceled',
             ], 400);
         }
     
@@ -1236,9 +1145,8 @@ class SportsApiController extends Controller
             // If neither settlement nor placed bet exists, return error
             if (!$settlement && !$placedBet) {
                 return response()->json([
-                    'status'       => 422,
-                    'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
-                    'errorMessage' => 'No valid bet or settlement found for cancellation',
+                    'status'       => 110,
+                    'data'      =>  'No valid bet or settlement found for cancellation',
                 ], 400);
             }
             
@@ -1251,9 +1159,8 @@ class SportsApiController extends Controller
                 if ($user->balance < $payoffAmount) {
                     DB::rollBack();
                     return response()->json([
-                        'status'       => 422,
-                        'balance'      => number_format($user->balance ?? 0.00, 2, '.', ''),
-                        'errorMessage' => 'Insufficient balance to cancel settlement',
+                        'status'       => 110,
+                        'balance'      => 'Insufficient balance to cancel settlement',
                     ], 400);
                 }
                 
@@ -1323,10 +1230,8 @@ class SportsApiController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
-                'status'       => 422,
-                'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
-                'errorMessage' => 'Failed to cancel settled game',
-                'error'        => $e->getMessage(),
+                'status'       => 110,
+                'data'      =>   'Failed to cancel settled game', 
             ], 500);
         }
     }
@@ -1357,27 +1262,23 @@ class SportsApiController extends Controller
     
         if ($validator->fails()) {
             return response()->json([
-                'status'       => 422,
-                'balance'      => 0.00,
-                'errorMessage' => 'Validation Error',
-                'errors'       => $validator->errors(),
+                'status' => 101,
+                'data' => 'Parameter missing in request',
             ], 400);
         }
     
         $user = User::where('Username', $request->Username)->first();
         if (!$user) {
             return response()->json([
-                'status'       => 422,
-                'balance'      => 0.00,
-                'errorMessage' => 'User not found',
+              'status'       => 102,
+                'data' =>   'User not found',
             ], 404);
         }
     
         if (!in_array($request->PartnerId, $this->allowedParentIds)) {
             return response()->json([
-                'status'       => 422,
-                'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
-                'errorMessage' => 'Invalid partnerId',
+                 'status' => 103,
+                'data' => 'ParnterId not get in system'
             ], 401);
         }
      
@@ -1393,9 +1294,8 @@ class SportsApiController extends Controller
     
             if ($alreadyResettled) {
                 return response()->json([
-                    'status'       => 422,
-                    'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
-                    'errorMessage' => 'Already settled',
+                    'status'       => 109,
+                    'data'      =>  'Already settled',
                 ], 400);
             }
            
@@ -1409,9 +1309,8 @@ class SportsApiController extends Controller
     
             if ($alreadyResettled) {
                 return response()->json([
-                    'status'       => 422,
-                    'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
-                    'errorMessage' => 'Already cashout',
+                    'status'       => 109,
+                    'data'      =>  'Already cashout',
                 ], 400);
             }
             
@@ -1420,9 +1319,8 @@ class SportsApiController extends Controller
             $totalAmount = $request->TotalAmount ?? 0;
             if ($totalAmount < 0) {
                 return response()->json([
-                    'status'       => 422,
-                    'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
-                    'errorMessage' => 'Invalid Total Amount',
+                    'status'       => 110,
+                    'data'      =>  'Invalid Total Amount',
                 ], 400);
             }
            
@@ -1492,10 +1390,8 @@ class SportsApiController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
-                'status'       => 422,
-                'balance'      => number_format($user->balance ?? 0.00, 2, '.', ''),
-                'errorMessage' => 'Failed to cashout success',
-                'error'        => $e->getMessage(),
+                'status'       => 110,
+                'balance'      => 'Failed to cashout success' 
             ], 500);
         }
     }
@@ -1519,27 +1415,23 @@ class SportsApiController extends Controller
     
         if ($validator->fails()) {
             return response()->json([
-                'status'       => 422,
-                'balance'      => 0.00,
-                'errorMessage' => 'Validation Error',
-                'errors'       => $validator->errors(),
+                'status' => 101,
+                'data' => 'Parameter missing in request',
             ], 400);
         }
     
         $user = User::where('Username', $request->Username)->first();
         if (!$user) {
             return response()->json([
-                'status'       => 422,
-                'balance'      => 0.00,
-                'errorMessage' => 'User not found',
+              'status'       => 102,
+                'data' =>   'User not found',
             ], 404);
         }
     
         if (!in_array($request->PartnerId, $this->allowedParentIds)) {
             return response()->json([
-                'status'       => 422,
-                'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
-                'errorMessage' => 'Invalid partnerId',
+                 'status' => 103,
+                'data' => 'ParnterId not get in system'
             ], 401);
         }
      
@@ -1555,9 +1447,8 @@ class SportsApiController extends Controller
     
             if ($alreadyResettled) {
                 return response()->json([
-                    'status'       => 422,
-                    'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
-                    'errorMessage' => 'Already settled',
+                    'status'       => 109,
+                    'data'      =>  'Already settled',
                 ], 400);
             }
            
@@ -1571,9 +1462,8 @@ class SportsApiController extends Controller
     
             if (!$alreadyCashout) {
                 return response()->json([
-                    'status'       => 422,
-                    'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
-                    'errorMessage' => 'Already Cashout',
+                    'status'       => 109,
+                    'data'      => 'Already Cashout',
                 ], 400);
             }
             
@@ -1585,9 +1475,8 @@ class SportsApiController extends Controller
             ])->exists();
             if ($alreadyCancelCashout) {
                 return response()->json([
-                    'status'       => 422,
-                    'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
-                    'errorMessage' => 'Already cancel cashout',
+                    'status'       => 109,
+                    'data'      =>  'Already cancel cashout',
                 ], 400);
             }
             //check the previous cashout of same market to check balance
@@ -1603,17 +1492,15 @@ class SportsApiController extends Controller
             ->first();
             if ($alreadyCashout->payableAmount  != $totalAmount) {
                 return response()->json([
-                'status'       => 422,
-                'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
-                'errorMessage' => 'Invaild request',
+                'status'       => 110,
+                'data'      =>   'Invaild request',
                 ], 400);
             }
 
             if ($totalAmount < 0) {
                 return response()->json([
-                    'status'       => 422,
-                    'data'      => number_format($user->balance ?? 0.00, 2, '.', ''),
-                    'errorMessage' => 'Invalid Total Amount',
+                    'status'       => 110,
+                    'data'      =>  'Invalid Total Amount',
                 ], 400);
             }
            
@@ -1676,17 +1563,14 @@ class SportsApiController extends Controller
             DB::commit();
     
             return response()->json([
-                  'data'         => number_format($user->balance ?? 0.00, 2, '.', ''),
-               'status'          => 100,
-                'errorMessage'    => 'cancel cashout success',
+                'status'          => 100, 
+                  'data'         => number_format($user->balance ?? 0.00, 2, '.', '')
             ], 200);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
-                'status'       => 422,
-                'balance'      => number_format($user->balance ?? 0.00, 2, '.', ''),
-                'errorMessage' => 'Failed to cancel cashout success',
-                'error'        => $e->getMessage(),
+                'status'       => 110, 
+                'data' => 'Failed to cancel cashout success', 
             ], 500);
         }
     }
