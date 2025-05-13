@@ -627,18 +627,7 @@ class SportsApiController extends Controller
              ])
              ->first();
             
-<<<<<<< HEAD
          
-=======
-             // Validate amount matches
-            // if ($placedBet && $placedBet->amount != $request->Amount) {
-            //     return response()->json([
-            //       'status'       => 110,
-            //     'data' =>  'Invalid Amount',
-            //     ], 200);
-            // }
-            
->>>>>>> main
             // If neither bet nor settlement exists, return error
             if (!$settlement && !$placedBet) {
                   return response()->json([
@@ -686,23 +675,10 @@ class SportsApiController extends Controller
     
             DB::commit();
     
-<<<<<<< HEAD
             return response()->json([
                 'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
                 'status'       => 100, 
             ], 200);
-=======
-            // return response()->json([
-            //     'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
-            //     'status'       => 100,
-            //     'errorMessage' => 'Success',
-            // ], 200);
-            
-             return response()->json([
-                'status'               => 100,
-                'data'              => number_format($user->balance ?? 0.00, 2, '.', ''),
-             ], 200);
->>>>>>> main
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
