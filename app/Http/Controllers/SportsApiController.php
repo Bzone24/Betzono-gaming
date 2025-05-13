@@ -627,14 +627,7 @@ class SportsApiController extends Controller
              ])
              ->first();
             
-             // Validate amount matches
-            if ($placedBet && $placedBet->amount != $request->Amount) {
-                return response()->json([
-                  'status'       => 110,
-                'data' =>  'Invalid Amount',
-                ], 200);
-            }
-            
+         
             // If neither bet nor settlement exists, return error
             if (!$settlement && !$placedBet) {
                   return response()->json([
@@ -643,10 +636,8 @@ class SportsApiController extends Controller
                   ], 200);
             }
             
-            // Calculate correction amount
-            $betAmount = $placedBet->amount ?? 0;
-            $payoffAmount = $settlement->payableAmount ?? 0;
-            $correctionAmount = $payoffAmount - $betAmount;
+            // Calculate correction amount 
+            $correctionAmount = $request->Amount;
             
             // Apply balance correction
             if ($correctionAmount > 0) {
@@ -686,8 +677,7 @@ class SportsApiController extends Controller
     
             return response()->json([
                 'data' => number_format($user->balance ?? 0.00, 2, '.', ''),
-                'status'       => 100,
-                'errorMessage' => 'Success',
+                'status'       => 100, 
             ], 200);
         } catch (\Exception $e) {
             DB::rollBack();
