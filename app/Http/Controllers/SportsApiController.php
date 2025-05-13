@@ -278,12 +278,14 @@ class SportsApiController extends Controller
                 $user->increment('balance', $request->Amount);
                 $trxType = '+';
             } else {
-                   if ($user->balance < $request->Amount) {
-                        return response()->json([
-                            'status'       => 108,
-                           'data' =>   'Insufficient balance',
-                        ], 200);
-                    }
+
+                if ($user->balance < $request->Amount) {
+                    return response()->json([
+                        'status'       => 108,
+                       'data' =>   'Insufficient balance',
+                    ], 200);
+                }
+
                 $user->decrement('balance', $request->Amount);
                 $trxType = '-';
             }
@@ -330,7 +332,7 @@ class SportsApiController extends Controller
             $trx->post_balance = $user->balance;
             $trx->trx_type = $trxType;
             $trx->trx = $request->TransactionID;
-          $trx->details = 'Sport game - ' . ($type === 1 ? 'Debit' : 'Credit');
+            $trx->details = 'Sport game - ' . ($type === 1 ? 'Debit' : 'Credit');
             $trx->remark = ($type === 1 ? 'balance_subtract' : 'balance_add');
             $trx->type = Transaction::TYPE_USER_BET_SPORTSGAME;
             $trx->created_at = now();

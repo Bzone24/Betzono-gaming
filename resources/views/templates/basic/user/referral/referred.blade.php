@@ -35,6 +35,7 @@
                                 <tr>
                                     <th scope="col">@lang('S.N.')</th>
                                     <th scope="col">@lang('Fullname')</th>
+                                    <th scope="col">@lang('username')</th>
                                     <th scope="col">@lang('Email')</th>
                                     <th scope="col">@lang('Phone')</th>
                                     <th scope="col">@lang('Balance')</th>
@@ -51,6 +52,7 @@
                                     <td> {{ $referrals->firstItem()+ $loop->index }}
                                     </td>
                                     <td>{{ __($referral->fullname) }}</td>
+                                    <td>{{ __($referral->username) }}</td>
                                     <td>{{ __($referral->email) }} </td>
                                     <td>+{{ __($referral->dial_code) }}{{ __($referral->mobile) }}
                                     </td>
@@ -60,6 +62,11 @@
                                         <th class="text-center">
                                             <a href="{{ route('user.withdraw.transfer.user',[ 'add',  base64_encode($referral->id)])}}" class="btn btn--base btn-sm">Add</a>
                                             <a href="{{ route('user.withdraw.transfer.user', ['withdraw', base64_encode($referral->id)])}}" class="btn btn--base btn-sm">Withdraw</a>
+                                            @if($referral->status == 1)
+                                            <a href="{{ url('user/change-referal-status/'.$referral->id.'/block')}}" class="btn btn--base btn-sm">Block User</a>
+                                            @else
+                                            <a href="{{ url('user/change-referal-status/'.$referral->id.'/active')}}" class="btn btn--base btn-sm">Activate User</a>
+                                            @endif
                                         </th>
                                     @endif
                                 </tr>

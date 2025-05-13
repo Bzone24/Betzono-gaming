@@ -84,5 +84,8 @@ class Transaction extends Model
     {
         return  DB::table('sports_bets_history')->where("transactionId", $this->trx)->first();
     }
-    
+    public function getSportBetSettleHistoryInfo()
+    {
+        return  DB::table('sports_game_settlements_history')->where("transactionId", $this->trx)->first();
+    }
 }
