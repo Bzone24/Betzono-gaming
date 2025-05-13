@@ -465,9 +465,12 @@ class SportsApiController extends Controller
         } else {
             $originalType = 'DR'; // default if nothing found
         }
+
+
+ 
         DB::beginTransaction();
         try {
-            if ($originalType === 'CR') {
+            if ($request->TransactionType === 1) {
                   $user->decrement('balance', $request->Amount);
                   $trxType = '-';
             } else {
@@ -979,7 +982,7 @@ class SportsApiController extends Controller
             // Generate unique transaction ID for this adjustment
             $adjustmentTxnId = (string) Str::uuid();
             $transactionType = $request->TransactionType == 2 ? 'CR' : 'DR';
-            if ($difference > 0) {
+            if ($request->TransactionType  == 2) {
                 // User gets more money
                 $user->increment('balance', $difference);
                 $trxType = '+';
@@ -1147,7 +1150,7 @@ class SportsApiController extends Controller
             $payoffAmount = $request->Amount ?? 0;
             
             // We need to reverse the payoff that was applied during settlement
-            if ($payoffAmount > 0) {
+            if ($request->TransactionType  == 1) {
                 // Check if user has sufficient balance to reverse the payoff
                 if ($user->balance < $payoffAmount) {
                     DB::rollBack();
@@ -1161,7 +1164,7 @@ class SportsApiController extends Controller
                 $user->decrement('balance', $payoffAmount);
                 $trx_type = '-';
                 $transactionDetails = 'Canceled settlement - winning amount reversed';
-            } elseif ($payoffAmount < 0) {
+            } elseif ($request->TransactionType  == 2) {
                 // If payoff was negative (user lost), add it back
                 $user->increment('balance', abs($payoffAmount));
                 $trx_type = '+';
