@@ -643,14 +643,14 @@ class SportsApiController extends Controller
             $correctionAmount = $request->Amount;
             
             // Apply balance correction
-            if ($correctionAmount > 0) {
-                 // If player won money, we need to take it back
-                 $user->decrement('balance', $correctionAmount);
-                 $trx_type = '-';
-            } elseif ($correctionAmount < 0) {
-                // If player lost money, we need to return it
-                $user->increment('balance', abs($correctionAmount));
+            $transactionType = $request->TransactionType == 2 ? 'CR' : 'DR';
+            // Handle balance update according to transaction type
+             if ($transactionType == 'CR') {
+                $user->increment('balance', $correctionAmount);
                 $trx_type = '+';
+            } elseif ($transactionType == 'DR') {
+                $user->decrement('balance', $correctionAmount);
+                $trx_type = '-';
             } else {
                 // No change needed
                 $trx_type = '=';
