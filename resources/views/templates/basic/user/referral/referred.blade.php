@@ -62,6 +62,7 @@
                                         <th class="text-center">
                                             <a href="{{ route('user.withdraw.transfer.user',[ 'add',  base64_encode($referral->id)])}}" class="btn btn--base btn-sm">Add</a>
                                             <a href="{{ route('user.withdraw.transfer.user', ['withdraw', base64_encode($referral->id)])}}" class="btn btn--base btn-sm">Withdraw</a>
+                                            <br/>  <br/>
                                             @if($referral->status == 1)
                                             <a href="{{ url('user/change-referal-status/'.$referral->id.'/block')}}" class="btn btn--base btn-sm">Block User</a>
                                             @else
