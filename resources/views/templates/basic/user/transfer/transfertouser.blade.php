@@ -110,7 +110,7 @@
         // Function to check validation and toggle submit button
         function toggleSubmitButton() {
             var amount = parseFloat(amountInput.val() || 0);
-            if (amount > 0 && amount <= balance) {
+            if (amount > 0  ) {
                 $('.submit-btn').prop('disabled', false); // Enable the button
             } else {
                 $('.submit-btn').prop('disabled', true); // Keep the button disabled
@@ -134,8 +134,8 @@
 
             // If amount exceeds balance, show error message and disable submit button
             if (amount > balance) {
-                $('<span class="text-danger amount-error">@lang("Amount exceeds balance")</span>')
-                    .insertAfter('.amount-div');
+            ///    $('<span class="text-danger amount-error">@lang("Amount exceeds balance")</span>')
+                   // .insertAfter('.amount-div');
             }
 
             // Toggle submit button based on validation

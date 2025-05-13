@@ -410,6 +410,26 @@ class UserController extends Controller
         return view('Template::user.referral.referred', compact('pageTitle', 'referrals'));
     }
 
+    public function updateReferalStatus($userid, $action){
+        //check user is in referral list
+        $referral = User::where('ref_by', auth()->user()->id)->where("id",$userid)->first();
+        if(!$referral){
+            $notify[] = ['error', 'You are not permitted to access this'];
+            return back()->withNotify($notify);
+        }
+        $user = User::findOrFail($userid);
+        if ($action == 'block') {
+            $user->status = 0;
+            $user->save();
+            $notify[] = ['success', 'User blocked successfully'];
+        } else {
+            $user->status = 1;
+            $user->save();
+            $notify[] = ['success', 'User unblocked successfully'];
+        }
+        return back()->withNotify($notify);
+    }
+
 
     public function sportsGame()
     {

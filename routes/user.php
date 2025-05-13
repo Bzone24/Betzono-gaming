@@ -82,6 +82,9 @@ Route::middleware('auth')->name('user.')->group(function () {
                 Route::get('referral/commissions', 'commissions')->name('commissions');
                 // Referred Users
                 Route::get('referral/referred-users', 'referredUsers')->name('referred');
+                //block unblock users
+                Route::get('change-referal-status/{id}/{action}', 'updateReferalStatus')->name('change-referal-status');
+
             });
             //transfer and gamezone history
             Route::controller('UserController')->group(function(){
