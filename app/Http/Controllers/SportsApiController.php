@@ -214,7 +214,7 @@ class SportsApiController extends Controller
         'PartnerId'         => 'required|string',
         'TransactionID'     => 'required|string',
         'TransactionType'   => 'required|integer',
-        'Amount'            => 'required|numeric|min:0.01',
+        'Amount'            => 'required|numeric',
         'Eventtypename'           => 'required|string',
         'Competitionname'           => 'required|string',
         'Eventname'           => 'required|string',
