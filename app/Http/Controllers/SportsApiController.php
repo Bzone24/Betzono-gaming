@@ -275,7 +275,7 @@ class SportsApiController extends Controller
             ], 200);
         }
 
-        $type = strtoupper(trim($request->TransactionType)); // 💥 Ensure upper case
+        $type = $request->TransactionType; // 💥 Ensure upper case
 
         DB::beginTransaction();
         try {
@@ -329,8 +329,8 @@ class SportsApiController extends Controller
             $trx->post_balance = $user->balance;
             $trx->trx_type = $trxType;
             $trx->trx = $request->TransactionID;
-            $trx->details = 'Sport game - ' . ($type === 'DR' ? 'Debit' : 'Credit');
-            $trx->remark = ($type === 'DR' ? 'balance_subtract' : 'balance_add');
+          $trx->details = 'Sport game - ' . ($type === 1 ? 'Debit' : 'Credit');
+            $trx->remark = ($type === 1 ? 'balance_subtract' : 'balance_add');
             $trx->type = Transaction::TYPE_USER_BET_SPORTSGAME;
             $trx->created_at = now();
             $trx->updated_at = now();

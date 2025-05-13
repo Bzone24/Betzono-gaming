@@ -80,17 +80,38 @@
                                         </td>
 
                                         <td class="text-center">
-                                            {{ \App\Models\Transaction::getTypeName($trx->type) }} <!-- Display the Type -->
+                                        {{$trx->trx_type}}
+                                         <!-- Display the Type -->
                                         </td>
 
-                                        <td> 
+                                 
+                                       <td> 
                                          @if($trx->type == 'USER_BET_SPORTSGAME' && !empty($trx->getSportsBetHistoryInfo()->eventName))
                                         <span class="d-block small">Event: {{$trx->getSportsBetHistoryInfo()->eventName??''}}</span>
                                         <span class="d-block small">Market: {{$trx->getSportsBetHistoryInfo()->marketName??''}}</span>
                                         <span class="d-block small">Runner: {{$trx->getSportsBetHistoryInfo()->runnerName??''}}</span>
                                         <span class="d-block small">Type: {{$trx->getSportsBetHistoryInfo()->betType??''}}</span>
                                         <span class="d-block small">Rate: {{$trx->getSportsBetHistoryInfo()->rate??''}}</span>
-                                         @endif
+                                        @else
+                                         @if(!empty($trx->getCasinoBetHistoryInfo()->tableCode))
+                                                <strong>
+                                                {{\App\Models\Game::where('table_code',$trx->getCasinoBetHistoryInfo()->tableCode)->first()->table_name??'N/A'}}
+                                               
+                                                <br/>
+                                                </strong>
+
+                                                @elseif(!empty($trx->getCasinoBetSettleHistoryInfo()->tableCode))
+                                                    <strong>
+                                                                {{\App\Models\Game::where('table_code',$trx->getCasinoBetSettleHistoryInfo()->tableCode)->first()->table_name??'N/A'}}
+                                                                <br/>
+                                                                
+                                                        </strong>
+                                                @else
+                                           
+                                    @endif
+
+                                        @endif
+
                                          {{ __($trx->details) }}</td>
                                     </tr>
                                 @empty

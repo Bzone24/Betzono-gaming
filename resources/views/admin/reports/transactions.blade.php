@@ -79,12 +79,12 @@
                                     <td>
                                             @if(!empty($trx->getCasinoBetHistoryInfo()->tpGameId))
                                             <strong>
-                                            {{\App\Models\CasinoGameList::where('id',$trx->getCasinoBetHistoryInfo()->tpGameId)->first()->game_name??'N/A'}}
+                                            {{\App\Models\CasinoGameList::where('game_code',$trx->getCasinoBetHistoryInfo()->tpGameId)->first()->game_name??'N/A'}}
                                             </strong>
 
                                                 @elseif(!empty($trx->getCasinoBetSettleHistoryInfo()->tpGameId))
                                                 <strong>
-                                                    {{\App\Models\CasinoGameList::where('id',$trx->getCasinoBetSettleHistoryInfo()->tpGameId)->first()->game_name??'N/A'}}
+                                                    {{\App\Models\CasinoGameList::where('game_code',$trx->getCasinoBetSettleHistoryInfo()->tpGameId)->first()->game_name??'N/A'}}
                                                     </strong>
                                                 @else
                                                 <strong>
