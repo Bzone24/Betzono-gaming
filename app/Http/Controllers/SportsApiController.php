@@ -268,12 +268,7 @@ class SportsApiController extends Controller
             ], 200);
         }
 
-        if ($user->balance < $request->Amount) {
-            return response()->json([
-                'status'       => 108,
-               'data' =>   'Insufficient balance',
-            ], 200);
-        }
+     
 
         $type = $request->TransactionType; // 💥 Ensure upper case
 
@@ -283,6 +278,12 @@ class SportsApiController extends Controller
                 $user->increment('balance', $request->Amount);
                 $trxType = '+';
             } else {
+                   if ($user->balance < $request->Amount) {
+                        return response()->json([
+                            'status'       => 108,
+                           'data' =>   'Insufficient balance',
+                        ], 200);
+                    }
                 $user->decrement('balance', $request->Amount);
                 $trxType = '-';
             }
