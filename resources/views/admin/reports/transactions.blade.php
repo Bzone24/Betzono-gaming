@@ -79,12 +79,12 @@
                                     <td>
                                             @if(!empty($trx->getCasinoBetHistoryInfo()->tpGameId))
                                             <strong>
-                                            {{\App\Models\Game::where('id',$trx->getCasinoBetHistoryInfo()->tpGameId)->first()->game_name??'N/A'}}
+                                            {{\App\Models\CasinoGameList::where('id',$trx->getCasinoBetHistoryInfo()->tpGameId)->first()->game_name??'N/A'}}
                                             </strong>
 
                                                 @elseif(!empty($trx->getCasinoBetSettleHistoryInfo()->tpGameId))
                                                 <strong>
-                                                    {{\App\Models\Game::where('id',$trx->getCasinoBetSettleHistoryInfo()->tpGameId)->first()->game_name??'N/A'}}
+                                                    {{\App\Models\CasinoGameList::where('id',$trx->getCasinoBetSettleHistoryInfo()->tpGameId)->first()->game_name??'N/A'}}
                                                     </strong>
                                                 @else
                                                 <strong>
@@ -99,12 +99,16 @@
                                     @if(!empty($trx->getCasinoBetHistoryInfo()->tableCode))
                                             <strong>
                                             {{\App\Models\Game::where('table_code',$trx->getCasinoBetHistoryInfo()->tableCode)->first()->table_name??'N/A'}}
+                                            {{$trx->getCasinoBetHistoryInfo()->tableCode}}
+                                            <br/>
                                             </strong>
 
                                     @elseif(!empty($trx->getCasinoBetSettleHistoryInfo()->tableCode))
-                                                <strong>
+                                        <strong>
                                                     {{\App\Models\Game::where('table_code',$trx->getCasinoBetSettleHistoryInfo()->tableCode)->first()->table_name??'N/A'}}
-                                                    </strong>
+                                                    <br/>
+                                                    {{$trx->getCasinoBetSettleHistoryInfo()->tableCode}}
+                                            </strong>
                                     @else
                                                 <strong>
                                                     N/A
