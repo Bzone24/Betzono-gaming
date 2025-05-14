@@ -420,12 +420,12 @@ class SportsApiController extends Controller
         }
 
         // ✅ Amount must match
-        if ($request->Amount != $originalBet->amount) {
-            return response()->json([
-            'status'       => 110,
-            'data' =>   'Amount mismatch',
-            ], 200);
-        }
+        // if ($request->Amount != $originalBet->amount) {
+        //     return response()->json([
+        //     'status'       => 110,
+        //     'data' =>   'Amount mismatch',
+        //     ], 200);
+        // }
 
         // ✅ Check if already cancelled using reversetransactionId
         $alreadyCancelled = DB::table('sports_bets_history')
