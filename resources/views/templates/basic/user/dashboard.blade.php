@@ -1534,64 +1534,46 @@ $kycInstruction = getContent('kyc\.content', true);
             <div class="col-md-5 text-center socail-media-div">
             <h3 class=" common-gre-color" style="font-size:36px!important">Follow Us</h3>
                     <div class="row justify-content-center">
-                        <div class="col-2 col-md-2 mb-3">
+                    <div class="col-2 col-md-2 mb-3">
                             <a href="https://www.telegram.com" target="_blank">
-                                <img src="https://img.icons8.com/color/50/telegram-app.png" alt="Telegram" class="social-icon">
+                                <img src="https://cdn.cloudd.site/content/assets/images/18plus.png?v=1" alt="18+" class="social-icon">
                             </a>
                         </div>
                         <div class="col-2 col-md-2 mb-3">
                             <a href="https://www.instagram.com" target="_blank">
-                                <img src="https://img.icons8.com/color/50/instagram-new.png" alt="Instagram" class="social-icon">
+                                <img src="https://cdn.cloudd.site/content/assets/images/gamecare.png?v=1" alt="GameCare" class="social-icon">
                             </a>
                         </div>
                         <div class="col-2 col-md-2 mb-3">
                             <a href="https://www.facebook.com" target="_blank">
-                                <img src="https://img.icons8.com/color/50/facebook-new.png" alt="Facebook" class="social-icon">
-                            </a>
-                        </div>
-                        <div class="col-2 col-md-2 mb-3">
-                            <a href="https://www.youtube.com" target="_blank">
-                                <img src="https://img.icons8.com/color/50/whatsapp.png" alt="WhatsApp" class="social-icon">
-                            </a>
-                        </div>
-                        <div class="col-2 col-md-2 mb-3">
-                            <a href="https://www.twitter.com" target="_blank">
-                                <img src="https://img.icons8.com/color/50/twitter.png" alt="Twitter" class="social-icon">
+                                <img src="https://cdn.cloudd.site/content/assets/images/gt.png?v=1" alt="GT" class="social-icon">
                             </a>
                         </div>
                     </div>
              </div>
 
+ 
+            <div class="col-md-7 text-center">
+                <h3 class="common-gre-color" style="font-size:36px!important">Download Our App</h3>
+                <div class="row justify-content-center">
+                    <div class="col-4 col-md-3 mb-3"> 
+                    <a href="{{url('assets/front/stakeye.apk')}}" target="_blank"  style="font-size: 18px; padding: 10px 20px;">
+                    <img src="{{url('assets/front/androidapp.png')}}" alt="Android App" >
+                        </a>
+                    </div>
+                     
+                </div>
+            </div>
+          
 
-
-            <!-- Payment Icons -->
-            <!--<div class="col-md-7 text-center">-->
-            <!--    <h3 class=" common-gre-color"  style="font-size:36px!important">Payments</h3>-->
-            <!--    <div class="row justify-content-center">-->
-            <!--        <div class="col-4 col-md-3 mb-3">-->
-            <!--            <img src="{{ asset('assets/newhome/img/Payment_icons/gpay.png')}}" alt="GPay" class="payment-icon">-->
-            <!--        </div>-->
-            <!--        <div class="col-4 col-md-3 mb-3">-->
-            <!--            <img src="{{ asset('assets/newhome/img/Payment_icons/upi.png')}}" alt="UPI" class="payment-icon">-->
-            <!--        </div>-->
-            <!--        <div class="col-4 col-md-3 mb-3">-->
-            <!--            <img src="{{ asset('assets/newhome/img/Payment_icons/paypal.png')}}" alt="PayPal" class="payment-icon">-->
-            <!--        </div>-->
-            <!--        <div class="col-4 col-md-3 mb-3">-->
-            <!--            <img src="{{ asset('assets/newhome/img/Payment_icons/visa.png')}}" alt="Visa" class="payment-icon">-->
-            <!--        </div>-->
-            <!--        <div class="col-4 col-md-3 mb-3">-->
-            <!--            <img src="{{ asset('assets/newhome/img/Payment_icons/card.png')}}" alt="Card" class="payment-icon">-->
-            <!--        </div>-->
-            <!--        <div class="col-4 col-md-3 mb-3">-->
-            <!--            <img src="{{ asset('assets/newhome/img/Payment_icons/bitcoin.png')}}" alt="Bitcoin" class="payment-icon">-->
-            <!--        </div>-->
-            <!--        <div class="col-4 col-md-3 mb-3">-->
-            <!--            <img src="{{ asset('assets/newhome/img/Payment_icons/tether.png')}}" alt="Tether" class="payment-icon">-->
-            <!--        </div>-->
-            <!--    </div>-->
-            <!--</div>-->
-
+            <style>
+                .app-icon {
+                    width: 90px;
+                    height: 90px;
+                    object-fit: contain;
+                    margin: 5px;
+                }
+            </style>
             
 
             <!-- Social Media Icons -->
