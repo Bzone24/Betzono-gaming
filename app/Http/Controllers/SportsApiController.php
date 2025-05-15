@@ -17,22 +17,14 @@ class SportsApiController extends Controller
 {
      
     //set x-app in variable
-    protected $xApp = 'CED86870-A667-450F-B5D1-5EE7717324EA';
+    protected $partnerKey = '1B45B3D2-D69A-48B1-AC8D-DFDA274AB0D9';
+    protected $xApp = '6E28048F-D891-4AF5-A296-D9C91C39DE7D';
     //set partner id in variable
-    protected $allowedParentIds = ['stakeyedemo'];
+    protected $allowedParentIds = ['stakeeye'];
     //set vendor url
     protected $authenticationUrl = 'https://stakeyeapi.powerplay247.com/api/Iframe/ClientAuthentication';
 
-    public function __construct()
-    {
-        //set allowed parent id
-        $this->middleware(function ($request, $next) {
-            if ($request->header('x-app') !== $this->xApp) {
-                return response()->json(['error' => 'Unauthorized'], 102);
-            }
-            return $next($request);
-        });
-    }
+     
     /**
      * Get Balance
      */
@@ -43,7 +35,7 @@ class SportsApiController extends Controller
             'Username'   => 'required|string',
             'PartnerId'   => 'nullable|string'
         ]);
-
+      
         if ($validator->fails()) {
             return response()->json([
                 'status' => 101,
@@ -60,10 +52,10 @@ class SportsApiController extends Controller
             ], 200);
         }
 
-        if (!in_array($request->PartnerId, $this->allowedParentIds)) {
+        if (!in_array($request->PartnerId, $this->allowedParentIds) ||  $request->header('x-app') != $this->xApp) {
             return response()->json([
                 'status' => 103,
-                'data' => 'ParnterId not get in system'
+                'data' => 'ParnterId or key is invaild'
             ], 200);
         }
 
@@ -105,14 +97,14 @@ class SportsApiController extends Controller
                 'status' => 102,
                 'data' => 'User account does not exist'
                 ], 200);
-            }
-
-            if (!in_array($request->partnerId, $this->allowedParentIds)) {
-                return response()->json([
+            } 
+           
+             if (!in_array($request->partnerId, $this->allowedParentIds) ||  $request->header('x-app') != $this->xApp) {
+            return response()->json([
                 'status' => 103,
-                'data' => 'ParnterId not get in system'
-                ], 200);
-            }
+                'data' => 'ParnterId or key is invaild'
+            ], 200);
+        }
 
             //call api
            
@@ -140,7 +132,7 @@ class SportsApiController extends Controller
                 CURLOPT_CUSTOMREQUEST => 'POST',
                 CURLOPT_POSTFIELDS => json_encode($params),
                 CURLOPT_HTTPHEADER => array(
-                    'X-App: ' . $this->xApp,
+                    'X-App: ' . $this->partnerKey,
                     'Content-Type: application/json'
                 ),
             ));
@@ -248,10 +240,10 @@ class SportsApiController extends Controller
             ], 200);
         }
 
-        if (!in_array($request->PartnerId, $this->allowedParentIds)) {
+        if (!in_array($request->PartnerId, $this->allowedParentIds) ||  $request->header('x-app') != $this->xApp) {
             return response()->json([
-             'status'       => 103,
-             'data' => 'ParnterId not get in system'
+                'status' => 103,
+                'data' => 'ParnterId or key is invaild'
             ], 200);
         }
 
@@ -397,10 +389,10 @@ class SportsApiController extends Controller
             ], 200);
         }
 
-        if (!in_array($request->PartnerId, $this->allowedParentIds)) {
+         if (!in_array($request->PartnerId, $this->allowedParentIds) ||  $request->header('x-app') != $this->xApp) {
             return response()->json([
-             'status' => 103,
-                'data' => 'ParnterId not get in system'
+                'status' => 103,
+                'data' => 'ParnterId or key is invaild'
             ], 200);
         }
 
@@ -568,10 +560,10 @@ class SportsApiController extends Controller
             ], 200);
         }
     
-        if (!in_array($request->PartnerId, $this->allowedParentIds)) {
+        if (!in_array($request->PartnerId, $this->allowedParentIds) ||  $request->header('x-app') != $this->xApp) {
             return response()->json([
-             'status' => 103,
-                'data' => 'ParnterId not get in system'
+                'status' => 103,
+                'data' => 'ParnterId or key is invaild'
             ], 200);
         }
   
@@ -737,10 +729,10 @@ class SportsApiController extends Controller
             ], 200);
         }
         // Check if the partnerId is valid
-        if (!in_array($request->PartnerId, $this->allowedParentIds)) {
+         if (!in_array($request->PartnerId, $this->allowedParentIds) ||  $request->header('x-app') != $this->xApp) {
             return response()->json([
-                 'status' => 103,
-                'data' => 'ParnterId not get in system'
+                'status' => 103,
+                'data' => 'ParnterId or key is invaild'
             ], 200);
         }
    
@@ -918,10 +910,10 @@ class SportsApiController extends Controller
             ], 200);
         }
      
-        if (!in_array($request->PartnerId, $this->allowedParentIds)) {
+         if (!in_array($request->PartnerId, $this->allowedParentIds) ||  $request->header('x-app') != $this->xApp) {
             return response()->json([
                 'status' => 103,
-                'data' => 'ParnterId not get in system'
+                'data' => 'ParnterId or key is invaild'
             ], 200);
         }
     
@@ -1082,10 +1074,10 @@ class SportsApiController extends Controller
             ], 200);
         }
     
-        if (!in_array($request->PartnerId, $this->allowedParentIds)) {
+       if (!in_array($request->PartnerId, $this->allowedParentIds) ||  $request->header('x-app') != $this->xApp) {
             return response()->json([
-                 'status' => 103,
-                'data' => 'ParnterId not get in system'
+                'status' => 103,
+                'data' => 'ParnterId or key is invaild'
             ], 200);
         }
        
@@ -1271,10 +1263,10 @@ class SportsApiController extends Controller
             ], 200);
         }
     
-        if (!in_array($request->PartnerId, $this->allowedParentIds)) {
+        if (!in_array($request->PartnerId, $this->allowedParentIds) ||  $request->header('x-app') != $this->xApp) {
             return response()->json([
-                 'status' => 103,
-                'data' => 'ParnterId not get in system'
+                'status' => 103,
+                'data' => 'ParnterId or key is invaild'
             ], 200);
         }
      
@@ -1440,10 +1432,10 @@ class SportsApiController extends Controller
             ], 200);
         }
     
-        if (!in_array($request->PartnerId, $this->allowedParentIds)) {
+        if (!in_array($request->PartnerId, $this->allowedParentIds) ||  $request->header('x-app') != $this->xApp) {
             return response()->json([
-                 'status' => 103,
-                'data' => 'ParnterId not get in system'
+                'status' => 103,
+                'data' => 'ParnterId or key is invaild'
             ], 200);
         }
         $ctransactionIds = [];

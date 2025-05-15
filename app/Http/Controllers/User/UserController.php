@@ -25,8 +25,8 @@ use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
-    public $sportsPartnerId = 'stakeyedemo';
-    public $xApp = 'CED86870-A667-450F-B5D1-5EE7717324EA';
+    public $sportsPartnerId = 'stakeeye';
+    public $xApp = '6E28048F-D891-4AF5-A296-D9C91C39DE7D';
     public function home()
     {
         $pageTitle = 'Dashboard';
@@ -454,7 +454,10 @@ class UserController extends Controller
             'sportName'      => 'Cricket',
             'event'          => '',
                 ]);
+                $request->headers->set('x-app', $this->xApp);
+
                 $response = app(\App\Http\Controllers\SportsApiController::class)->ClientAuthentication($request);
+               
                 $data = json_decode($response->getContent(), true);
             if (isset($data['gameURL'])) {
                 $gameUrl = $data['gameURL'];
