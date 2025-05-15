@@ -6,16 +6,19 @@
 
 @section('content')
  
+<div id="framebox" style="padding-bottom: 100px!important;">
 
- <!-- dashboard section start -->
- @if(!empty($gameUrl))
-                            <iframe src="{{ $gameUrl }}" width="100%" height="1000px" frameborder="0" allowfullscreen></iframe>
-                        @else
-                            <div class="text-center">
-                                <h4 class="text-danger">@lang('Something went wrong.Please try again.')</h4>
-                                <a href="{{ url()->current() }}" class="btn btn-primary mt-3">@lang('Try Again')</a>
-                            </div>
-                        @endif
+    <!-- dashboard section start -->
+    @if(!empty($gameUrl))
+    <iframe src="{{ $gameUrl }}" width="100%" height="1000px" frameborder="0" allowfullscreen></iframe>
+    
+    @else
+    <div class="text-center">
+        <h4 class="text-danger">@lang('Something went wrong.Please try again.')</h4>
+        <a href="{{ url()->current() }}" class="btn btn-primary mt-3">@lang('Try Again')</a>
+    </div>
+    @endif
+</div>
 
  
    <!--dashboard section start -->
@@ -29,7 +32,7 @@
 
 
 
-  <section class="set-bg-bar-below py-3 pt-110" >
+  <section class="set-bg-bar-below py-3" >
         <div class="d-flex align-items-center justify-content-between px-3">
             <div class="single-event-box">
                 <a href="{{url('/')}}">
