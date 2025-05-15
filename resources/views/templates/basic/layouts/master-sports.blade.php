@@ -11,15 +11,7 @@
         @php 
         $user = auth()->user();
         @endphp
-     <div class="mobile_view_only" style="text-align: right;margin: 10px;overflow:auto">
 
-        <label class="btn btn-light btn-sm" style="float:left;color: black;font-weight: 600;">
-            <span style="float:left;color: red;font-weight: 200;"> Main Balance</span>
-            <br/>{{ gs('cur_sym') }}{{ number_format(getAmount(@$user->balance), 2, '.', ',') }}</label>
-         <a class="btn btn-warning btn-sm" href="{{ route('user.deposit.index') }}" style="margin-top:10px">@lang('Deposit Now')</a>
-         <a class="btn btn-danger btn-sm" href="{{ route('user.withdraw') }}" style="margin-top:10px">@lang('Withdraw')</a>
-         
-        </div>
 
     @else
         @include('Template::partials.header')
