@@ -1785,7 +1785,7 @@
             <hr />
             <div class="row align-items-start mb-4">
                 <!-- Payment Icons -->
-                <div class="col-lg-4 col-md-6 text-center mb-4">
+                <div class="col-lg-5 col-md-6 text-center mb-4">
                     <h3 class="common-gre-color">Payments</h3>
                     <div class="row justify-content-center">
                         @foreach(['gpay', 'upi', 'paypal', 'visa', 'bitcoin', 'tether'] as $icon)
@@ -1797,7 +1797,7 @@
                 </div>
 
                 <!-- Social Media Icons -->
-                <div class="col-lg-4 col-md-6 text-center mb-4">
+                <div class="col-lg-3 col-md-6 text-center mb-4">
                     <h3 class="common-gre-color">&nbsp;</h3>
                     <div class="row justify-content-center">
                         @foreach([
