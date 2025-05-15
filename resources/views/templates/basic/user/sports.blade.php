@@ -29,7 +29,7 @@
 
 
 
-  <section class="set-bg-bar-below py-3">
+  <section class="set-bg-bar-below py-3 pt-110" >
         <div class="d-flex align-items-center justify-content-between px-3">
             <div class="single-event-box">
                 <a href="{{url('/')}}">
