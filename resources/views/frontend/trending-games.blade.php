@@ -108,7 +108,7 @@
                         <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_DraTig">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/casino-main1.png')}}" alt="slide">-->
-                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/f45574de-b7ce-4a19-2f36-8478cf004f00/main" alt="slide">
+                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/f45574de-b7ce-4a19-2f36-8478cf004f00/style1" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
@@ -122,7 +122,7 @@
                              <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_SupAndBah">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/sports-main1.png')}}" alt="slide">-->
-                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/4386300b-0eb8-4f2c-1ff6-bde2043e8c00/main" alt="slide">
+                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/05081928-ef19-41ff-dba6-138abe4bde00/style1" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
@@ -136,7 +136,7 @@
                              <a href="javascript:void(0)" class="lobby-game" data-gameid="601" data-gametableid="ez_odtp">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/sports-main1.png')}}" alt="slide">-->
-                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/de75d36a-f174-47c0-ca1e-ef5e876b9200/main" alt="slide">
+                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/4b4ab5fa-4dac-494d-d09d-f21183a61200/style1" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
@@ -165,12 +165,13 @@
                     <!--</div>-->
                       <div class="post-slide">
                         <!--<a href="{{$autologinUrl}}">-->
-                         @if(Auth::check())
+                        <!-- @if(Auth::check())-->
                         <!--<a href="#" class="lobby-game">-->
-                         <a href="{{route('games.play-game','aviator')}}"> 
-                        @else
-                        <a href="{{route('user.login')}}">
-                        @endif
+                        <!-- <a href="{{route('games.play-game','aviator')}}"> -->
+                        <!--@else-->
+                        <!--<a href="{{route('user.login')}}">-->
+                        <!--@endif-->
+                        <a href="javascript:void(0)" class="lobby-game" data-gameid="1033" data-gametableid="imlive80075">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/satta.png')}}" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/e6125df2-ce9d-40d4-054d-1ef995a74d00/main" alt="slide">
@@ -266,7 +267,7 @@
                                 <!--<img src="https://cdn.cloudd.site/vking/lobby/20230704532492.webp" alt="slide">-->
                                  <!--<img src="{{ asset('assets/newhome/img/sliders/super_andar_bahar_ev.jpg')}}" alt="slide"> -->
                                   <!--auto roullete banner-->
-                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/3abe6b9a-61c3-4163-2b86-4e59c00d9500/main" alt="slide">
+                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/98daf757-c4c3-40f5-c98b-f60a349dc400/style1" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
@@ -311,12 +312,13 @@
                         <!--</a>-->
                     <!--</div>-->
                     <div class="post-slide">
-                        @if(Auth::check())
+                        <!--@if(Auth::check())-->
                         <!--<a href="#" class="lobby-game">-->
-                         <a href="{{route('games.play-game','aviator')}}"> 
-                        @else
-                        <a href="{{route('user.login')}}">
-                        @endif
+                        <!-- <a href="{{route('games.play-game','aviator')}}"> -->
+                        <!--@else-->
+                        <!--<a href="{{route('user.login')}}">-->
+                        <!--@endif-->
+                        <a href="javascript:void(0)" class="lobby-game" data-gameid="1033" data-gametableid="imlive80075">
                             <div class="post-img">
                                 <!--<img src="https://cdn.cloudd.site/vking/lobby/20230710296343.webp" alt="slide">-->
                                  <!--<img src="{{ asset('assets/newhome/img/sliders/aviator-home.png')}}" alt="slide"> -->
@@ -335,7 +337,7 @@
                                  <!--<img src="{{ asset('assets/newhome/img/sliders/live-roullete-at.png')}}" alt="slide">
     -->
     <!--live casino banner-->
-                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/a3bd5403-d2c5-4075-113f-5122218dd900/main" alt="slide">
+                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/f26ea85c-19d3-4d10-5a89-e48262403600/style1" alt="slide">
                                 <!--<img src="https://cdn.cloudd.site/vking/lobby/20230709492583.webp" alt="slide">-->
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
@@ -350,7 +352,7 @@
                             <div class="post-img">
                                  <!--<img src="{{ asset('assets/newhome/img/sliders/dragon_tiger_ev.jpg')}}" alt="slide"> -->
                                  <!--Dragon tiger banner-->
-                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/04d0da24-6073-4e83-6e3a-9cef4a011900/main" alt="slide"> 
+                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/04d0da24-6073-4e83-6e3a-9cef4a011900/style1" alt="slide"> 
                                 <!--<img src="https://cdn.cloudd.site/vking/lobby/20230708445186.webp" alt="slide">-->
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
@@ -392,13 +394,13 @@
        <div class="container set-none-slider-menu mt-4 mt-lg-5">
         <div class="row">
             <div class="col-md-12">
-                <h2 class="slider-main-title">Live Roulette </h2>
+                <h2 class="slider-main-title">Live Tables </h2>
                 <div id="stake-originals" class="owl-carousel">
                     <div class="post-slide">
                         <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="Evo_Craps">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/auto1.png')}}" alt="slide">-->
-                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/90433ba9-52a6-4156-90ce-3dba61e2ad00/main" alt="slide">
+                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/c9fd2602-2f47-4d87-31b0-2131b4167d00/style1" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
@@ -411,7 +413,7 @@
                         <a href="javascript:void(0)" class="lobby-game" data-gameid="601" data-gametableid="ez_bac">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/lightning_roulette_ev.jpg')}}" alt="slide">-->
-                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/4b3ca71a-986d-4bcd-1f10-35fa4296c800/main" alt="slide">
+                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/0b6222af-083f-416f-d763-4b6c9cd4d000/style1" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
@@ -424,7 +426,7 @@
                         <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_dbRoulette">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/xxxtreme_lightning_roulette_ev.jpg')}}" alt="slide">-->
-                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/635126f9-65a6-4484-0a71-2537821fdd00/style1" alt="slide">
+                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/52a08055-162a-40ae-0ee5-d17794395700/style1" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
@@ -931,9 +933,23 @@
                 <h2 class="slider-main-title">Fast Games</h2>
                 <div id="random-1-slider" class="owl-carousel">
                     <div class="post-slide">
+                        <a href="javascript:void(0)" class="lobby-game" data-gameid="1033" data-gametableid="imlive80084">
+                            <div class="post-img">
+                                <!--<img src="{{ asset('assets/newhome/img/sliders/deal_or_no_deal_ev.jpg')}}" alt="slide">-->
+                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/09f64d2c-bf43-4946-8480-08bde8033600/style1" alt="slide">
+                            </div>
+                            <div class="d-flex align-items-center gap-1 py-1">
+                                <span class="set-green-circle"></span>
+                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <span class="set-sm-text">playing</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="post-slide">
                         <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_COC">
                             <div class="post-img">
-                                <img src="{{ asset('assets/newhome/img/sliders/deal_or_no_deal_ev.jpg')}}" alt="slide">
+                                <!--<img src="{{ asset('assets/newhome/img/sliders/fan_tan_ev.jpg')}}" alt="slide">-->
+                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/62f4d91e-5087-479d-fb8e-187589f94200/style1" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
@@ -943,21 +959,10 @@
                         </a>
                     </div>
                     <div class="post-slide">
-                        <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_FanTan">
+                        
+                            <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_FanTan">
                             <div class="post-img">
                                 <img src="{{ asset('assets/newhome/img/sliders/fan_tan_ev.jpg')}}" alt="slide">
-                            </div>
-                            <div class="d-flex align-items-center gap-1 py-1">
-                                <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
-                                <span class="set-sm-text">playing</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="post-slide">
-                        <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="Evo_CraTm">
-                            <div class="post-img">
-                                <img src="{{ asset('assets/newhome/img/sliders/crazy_time_ev.jpg')}}" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
@@ -1907,7 +1912,7 @@
                 </a>
             </div>
             <div class="single-event-box">
-                <a href="https://cric.stakeye.com//">
+                <a href="https://stakeye.com/sports">
                     <div>
                         <img src="{{ asset('assets/newhome/img/ball-of-basketball.png')}}" alt="event" height="">
                     </div>
@@ -1916,7 +1921,8 @@
             </div>
                       <div class="single-event-box">
                 <!--<a href="https://stakeye.com/livecasino">-->
-                <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_ARou">
+                <!--<a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_ARou">-->
+                <a href="https://stakeye.com/trending-games">
                     <div>
                         <img src="{{ asset('assets/newhome/img/poker-cards.png')}}" alt="event" height="">
                     </div>
