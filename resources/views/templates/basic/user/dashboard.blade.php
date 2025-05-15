@@ -263,12 +263,13 @@ $kycInstruction = getContent('kyc\.content', true);
                     </div>
                         <div class="post-slide">
                         <!--<a href="{{$autologinUrl}}">-->
-                         @if(Auth::check())
+                        <!-- @if(Auth::check())-->
                         <!--<a href="#" class="lobby-game">-->
-                         <a href="{{route('games.play-game','aviator')}}"> 
-                        @else
-                        <a href="{{route('user.login')}}">
-                        @endif
+                        <!-- <a href="{{route('games.play-game','aviator')}}"> -->
+                        <!--@else-->
+                        <!--<a href="{{route('user.login')}}">-->
+                        <!--@endif-->
+                        <a href="javascript:void(0)" class="lobby-game" data-gameid="1033" data-gametableid="imlive80075">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/satta.png')}}" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/e6125df2-ce9d-40d4-054d-1ef995a74d00/main" alt="slide">
@@ -335,12 +336,13 @@ $kycInstruction = getContent('kyc\.content', true);
                         <!--</a>-->
                     <!--</div>-->
                     <div class="post-slide">
-                        @if(Auth::check())
+                        <!--@if(Auth::check())-->
                         <!--<a href="#" class="lobby-game">-->
-                         <a href="{{route('games.play-game','aviator')}}"> 
-                        @else
-                        <a href="{{route('user.login')}}">
-                        @endif
+                        <!-- <a href="{{route('games.play-game','aviator')}}"> -->
+                        <!--@else-->
+                        <!--<a href="{{route('user.login')}}">-->
+                        <!--@endif-->
+                        <a href="javascript:void(0)" class="lobby-game" data-gameid="1033" data-gametableid="imlive80075">
                             <div class="post-img">
                                 <!--<img src="https://cdn.cloudd.site/vking/lobby/20230710296343.webp" alt="slide">-->
                                  <!--<img src="{{ asset('assets/newhome/img/sliders/aviator-home.png')}}" alt="slide"> -->
@@ -1532,7 +1534,7 @@ $kycInstruction = getContent('kyc\.content', true);
         <div class="row align">
             
             <div class="col-md-5 text-center socail-media-div">
-            <h3 class=" common-gre-color" style="font-size:36px!important">Follow Us</h3>
+            <!--<h3 class=" common-gre-color" style="font-size:36px!important">Follow Us</h3>-->
                     <div class="row justify-content-center">
                     <div class="col-2 col-md-2 mb-3">
                             <a href="https://www.telegram.com" target="_blank">

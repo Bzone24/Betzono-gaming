@@ -936,12 +936,12 @@ class SportsApiController extends Controller
                 'methodName'    => 'resettled',
             ])->exists();
     
-            if ($alreadyResettled) {
-                return response()->json([
-                    'status'       => 109,
-                    'data'      =>  'Already resettled',
-                ], 200);
-            }
+            // if ($alreadyResettled) {
+            //     return response()->json([
+            //         'status'       => 109,
+            //         'data'      =>  'Already resettled',
+            //     ], 200);
+            // }
     
             // Get previous payoff (from 'settlegame')
             $previousPayoff = DB::table('sports_game_settlements_history')
