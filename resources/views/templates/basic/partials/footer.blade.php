@@ -29,10 +29,8 @@
         <hr class="mt-3">
         <div class="row align-items-center">
             <div class="col-md-6 text-md-start text-center">
-                <span class="footer-content__left-text"> @lang('Copyright') &copy;
-                    {{ now()->format('Y') }}, @lang('All Right Reserved By')
-                    <a class="text--base" href="{{ route('home') }}">{{ gs('site_name') }}.</a>
-                </span>
+            <span class="footer-content__left-text">License Info: Peniks Studio LTD, with registered address at Sakartvelo, Kalaki Batumi, Giorgi Ancuxelizis Kucha, N 16 (Georgia) and registered number 445598844.</span>
+               
             </div>
             <div class="col-md-6 mt-md-0 mt-3">
                 <ul class="inline-social-links d-flex align-items-center justify-content-md-end justify-content-center">
@@ -43,5 +41,26 @@
                 </ul>
             </div>
         </div>
+
+        <div class="row align-items-center" style="padding-top:40px;">
+
+            <div class="col-md-12 text-center">
+                    <span class="footer-content__left-text"> Copyright ©
+                        2025, All Right Reserved By               
+                            <a class="text--base" href="{{ route('home') }}">StakEye.</a>
+                    </span>
+                <br/>
+                <br/>
+            </div>
+
+        </div>
+
+        
     </div>
 </footer>
+<style>@media (max-width: 767px) {
+    .footer {
+        padding-bottom: 100px!important;
+    }
+}
+</style>
