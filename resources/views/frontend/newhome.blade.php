@@ -1780,103 +1780,57 @@
 
     <section id="supporting-section" class="py-5">
         <div class="container">
-            <!-- Section Title -->
             <hr />
-            <!-- Content Row -->
-            <div class="row align-items-start">
+            <div class="row align-items-start mb-4">
                 <!-- Payment Icons -->
-                <div class="col-md-4 text-center">
-                    <h3 class="common-gre-color" style="font-size:36px!important">Payments</h3>
+                <div class="col-lg-4 col-md-6 text-center mb-4">
+                    <h3 class="common-gre-color">Payments</h3>
                     <div class="row justify-content-center">
-                        <div class="col-4 col-md-6 mb-3">
-                            <img src="{{ asset('assets/newhome/img/Payment_icons/gpay.png') }}" alt="GPay" class="payment-icon">
-                        </div>
-                        <div class="col-4 col-md-6 mb-3">
-                            <img src="{{ asset('assets/newhome/img/Payment_icons/upi.png') }}" alt="UPI" class="payment-icon">
-                        </div>
-                        <div class="col-4 col-md-6 mb-3">
-                            <img src="{{ asset('assets/newhome/img/Payment_icons/paypal.png') }}" alt="PayPal" class="payment-icon">
-                        </div>
-                        <div class="col-4 col-md-6 mb-3">
-                            <img src="{{ asset('assets/newhome/img/Payment_icons/visa.png') }}" alt="Visa" class="payment-icon">
-                        </div>
-                        <div class="col-4 col-md-6 mb-3">
-                            <img src="{{ asset('assets/newhome/img/Payment_icons/bitcoin.png') }}" alt="Bitcoin" class="payment-icon">
-                        </div>
-                        <div class="col-4 col-md-6 mb-3">
-                            <img src="{{ asset('assets/newhome/img/Payment_icons/tether.png') }}" alt="Tether" class="payment-icon">
-                        </div>
+                        @foreach(['gpay', 'upi', 'paypal', 'visa', 'bitcoin', 'tether'] as $icon)
+                            <div class="col-4 col-md-4 mb-3">
+                                <img src="{{ asset('assets/newhome/img/Payment_icons/' . $icon . '.png') }}" alt="{{ ucfirst($icon) }}" class="payment-icon img-fluid">
+                            </div>
+                        @endforeach
                     </div>
                 </div>
 
                 <!-- Social Media Icons -->
-                <div class="col-md-4 text-center">
-                    <h3 class="common-gre-color" style="font-size:36px!important">Follow Us</h3>
+                <div class="col-lg-4 col-md-6 text-center mb-4">
+                    <h3 class="common-gre-color">&nbsp;</h3>
                     <div class="row justify-content-center">
-                        <div class="col-4 col-md-4 mb-3">
-                            <a href="https://www.telegram.com" target="_blank">
-                                <img src="https://cdn.cloudd.site/content/assets/images/18plus.png?v=1" alt="18+" class="social-icon">
-                            </a>
-                        </div>
-                        <div class="col-4 col-md-4 mb-3">
-                            <a href="https://www.instagram.com" target="_blank">
-                                <img src="https://cdn.cloudd.site/content/assets/images/gamecare.png?v=1" alt="GameCare" class="social-icon">
-                            </a>
-                        </div>
-                        <div class="col-4 col-md-4 mb-3">
-                            <a href="https://www.facebook.com" target="_blank">
-                                <img src="https://cdn.cloudd.site/content/assets/images/gt.png?v=1" alt="GT" class="social-icon">
-                            </a>
-                        </div>
+                        @foreach([
+                            ['url' => 'https://www.telegram.com', 'img' => '18plus.png', 'alt' => '18+'],
+                            ['url' => 'https://www.instagram.com', 'img' => 'gamecare.png', 'alt' => 'GameCare'],
+                            ['url' => 'https://www.facebook.com', 'img' => 'gt.png', 'alt' => 'GT']
+                        ] as $social)
+                            <div class="col-4 col-md-4 mb-3">
+                                <a href="{{ $social['url'] }}" target="_blank">
+                                    <img src="https://cdn.cloudd.site/content/assets/images/{{ $social['img'] }}" alt="{{ $social['alt'] }}" class="social-icon img-fluid">
+                                </a>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
 
-                <!-- Additional Social Media Icons -->
-                <div class="col-md-4 text-center">
-                    <h3 class="common-gre-color" style="font-size:36px!important">Our App</h3>
-                    <div class="row justify-content-center">
-                        <div class="col-4 col-md-4 mb-3">
-                        <a href="{{url('assets/front/stakeye.apk')}}" target="_blank"  style="font-size: 18px; padding: 10px 20px;">
-                        <img src="{{url('assets/front/androidapp.png')}}" alt="Android App" >
-                            
-                        </a>
-                     
-                        </div>
-                      
-                    </div>
-             
-
-                        
+                <!-- Download App -->
+                <div class="col-lg-4 col-md-12 text-center">
+                    <h3 class="common-gre-color">Download App</h3>
+                    <a href="{{ url('assets/front/stakeye.apk') }}" target="_blank">
+                        <img src="{{ url('assets/front/androidapp.png') }}" alt="Android App" class="img-fluid" style="max-width: 150px;">
+                    </a>
                 </div>
-
-
-
             </div>
         </div>
 
         <style>
-            .social-icon {
-                width: 70px;
-                height: 70px;
-                object-fit: contain;
-                margin: 5px;
-            }
-
-            .payment-icon {
-                width: 80px;
-                height: 80px;
+            .social-icon, .payment-icon {
+                max-width: 80px;
                 margin: 5px;
             }
 
             @media (max-width: 767px) {
-                .social-icon {
-                    width: 60px;
-                    height: 60px;
-                }
-
-                .payment-icon {
-                    width: 70px;
-                    height: 70px;
+                .social-icon, .payment-icon {
+                    max-width: 60px;
                 }
             }
         </style>
@@ -1884,39 +1838,108 @@
 
 
     <!-- Footer Section Start -->
-    <footer class="footer pt-5">
-        <div class="container">
-        
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Footer Section End -->
+    <footer class="footer" style="    padding-top: 3.125rem;
+    padding-bottom: 1.875rem; ">
 
-
-    <div class="widget-wrapper">
-                <div class="row">
-                    <div class="col-xl-12 col-md-12 text-center" style="max-width:30%;margin:auto">
-                        <img class="mb-50" src="{{ asset('assets/newhome/img/logo/logo1.png')}}" alt="logo">
-                        </div>
-                        </div>
-                        
-                <!--          <div class="row">-->
-                <!--    <div class="col-xl-12 col-md-12 text-center">-->
-                        
-                <!--        <ul>-->
-                <!--            <li><a href="https://bzone24.com/" target="_blank">Games</a></li>-->
-                <!--            <li><a href="https://bzone24.com/" target="_blank">Terms & Conditions</a></li>-->
-                <!--            <li><a href="https://bzone24.com/" target="_blank">Privacy Policy</a></li>-->
-                <!--        </ul>-->
-                <!--    </div>-->
-                <!--</div>-->
+    <div class="container">
+      
+        <div class="row align-items-center">
+            <div class="col-lg-2 col-md-3 text-md-start text-center">
+                <a class="footer-logo" href="http://localhost/stakeye"><img src="http://localhost/stakeye/assets/images/logo_icon/logo.png" alt="image"></a>
             </div>
+            <div class="col-lg-10 col-md-9 mt-md-0 mt-3">
+                <ul class="inline-menu d-flex justify-content-md-end justify-content-center align-items-center flex-wrap" style="    margin: -.1875rem -.625rem;">
+                    <li><a href="http://localhost/stakeye">Home</a></li>
+                    <!-- <li><a href="http://localhost/stakeye/lottery">Lotteries</a></li> -->
 
-
-           <div class="copy-right">
-                <p>Design and Developed by StakEye </p>
+                    
+                                            <li><a href="http://localhost/stakeye/policy/privacy-policy?42">Privacy Policy</a></li>
+                                            <li><a href="http://localhost/stakeye/policy/terms-of-service?43">Terms of Service</a></li>
+                                    </ul>
             </div>
         </div>
-    </footer>
-    <!-- Footer Section End -->
+        <hr class="mt-3">
+        <div class="row align-items-center flex-wrap">
 
+            <div class="col-md-6 text-md-start text-center mb-3 mb-md-0">
+            <span class="footer-content__left-text">License Info: Peniks Studio LTD, with registered address at Sakartvelo, Kalaki Batumi, Giorgi Ancuxelizis Kucha, N 16 (Georgia) and registered number 445598844.</span>
+            </div>
+
+            <div class="col-md-6 text-md-end text-center">
+            <ul class="inline-social-links d-flex align-items-center justify-content-md-end justify-content-center">
+                <li><a href="https://www.facebook.com" target="_blank" style="color: #fff; font-size: 20px;"><i class="fab fa-facebook-f"></i></a></li>
+                <li><a href="https://x.com" target="_blank" style="color: #fff; font-size: 20px;"><i class="fab fa-twitter"></i></a></li>
+                <li><a href="https://twitch.com" target="_blank" style="color: #fff; font-size: 20px;"><i class="fab fa-twitch"></i></a></li>
+            </ul>
+            </div>
+
+        </div>
+
+
+        <div class="row align-items-center" style="padding-top:40px;">
+
+            <div class="col-md-12 text-center">
+                    <span class="footer-content__left-text"> Copyright ©
+                        2025, All Right Reserved By               
+                            <a class="text--base" href="{{ route('home') }}">StakEye.</a>
+                    </span>
+                <br/>
+                <br/>
+            </div>
+
+        </div>
+
+    </div>
+
+    
+</footer>
+<style>
+    .footer{
+        background:black!important;
+    }
+.inline-social-links li {
+    padding: .1875rem .4375rem;
+}
+
+.inline-social-links li a {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    color: #fff;
+}
+@media (max-width: 767px) {
+    .footer {
+        padding-bottom: 100px!important;
+    }
+}
+
+
+.inline-menu li a {
+    color: #fff;
+}
+.inline-menu li {
+    padding: .1875rem .625rem;
+}
+
+.footer-logo img {
+    max-height: 50px;
+}
+.text--base {
+    color: #fc6404 !important;
+}
+
+    </style>
     <!-- Back To Top Start -->
     <a href="#" class="scroll-top btn-hover">
         <span class="icon-gden- icon-gdenangle-up"></span>
@@ -2156,6 +2179,7 @@
             });
         });
     </script>
+    
 </body>
 
 </html>

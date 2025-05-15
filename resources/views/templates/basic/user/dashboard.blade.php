@@ -1532,7 +1532,7 @@ $kycInstruction = getContent('kyc\.content', true);
         <div class="row align">
             
             <div class="col-md-5 text-center socail-media-div">
-            <h3 class=" common-gre-color" style="font-size:36px!important">Follow Us</h3>
+            <h3 class=" common-gre-color" style="font-size:36px!important">&nbsp;</h3>
                     <div class="row justify-content-center">
                     <div class="col-2 col-md-2 mb-3">
                             <a href="https://www.telegram.com" target="_blank">
@@ -1554,7 +1554,7 @@ $kycInstruction = getContent('kyc\.content', true);
 
  
             <div class="col-md-7 text-center">
-                <h3 class="common-gre-color" style="font-size:36px!important">Download Our App</h3>
+                <h3 class="common-gre-color" style="font-size:36px!important">Download App</h3>
                 <div class="row justify-content-center">
                     <div class="col-4 col-md-3 mb-3"> 
                     <a href="{{url('assets/front/stakeye.apk')}}" target="_blank"  style="font-size: 18px; padding: 10px 20px;">
