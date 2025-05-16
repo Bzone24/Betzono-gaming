@@ -219,7 +219,7 @@ $kycInstruction = getContent('kyc\.content', true);
                         
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/casino-main1.png')}}" alt="slide">-->
-                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/c3c93001-5906-4980-152a-a6dce3789f00/main" alt="slide">
+                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/88a9cb13-7a7a-4190-6a9a-42afbd29f300/main" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
@@ -234,7 +234,7 @@ $kycInstruction = getContent('kyc\.content', true);
                              <a href="https://stakeye.com/sports">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/sports-main1.png')}}" alt="slide">-->
-                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/0e5386b9-341b-4e38-6592-9892ff8a9f00/main" alt="slide">
+                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/f3923c4c-07a8-4add-6d24-04c2d4d31100/main" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
