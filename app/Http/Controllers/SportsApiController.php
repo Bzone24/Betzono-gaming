@@ -707,8 +707,8 @@ class SportsApiController extends Controller
             'TransactionType'  => 'required',
             'PayableAmount'           => 'required|numeric|min:0',
             'NetPL'          => 'required',
-            'CommissionAmount'           => 'required|numeric|min:0',
-            'Commission'          => 'required|numeric|min:0',
+            'CommissionAmount'           => 'required|numeric',
+            'Commission'          => 'required|numeric',
             'Point'         => 'required|integer',
         ]);
  
@@ -890,8 +890,8 @@ class SportsApiController extends Controller
             'TransactionType'  => 'required',
             'PayableAmount'           => 'required|numeric|min:0',
             'NetPL'          => 'required',
-            'CommissionAmount'           => 'required|numeric|min:0',
-            'Commission'          => 'required|numeric|min:0',
+            'CommissionAmount'           => 'required|numeric',
+            'Commission'          => 'required|numeric',
             'Point'         => 'required|integer',
         ]);
     
