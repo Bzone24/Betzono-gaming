@@ -28,7 +28,7 @@
 
 <!-- Add font awesome icons -->
 <a href="https://www.facebook.com/bzone247" class="fa fa-facebook"></a>
-<a href="https://t.me/Bzone24" class="fa fa-telegram"></a>
+<a href="https://t.me/stakeye_casino" class="fa fa-telegram"></a>
 <a href="https://www.whatsapp.com/channel/0029VaDwEOLGE56rMjdwsf3H" class="fa fa-whatsapp"></a>
 <a href="https://www.instagram.com/bzone247/" class="fa fa-instagram"></a>
 <!-- <i class="fa-brands fa-x-twitter"></i> -->
