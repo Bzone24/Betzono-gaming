@@ -131,7 +131,7 @@ class RegisterController extends Controller
         $user = new User();
         $user->email = strtolower($data['email']);
         $user->firstname = $data['firstname'];
-        $user->username = $userName;
+        $user->username = str_replace(" ", "-", $userName);
         $user->mobile =  $data['mobile'] ?? null;
         $user->profile_complete = 1;
         $user->dial_code =  $data['mobile_code'] ?? null;
