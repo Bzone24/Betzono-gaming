@@ -37,8 +37,7 @@
                                     <div class="form-group col-12"> 
                                         <label class="form-label">@lang('User Name')</label>
                                         <input type="text" class="form-control form--control checkUser" name="username" id="username"
-                                               value="{{old("username")}}" required
-                                               pattern="^[a-zA-Z0-9_]+$" title="Username can only contain letters, numbers, and underscores.">
+                                               value="{{old("username")}}" required>
                                         <span class="text--danger usernameExist"></span>
                                     </div> 
 
@@ -282,6 +281,15 @@
                     
                 }
             });
+            //restrict user to add specail char and space in id username
+            $('#username').on('keypress', function (e) {
+                var char = String.fromCharCode(e.which);
+                if (!/^[a-zA-Z0-9-_]+$/.test(char)) {
+                    e.preventDefault();
+                }
+            });
+
+
 
             function checkUser(value, name) {
                 var url = "{{ route('user.checkUser') }}";
