@@ -37,7 +37,8 @@
                                     <div class="form-group col-12"> 
                                         <label class="form-label">@lang('User Name')</label>
                                         <input type="text" class="form-control form--control checkUser" name="username" id="username"
-                                               value="{{old("username")}}" required>
+                                               value="{{old("username")}}" required
+                                               pattern="^[a-zA-Z0-9_]+$" title="Username can only contain letters, numbers, and underscores.">
                                         <span class="text--danger usernameExist"></span>
                                     </div> 
 

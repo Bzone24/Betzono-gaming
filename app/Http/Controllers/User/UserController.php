@@ -410,10 +410,11 @@ class UserController extends Controller
         return view('Template::user.referral.referred', compact('pageTitle', 'referrals'));
     }
 
-    public function updateReferalStatus($userid, $action){
+    public function updateReferalStatus($userid, $action)
+    {
         //check user is in referral list
-        $referral = User::where('ref_by', auth()->user()->id)->where("id",$userid)->first();
-        if(!$referral){
+        $referral = User::where('ref_by', auth()->user()->id)->where("id", $userid)->first();
+        if (!$referral) {
             $notify[] = ['error', 'You are not permitted to access this'];
             return back()->withNotify($notify);
         }
@@ -441,9 +442,8 @@ class UserController extends Controller
             return redirect()->route('user.login')->withNotify($notify);
         }
         //check game url is available in session
-       
-        if (!session()->has('game_url')) {
-            $request = new \Illuminate\Http\Request([
+        
+        $request = new \Illuminate\Http\Request([
             'partnerId'      => $this->sportsPartnerId,
             'Username'       => $user->username,
             'isDemo'         => false,
@@ -453,22 +453,14 @@ class UserController extends Controller
             'isDarkTheme'    => true,
             'sportName'      => 'Cricket',
             'event'          => '',
-                ]);
-                $request->headers->set('x-app', $this->xApp);
+        ]);
+        $request->headers->set('x-app', $this->xApp);
+        $response = app(\App\Http\Controllers\SportsApiController::class)->ClientAuthentication($request);
+        $data = json_decode($response->getContent(), true);
 
-                $response = app(\App\Http\Controllers\SportsApiController::class)->ClientAuthentication($request);
-               
-                $data = json_decode($response->getContent(), true);
-            if (isset($data['gameURL'])) {
-                $gameUrl = $data['gameURL'];
-                session()->put('game_url', $gameUrl);
-            } else {
-                $gameUrl = '';
-            }
-        } else {
-            $gameUrl = session()->get('game_url') ?? '';
+        if (isset($data['gameURL'])) {
+            $gameUrl = $data['gameURL'];
         }
-
-        return view('Template::user.sports')->with('gameUrl',$gameUrl)->with('pageTitle', $pageTitle);
+        return view('Template::user.sports')->with('gameUrl', $gameUrl)->with('pageTitle', $pageTitle);
     }
 }
