@@ -586,127 +586,132 @@
    
      <!-- SLIDERS -->
      
-    <!--  <div class="container set-none-slider-menu mt-4 mt-lg-5">-->
-    <!--    <div class="row">-->
-    <!--        <div class="col-md-12">-->
-    <!--            <h2 class="slider-main-title">Live Card Games</h2>-->
-    <!--            <div id="trending-slider" class="owl-carousel">-->
-    <!--                <div class="post-slide">-->
-    <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="601" data-gametableid="ez_dt">-->
-                         <!--@if(Auth::check())-->
+      <div class="container set-none-slider-menu mt-4 mt-lg-5">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="slider-main-title">Live Card Games</h2>
+                <div id="trending-slider" class="owl-carousel">
+                    <div class="post-slide">
+                        <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_CasHold">
+                        <!-- @if(Auth::check())-->
                         <!--<a href="{{route('games.play-game','number_prediction')}}">-->
                         <!--@else-->
                         <!--<a href="{{route('user.login')}}">-->
                         <!--@endif-->
-    <!--                        <div class="post-img">-->
-    <!--                            <img src="{{ asset('assets/newhome/img/sliders/dragon_tiger_ezugi.png')}}" alt="slide">-->
-    <!--                        </div>-->
-    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
-    <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
-    <!--                            <span class="set-sm-text">playing</span>-->
-    <!--                        </div>-->
-    <!--                    </a>-->
-    <!--                </div>-->
-    <!--                <div class="post-slide">-->
-    <!--                     <a href="javascript:void(0)" class="lobby-game" data-gameid="601" data-gametableid="ez_ab">-->
+                            <div class="post-img">
+                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/1d20c0f3-c159-4dfd-758e-242d9b97a200/style1" alt="slide">
+                                <!--<img src="{{ asset('assets/newhome/img/sliders/dragon_tiger_ezugi.png')}}" alt="slide">-->
+                            </div>
+                            <div class="d-flex align-items-center gap-1 py-1">
+                                <span class="set-green-circle"></span>
+                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <span class="set-sm-text">playing</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="post-slide">
+                         <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_Frsprsnwelbact">
                     <!--@if(Auth::check())-->
                     <!--    <a href="{{route('games.play-game','color_prediction')}}">-->
                     <!--    @else-->
                     <!--    <a href="{{route('user.login')}}">-->
                     <!--    @endif-->
-    <!--                        <div class="post-img">-->
-    <!--                            <img src="{{ asset('assets/newhome/img/sliders/andar_bahar_ezugi.png')}}" alt="slide">-->
-    <!--                        </div>-->
-    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
-    <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
-    <!--                            <span class="set-sm-text">playing</span>-->
-    <!--                        </div>-->
-    <!--                    </a>-->
-    <!--                </div>-->
-    <!--                      <div class="post-slide">-->
-    <!--                           <a href="javascript:void(0)" class="lobby-game" data-gameid="601" data-gametableid="ez_botp">-->
+                            <div class="post-img">
+                                <!--<img src="{{ asset('assets/newhome/img/sliders/andar_bahar_ezugi.png')}}" alt="slide">-->
+                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/ed8fb141-504c-4eaa-3f50-b12a7a507100/style1" alt="slide">
+                            </div>
+                            <div class="d-flex align-items-center gap-1 py-1">
+                                <span class="set-green-circle"></span>
+                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <span class="set-sm-text">playing</span>
+                            </div>
+                        </a>
+                    </div>
+                          <div class="post-slide">
+                               <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_FStudio">
                     <!--@if(Auth::check())-->
                     <!--    <a href="{{route('games.play-game','aviator')}}">-->
                     <!--    @else-->
                     <!--    <a href="{{route('user.login')}}">-->
                     <!--    @endif-->
-    <!--                        <div class="post-img">-->
-    <!--                            <img src="{{ asset('assets/newhome/img/sliders/teen_patti_ezugi.png')}}" alt="slide">-->
-    <!--                        </div>-->
-    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
-    <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
-    <!--                            <span class="set-sm-text">playing</span>-->
-    <!--                        </div>-->
-    <!--                    </a>-->
-    <!--                </div>-->
-    <!--                <div class="post-slide">-->
-    <!--                 <a href="javascript:void(0)" class="lobby-game" data-gameid="601" data-gametableid="ez_cwar">-->
+                            <div class="post-img">
+                                <!--<img src="{{ asset('assets/newhome/img/sliders/teen_patti_ezugi.png')}}" alt="slide">-->
+                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/2c009059-c0e3-4c66-6ed2-021483236100/style1" alt="slide">
+                            </div>
+                            <div class="d-flex align-items-center gap-1 py-1">
+                                <span class="set-green-circle"></span>
+                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <span class="set-sm-text">playing</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="post-slide">
+                     <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_FStudiodice">
                  
-    <!--                        <div class="post-img">-->
-    <!--                            <img src="{{ asset('assets/newhome/img/sliders/cricket_war_ezugi.png')}}" alt="slide">-->
-    <!--                        </div>-->
-    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
-    <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
-    <!--                            <span class="set-sm-text">playing</span>-->
-    <!--                        </div>-->
-    <!--                    </a>-->
-    <!--                </div>-->
-    <!--                <div class="post-slide">-->
-    <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="601" data-gametableid="ez_chom">-->
-    <!--                        <div class="post-img">-->
-    <!--                            <img src="{{ asset('assets/newhome/img/sliders/casino_holdem_ezugi.png')}}" alt="slide">-->
-    <!--                        </div>-->
-    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
-    <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
-    <!--                            <span class="set-sm-text">playing</span>-->
-    <!--                        </div>-->
-    <!--                    </a>-->
-    <!--                </div>-->
-    <!--                <div class="post-slide">-->
-    <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="601" data-gametableid="ez_32cd">-->
-    <!--                        <div class="post-img">-->
-    <!--                            <img src="{{ asset('assets/newhome/img/sliders/32_cards_ezugi.png')}}" alt="slide">-->
-    <!--                        </div>-->
-    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
-    <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
-    <!--                            <span class="set-sm-text">playing</span>-->
-    <!--                        </div>-->
-    <!--                    </a>-->
-    <!--                </div>-->
-    <!--                <div class="post-slide">-->
-    <!--                  <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="Evo_Craps">-->
-    <!--                        <div class="post-img">-->
-    <!--                            <img src="{{ asset('assets/newhome/img/sliders/craps_thumbnail_ev.jpg')}}" alt="slide">-->
-    <!--                        </div>-->
-    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
-    <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
-    <!--                            <span class="set-sm-text">playing</span>-->
-    <!--                        </div>-->
-    <!--                    </a>-->
-    <!--                </div>-->
-    <!--                <div class="post-slide">-->
-    <!--                  <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_DraTig">-->
-    <!--                        <div class="post-img">-->
-    <!--                            <img src="{{ asset('assets/newhome/img/sliders/dragon_tiger_web_imagery_ev.jpg')}}" alt="slide">-->
-    <!--                        </div>-->
-    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
-    <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
-    <!--                            <span class="set-sm-text">playing</span>-->
-    <!--                        </div>-->
-    <!--                    </a>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
-    <!--</div>-->
+                            <div class="post-img">
+                                <!--<img src="{{ asset('assets/newhome/img/sliders/cricket_war_ezugi.png')}}" alt="slide">-->
+                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/8f61d477-f09d-407f-84de-1dd2a4efbc00/style1" alt="slide">
+                            </div>
+                            <div class="d-flex align-items-center gap-1 py-1">
+                                <span class="set-green-circle"></span>
+                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <span class="set-sm-text">playing</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="post-slide">
+                        <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_MonoL">
+                            <div class="post-img">
+                                <!--<img src="{{ asset('assets/newhome/img/sliders/casino_holdem_ezugi.png')}}" alt="slide">-->
+                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/0986c4e7-7053-42e9-ede5-8841f3fb1d00/style1" alt="slide">
+                            </div>
+                            <div class="d-flex align-items-center gap-1 py-1">
+                                <span class="set-green-circle"></span>
+                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <span class="set-sm-text">playing</span>
+                            </div>
+                        </a>
+                    </div>
+                    <!--<div class="post-slide">-->
+                    <!--    <a href="javascript:void(0)" class="lobby-game" data-gameid="601" data-gametableid="ez_32cd">-->
+                    <!--        <div class="post-img">-->
+                    <!--            <img src="{{ asset('assets/newhome/img/sliders/32_cards_ezugi.png')}}" alt="slide">-->
+                    <!--        </div>-->
+                    <!--        <div class="d-flex align-items-center gap-1 py-1">-->
+                    <!--            <span class="set-green-circle"></span>-->
+                    <!--            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+                    <!--            <span class="set-sm-text">playing</span>-->
+                    <!--        </div>-->
+                    <!--    </a>-->
+                    <!--</div>-->
+                    <!--<div class="post-slide">-->
+                    <!--  <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="Evo_Craps">-->
+                    <!--        <div class="post-img">-->
+                    <!--            <img src="{{ asset('assets/newhome/img/sliders/craps_thumbnail_ev.jpg')}}" alt="slide">-->
+                    <!--        </div>-->
+                    <!--        <div class="d-flex align-items-center gap-1 py-1">-->
+                    <!--            <span class="set-green-circle"></span>-->
+                    <!--            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+                    <!--            <span class="set-sm-text">playing</span>-->
+                    <!--        </div>-->
+                    <!--    </a>-->
+                    <!--</div>-->
+                    <!--<div class="post-slide">-->
+                    <!--  <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_DraTig">-->
+                    <!--        <div class="post-img">-->
+                    <!--            <img src="{{ asset('assets/newhome/img/sliders/dragon_tiger_web_imagery_ev.jpg')}}" alt="slide">-->
+                    <!--        </div>-->
+                    <!--        <div class="d-flex align-items-center gap-1 py-1">-->
+                    <!--            <span class="set-green-circle"></span>-->
+                    <!--            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+                    <!--            <span class="set-sm-text">playing</span>-->
+                    <!--        </div>-->
+                    <!--    </a>-->
+                    <!--</div>-->
+                </div>
+            </div>
+        </div>
+    </div>
     
     <!-- SLIDERS -->
     
@@ -1445,120 +1450,120 @@
     <!--    </div>-->
     <!--</div>-->
 
-    <!-- SLIDERS -->
-    <!--<div class="container set-none-slider-menu mt-4 mt-lg-5">-->
-    <!--    <div class="row">-->
-    <!--        <div class="col-md-12">-->
-    <!--            <h2 class="slider-main-title">New Games</h2>-->
-    <!--            <div id="random-3-slider" class="owl-carousel">-->
-    <!--                <div class="post-slide">-->
-    <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-alphaeagle">-->
-    <!--                        <div class="post-img">-->
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/slots/rt-1.jpg')}}" alt="slide">-->
-    <!--                            <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1201.jpg" alt="slide">-->
-    <!--                        </div>-->
-    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
-    <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
-    <!--                            <span class="set-sm-text">playing</span>-->
-    <!--                        </div>-->
-    <!--                    </a>-->
-    <!--                </div>-->
-    <!--                <div class="post-slide">-->
-    <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-jokerbombs">-->
-    <!--                        <div class="post-img">-->
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/slots/rt-2.jpg')}}" alt="slide">-->
-    <!--                             <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1117.jpg" alt="slide">-->
-    <!--                        </div>-->
-    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
-    <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
-    <!--                            <span class="set-sm-text">playing</span>-->
-    <!--                        </div>-->
-    <!--                    </a>-->
-    <!--                </div>-->
-    <!--                <div class="post-slide">-->
-    <!--                   <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-mysterymotel">-->
-    <!--                        <div class="post-img">-->
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/slots/rt-3.jpg')}}" alt="slide">-->
-    <!--                             <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1071.jpg" alt="slide">-->
-    <!--                        </div>-->
-    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
-    <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
-    <!--                            <span class="set-sm-text">playing</span>-->
-    <!--                        </div>-->
-    <!--                    </a>-->
-    <!--                </div>-->
-    <!--                <div class="post-slide">-->
-    <!--                   <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-buffalostacknsync">-->
-    <!--                        <div class="post-img">-->
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/slots/rt-4.jpg')}}" alt="slide">-->
-    <!--                             <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1176.jpg" alt="slide">-->
-    <!--                        </div>-->
-    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
-    <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
-    <!--                            <span class="set-sm-text">playing</span>-->
-    <!--                        </div>-->
-    <!--                    </a>-->
-    <!--                </div>-->
-    <!--                <div class="post-slide">-->
-    <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="1007" data-gametableid="HAK-franksfarm">-->
-    <!--                        <div class="post-img">-->
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/slots/rt-6.jpg')}}" alt="slide">-->
-    <!--                             <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1225.jpg" alt="slide">-->
-    <!--                        </div>-->
-    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
-    <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
-    <!--                            <span class="set-sm-text">playing</span>-->
-    <!--                        </div>-->
-    <!--                    </a>-->
-    <!--                </div>-->
-    <!--                <div class="post-slide">-->
-    <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-dragonsdomain">-->
-    <!--                        <div class="post-img">-->
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/slots/rt-7.jpg')}}" alt="slide">-->
-    <!--                             <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1360.jpg" alt="slide">-->
-    <!--                        </div>-->
-    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
-    <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
-    <!--                            <span class="set-sm-text">playing</span>-->
-    <!--                        </div>-->
-    <!--                    </a>-->
-    <!--                </div>-->
-    <!--                <div class="post-slide">-->
-    <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-doublerainbow">-->
-    <!--                        <div class="post-img">-->
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/slots/rt-8.jpg')}}" alt="slide">-->
-    <!--                             <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1144.jpg" alt="slide">-->
-    <!--                        </div>-->
-    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
-    <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
-    <!--                            <span class="set-sm-text">playing</span>-->
-    <!--                        </div>-->
-    <!--                    </a>-->
-    <!--                </div>-->
-    <!--                <div class="post-slide">-->
-    <!--                   <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-cubes2">-->
-    <!--                        <div class="post-img">-->
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/slots/rt-17.jpg')}}" alt="slide">-->
-    <!--                             <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1069.jpg" alt="slide">-->
-    <!--                        </div>-->
-    <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
-    <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
-    <!--                            <span class="set-sm-text">playing</span>-->
-    <!--                        </div>-->
-    <!--                    </a>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
-    <!--</div>-->
+     <!--SLIDERS -->
+    <div class="container set-none-slider-menu mt-4 mt-lg-5">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="slider-main-title">New Games</h2>
+                <div id="random-3-slider" class="owl-carousel">
+                    <div class="post-slide">
+                        <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-alphaeagle">
+                            <div class="post-img">
+                                <img src="{{ asset('assets/newhome/img/sliders/slots/rt-1.jpg')}}" alt="slide">
+                                <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1201.jpg" alt="slide">
+                            </div>
+                            <div class="d-flex align-items-center gap-1 py-1">
+                                <span class="set-green-circle"></span>
+                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <span class="set-sm-text">playing</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="post-slide">
+                        <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-jokerbombs">
+                            <div class="post-img">
+                                <img src="{{ asset('assets/newhome/img/sliders/slots/rt-2.jpg')}}" alt="slide">
+                                 <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1117.jpg" alt="slide">
+                            </div>
+                            <div class="d-flex align-items-center gap-1 py-1">
+                                <span class="set-green-circle"></span>
+                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <span class="set-sm-text">playing</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="post-slide">
+                       <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-mysterymotel">
+                            <div class="post-img">
+                                <img src="{{ asset('assets/newhome/img/sliders/slots/rt-3.jpg')}}" alt="slide">
+                                 <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1071.jpg" alt="slide">
+                            </div>
+                            <div class="d-flex align-items-center gap-1 py-1">
+                                <span class="set-green-circle"></span>
+                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <span class="set-sm-text">playing</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="post-slide">
+                       <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-buffalostacknsync">
+                            <div class="post-img">
+                                <img src="{{ asset('assets/newhome/img/sliders/slots/rt-4.jpg')}}" alt="slide">
+                                 <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1176.jpg" alt="slide">
+                            </div>
+                            <div class="d-flex align-items-center gap-1 py-1">
+                                <span class="set-green-circle"></span>
+                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <span class="set-sm-text">playing</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="post-slide">
+                        <a href="javascript:void(0)" class="lobby-game" data-gameid="1007" data-gametableid="HAK-franksfarm">
+                            <div class="post-img">
+                                <img src="{{ asset('assets/newhome/img/sliders/slots/rt-6.jpg')}}" alt="slide">
+                                 <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1225.jpg" alt="slide">
+                            </div>
+                            <div class="d-flex align-items-center gap-1 py-1">
+                                <span class="set-green-circle"></span>
+                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <span class="set-sm-text">playing</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="post-slide">
+                        <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-dragonsdomain">
+                            <div class="post-img">
+                                <img src="{{ asset('assets/newhome/img/sliders/slots/rt-7.jpg')}}" alt="slide">
+                                 <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1360.jpg" alt="slide">
+                            </div>
+                            <div class="d-flex align-items-center gap-1 py-1">
+                                <span class="set-green-circle"></span>
+                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <span class="set-sm-text">playing</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="post-slide">
+                        <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-doublerainbow">
+                            <div class="post-img">
+                                <img src="{{ asset('assets/newhome/img/sliders/slots/rt-8.jpg')}}" alt="slide">
+                                 <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1144.jpg" alt="slide">
+                            </div>
+                            <div class="d-flex align-items-center gap-1 py-1">
+                                <span class="set-green-circle"></span>
+                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <span class="set-sm-text">playing</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="post-slide">
+                       <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-cubes2">
+                            <div class="post-img">
+                                <img src="{{ asset('assets/newhome/img/sliders/slots/rt-17.jpg')}}" alt="slide">
+                                 <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1069.jpg" alt="slide">
+                            </div>
+                            <div class="d-flex align-items-center gap-1 py-1">
+                                <span class="set-green-circle"></span>
+                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <span class="set-sm-text">playing</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     
     <!-- END SLIDERS -->
@@ -2001,10 +2006,10 @@
         });
         $(document).ready(function() {
             $("#trending-slider").owlCarousel({
-                items : 3,
-                itemsDesktop:[1199,3],
+                items : 5,
+                itemsDesktop:[1199,5],
                 itemsDesktopSmall:[980,3],
-                itemsMobile : [600,2],
+                itemsMobile : [600,3],
                 navigation:true,
                 navigationText:["",""],
                 pagination:true,
@@ -2014,7 +2019,7 @@
          $(document).ready(function() {
             $("#live-games").owlCarousel({
                 items : 3,
-                itemsDesktop:[1199,3],
+                itemsDesktop:[1199,5],
                 itemsDesktopSmall:[980,3],
                 itemsMobile : [600,2],
                 navigation:true,
@@ -2050,7 +2055,7 @@
         $(document).ready(function() {
             $("#slots-slider").owlCarousel({
                 items : 4,
-                itemsDesktop:[1199,4],
+                itemsDesktop:[1199,5],
                 itemsDesktopSmall:[980,3],
                 itemsMobile : [600,3],
                 navigation:true,
@@ -2076,7 +2081,7 @@
         $(document).ready(function() {
             $("#random-2-slider").owlCarousel({
                 items : 3,
-                itemsDesktop:[1199,3],
+                itemsDesktop:[1199,5],
                 itemsDesktopSmall:[980,3],
                 itemsMobile : [600,2],
                 navigation:true,

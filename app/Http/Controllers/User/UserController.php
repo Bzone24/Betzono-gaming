@@ -31,7 +31,7 @@ class UserController extends Controller
     {
         $pageTitle = 'Dashboard';
         $user      = auth()->user();
-        $tickets   = Ticket::where('user_id', auth()->user()->id)->where('status', Status::UNPUBLISHED)->latest('id')->with('lottery', 'phase')->paginate(getPaginate());
+        $tickets   = [];// Ticket::where('user_id', auth()->user()->id)->where('status', Status::UNPUBLISHED)->latest('id')->with('lottery', 'phase')->paginate(getPaginate());
 
         return view('Template::user.dashboard', compact('pageTitle', 'user', 'tickets'));
     }

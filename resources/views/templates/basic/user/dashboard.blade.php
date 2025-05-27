@@ -2,19 +2,19 @@
 $kycInstruction = getContent('kyc\.content', true);
 
  $sportsLink = 'https://cric.stakeye.com/';
-    if (auth()->check()) {
+   /* if (auth()->check()) {
         $token = auth()->user()->getSharingToken();
         
         if ($token) {
             $sportsLink = "https://cric.stakeye.com/user/login?token={$token}";
             
         }
-    }
+    }*/
 @endphp
 @php $referredByRole = \App\Models\User::with('referrer')->find(auth()->user()->id)->referrer->user_type??''; 
 
 
- $api = new \App\Lib\ApiHandler();
+       /* $api = new \App\Lib\ApiHandler();
 
             $data = [
                 'username' => auth()->user()->username,
@@ -26,7 +26,7 @@ $kycInstruction = getContent('kyc\.content', true);
             $gameZoneBalance = '--';
             if (!isset($response['errorCode'])) {
                $gameZoneBalance = isset($response['data']['real']) ? $response['data']['real']/100 : 0;
-        }
+        }*/
     
             
 @endphp
