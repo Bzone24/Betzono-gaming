@@ -141,7 +141,7 @@ class UserController extends Controller
 
 
 
-        return view('Template::user.transactions', compact('pageTitle', 'transactions', 'remarks', 'referrals', 'user'));
+        return view('Template::user.transactions', compact('pageTitle', 'transactions', 'remarks', 'referrals', 'user','userId'));
     }
 
     public function kycForm()
