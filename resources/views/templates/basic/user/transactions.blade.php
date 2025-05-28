@@ -21,7 +21,7 @@
                                         <select class="form-select form-control" name="referral_user"> 
                                         <option value="{{$user->username}}" >{{ $user->fullname }} ({{ $user->username }})</option>
                                          @foreach($referrals as $referral)
-                                        <option value="{{ $referral->username }}" {{ request('referral_user') == $referral->id ? 'selected' : '' }}>
+                                        <option value="{{ $referral->username }}" {{ request('referral_user') == $referral->username ? 'selected' : '' }}>
                                             {{ $referral->fullname }} ({{ $referral->username }})
                                         </option>
                                       @endforeach
