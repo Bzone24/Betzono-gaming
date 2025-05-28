@@ -17,6 +17,18 @@
                                         <input class="form-control" name="search" type="text" value="{{ request()->search }}">
                                     </div>
                                     <div class="flex-grow-1">
+                                        <label>@lang('Team Member')</label>
+                                        <select class="form-select form-control" name="referral_user"> 
+                                        <option value="{{$user->username}}" >{{ $user->fullname }} ({{ $user->username }})</option>
+                                         @foreach($referrals as $referral)
+                                        <option value="{{ $referral->username }}" {{ request('selected_user') == $referral->id ? 'selected' : '' }}>
+                                            {{ $referral->fullname }} ({{ $referral->username }})
+                                        </option>
+                                      @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="flex-grow-1">
                                         <label>@lang('Type')</label>
                                         <select class="form-select form-control" name="trx_type">
                                             <option value="">@lang('All')</option>

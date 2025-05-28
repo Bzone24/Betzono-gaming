@@ -117,14 +117,31 @@ class UserController extends Controller
         return back()->withNotify($notify);
     }
 
-    public function transactions()
+    public function transactions(Request $request)
     {
         $pageTitle = 'Transactions';
         $remarks = Transaction::distinct('remark')->orderBy('remark')->get('remark');
+        $userId = auth()->id();
+        if ($request->input('referral_user')) {
+            $referralUser = User::where('username', $request->input('referral_user'))->first();
+            if ($referralUser) {
+                $userId = $referralUser->id;
+            } else {
+                $notify[] = ['error', 'Referral user not found'];
+                return back()->withNotify($notify);
+            }
+        }
+        
 
-        $transactions = Transaction::where('user_id', auth()->id())->searchable(['trx'])->filter(['trx_type','remark'])->orderBy('id', 'desc')->paginate(getPaginate());
+        $transactions = Transaction::where('user_id', $userId)->searchable(['trx'])->filter(['trx_type','remark'])->orderBy('id', 'desc')->paginate(getPaginate());
 
-        return view('Template::user.transactions', compact('pageTitle', 'transactions', 'remarks'));
+        $user = auth()->user();
+        
+        $referrals = User::where('ref_by', $user->id)->orderBy('id', 'DESC')->paginate(getPaginate());
+
+
+
+        return view('Template::user.transactions', compact('pageTitle', 'transactions', 'remarks', 'referrals', 'user'));
     }
 
     public function kycForm()
@@ -399,13 +416,11 @@ class UserController extends Controller
         return view('Template::user.referral.commissions', compact('pageTitle', 'commissions'));
     }
 
-    public function referredUsers()
+    public function referredUsers(Request $request)
     {
         $pageTitle = 'Referrals';
         $user = auth()->user();
-
         $referrals = User::where('ref_by', $user->id)->orderBy('id', 'DESC')->paginate(getPaginate());
-
 
         return view('Template::user.referral.referred', compact('pageTitle', 'referrals'));
     }
