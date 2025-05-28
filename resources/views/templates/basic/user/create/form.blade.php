@@ -72,20 +72,20 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group col-sm-6">
+                                    <div class="form-group col-sm-6 d-none">
                                         <label class="form-label">@lang('Address')</label>
                                         <input class="form--control" name="address" type="text" value="{{ old('address') }}">
                                     </div>
-                                    <div class="form-group col-sm-6">
+                                    <div class="form-group col-sm-6  d-none">
                                         <label class="form-label">@lang('State')</label>
                                         <input class="form--control" name="state" type="text" value="{{ old('state') }}">
                                     </div>
-                                    <div class="form-group col-sm-6">
+                                    <div class="form-group col-sm-6  d-none">
                                         <label class="form-label">@lang('Zip Code')</label>
                                         <input class="form--control" name="zip" type="text" value="{{ old('zip') }}">
                                     </div>
 
-                                    <div class="form-group col-sm-6">
+                                    <div class="form-group col-sm-6  d-none">
                                         <label class="form-label">@lang('City')</label>
                                         <input class="form--control" name="city" type="text" value="{{ old('city') }}">
                                     </div>

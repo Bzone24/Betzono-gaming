@@ -141,7 +141,7 @@ class UserController extends Controller
 
 
 
-        return view('Template::user.transactions', compact('pageTitle', 'transactions', 'remarks', 'referrals', 'user','userId'));
+        return view('Template::user.transactions', compact('pageTitle', 'transactions', 'remarks', 'referrals', 'user', 'userId'));
     }
 
     public function kycForm()
@@ -328,10 +328,10 @@ class UserController extends Controller
         $user->country_code = $request->country_code;
         $user->mobile       = $request->mobile;
         $user->username     = $request->username;
-        $user->address = $request->address;
-        $user->city = $request->city;
-        $user->state = $request->state;
-        $user->zip = $request->zip;
+        $user->address = $request->address ?? null;
+        $user->city = $request->city ?? null;
+        $user->state = $request->state ?? null;
+        $user->zip = $request->zip ?? null;
         $user->country_name = @$request->country;
         $user->dial_code = $request->mobile_code;
         $user->user_type = User::USER_TYPE_USER;
