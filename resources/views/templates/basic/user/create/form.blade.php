@@ -105,45 +105,45 @@
                                     </div>
 
                                     <!-- Verification Dropdowns -->
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 d-none">
                                         <div class="form-group">
                                             <label class="form-label">@lang('Email Verification')</label>
                                             <select class="form--control" name="ev" required>
                                                 <option value="">@lang('Select')</option>
-                                                <option value="1" {{ old('ev') == '1' ? 'selected' : '' }}>@lang('Verified')</option>
+                                                <option value="1" {{ old('ev') == '1' ? 'selected' : '' }} selected>@lang('Verified')</option>
                                                 <option value="0" {{ old('ev') == '0' ? 'selected' : '' }}>@lang('Unverified')</option>
                                             </select>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 d-none">
                                         <div class="form-group">
                                             <label class="form-label">@lang('Mobile Verification')</label>
                                             <select class="form--control" name="sv" required>
                                                 <option value="">@lang('Select')</option>
-                                                <option value="1" {{ old('sv') == '1' ? 'selected' : '' }}>@lang('Verified')</option>
+                                                <option value="1" {{ old('sv') == '1' ? 'selected' : '' }} selected>@lang('Verified')</option>
                                                 <option value="0" {{ old('sv') == '0' ? 'selected' : '' }}>@lang('Unverified')</option>
                                             </select>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 d-none">
                                         <div class="form-group">
                                             <label class="form-label">@lang('2FA Verification')</label>
                                             <select class="form--control" name="ts" required>
                                                 <option value="">@lang('Select')</option>
-                                                <option value="1" {{ old('ts') == '1' ? 'selected' : '' }}>@lang('Enabled')</option>
+                                                <option value="1" {{ old('ts') == '1' ? 'selected' : '' }} selected>@lang('Enabled')</option>
                                                 <option value="0" {{ old('ts') == '0' ? 'selected' : '' }}>@lang('Disabled')</option>
                                             </select>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 d-none">
                                         <div class="form-group">
                                             <label class="form-label">@lang('KYC')</label>
                                             <select class="form--control" name="kv" required>
                                                 <option value="">@lang('Select')</option>
-                                                <option value="1" {{ old('kv') == '1' ? 'selected' : '' }}>@lang('Verified')</option>
+                                                <option value="1" {{ old('kv') == '1' ? 'selected' : '' }} selected>@lang('Verified')</option>
                                                 <option value="0" {{ old('kv') == '0' ? 'selected' : '' }}>@lang('Unverified')</option>
                                             </select>
                                         </div>
@@ -214,6 +214,11 @@
     <script>
         "use strict";
         (function ($) {
+            //set default country India
+        setTimeout(function () {
+            $('select[name=country]').val('India');
+            $('select[name=country]').trigger('change');
+        },300);
 
             @if($mobileCode)
             $(`option[data-code={{ $mobileCode }}]`).attr('selected', '');

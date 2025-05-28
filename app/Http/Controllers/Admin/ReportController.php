@@ -19,14 +19,14 @@ class ReportController extends Controller
 
         $remarks = Transaction::distinct('remark')->orderBy('remark')->get('remark');
 
-        $transactions = Transaction::searchable(['trx','user:username'])->filter(['trx_type','remark'])->dateFilter()->orderBy('id','desc')->with('user');
+        $transactions = Transaction::searchable(['trx','user:username'])->filter(['trx_type','remark','type'])->dateFilter()->orderBy('id','desc')->with('user');
 
         if ($userId) {
             $transactions = $transactions->where('user_id',$userId);
         }
         $transactions = $transactions->paginate(getPaginate());
-
-        return view('admin.reports.transactions', compact('pageTitle', 'transactions','remarks'));
+        $getTypeOptions = Transaction::getTypeOptions();
+        return view('admin.reports.transactions', compact('pageTitle', 'transactions','remarks','getTypeOptions'));
     }
 
 

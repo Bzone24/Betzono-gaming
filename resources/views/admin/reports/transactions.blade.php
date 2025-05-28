@@ -33,6 +33,16 @@
                             </select>
                         </div>
                         <div class="flex-grow-1">
+                            <label>@lang('Source')</label>
+                            <select class="form-control select2" data-minimum-results-for-search="-1" name="type">
+                                <option value="">@lang('All')</option>
+                                
+                                @foreach($getTypeOptions as $option)
+                                <option value="{{ $option }}" @selected(request()->type == $option)>{{ __(keyToTitle($option)) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="flex-grow-1">
                             <label>@lang('Date')</label>
                             <input name="date" type="search" class="datepicker-here form-control bg--white pe-2 date-range" placeholder="@lang('Start Date - End Date')" autocomplete="off" value="{{ request()->date }}">
                         </div>
@@ -142,12 +152,17 @@
                                     
                                     
                                     @if($trx->type == 'USER_BET_SPORTSGAME' && !empty($trx->getSportsBetHistoryInfo()->eventName))
+                                    <span class="d-block small">Sport: {{$trx->getSportsBetHistoryInfo()->eventTypeName??''}}</span>
+                                    
+
                                             <span class="d-block small">Event: {{$trx->getSportsBetHistoryInfo()->eventName??''}}</span>
                                             <span class="d-block small">Market: {{$trx->getSportsBetHistoryInfo()->marketName??''}}</span>
                                             <span class="d-block small">Runner: {{$trx->getSportsBetHistoryInfo()->runnerName??''}}</span>
                                             <span class="d-block small">Type: {{$trx->getSportsBetHistoryInfo()->betType??''}}</span>
                                             <span class="d-block small">Rate: {{$trx->getSportsBetHistoryInfo()->rate??''}}</span>
                                     @elseif($trx->type == 'USER_BET_SPORTSGAME' && !empty($trx->getSportBetSettleHistoryInfo()->eventName))
+                                    <span class="d-block small">Sport: {{$trx->getSportBetSettleHistoryInfo()->eventTypeName??''}}</span>
+
                                             <span class="d-block small">Event: {{$trx->getSportBetSettleHistoryInfo()->eventName??''}}</span>
                                             <span class="d-block small">Market: {{$trx->getSportBetSettleHistoryInfo()->marketName??''}}</span>
                                             <span class="d-block small">Runner: {{$trx->getSportBetSettleHistoryInfo()->runnerName??''}}</span>

@@ -34,6 +34,8 @@ class Transaction extends Model
             self::TYPE_USER_TRANSFER_IN,
             self::TYPE_USER_DEPOSIT,
             self::TYPE_USER_WITHDRAW,
+            self::TYPE_USER_BET_VKINGPLAYS,
+            self::TYPE_USER_BET_SPORTSGAME,
         ];
     }
 
@@ -52,6 +54,7 @@ class Transaction extends Model
             self::TYPE_USER_WITHDRAW => __('User Withdrawal'),
             self::TYPE_USER_BET_VKINGPLAYS => __('-'),
             self::TYPE_USER_BET_SPORTSGAME => __('-'),
+                        
         ];
     }
 
