@@ -23,7 +23,12 @@ Route::namespace('User\Auth')->name('user.')->group(function () {
             Route::get('code-verify', 'codeVerify')->name('code.verify');
             Route::post('verify-code', 'verifyCode')->name('verify.code');
         });
-
+        Route::controller('ForgotPasswordController')->prefix('username')->name('username.')->group(function(){
+            Route::get('reset', 'showUsernameLinkRequestForm')->name('request');
+            Route::post('email', 'sendUsernameResetCodeEmail')->name('email');
+            Route::get('code-verify', 'codeUserVerify')->name('code.verify');
+            Route::post('verify-code', 'verifyUserCode')->name('verify.code');
+        });
         Route::controller('ResetPasswordController')->group(function(){
             Route::post('password/reset', 'reset')->name('password.update');
             Route::get('password/reset/{token}', 'showResetForm')->name('password.reset');

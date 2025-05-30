@@ -48,16 +48,17 @@ class RegisterController extends Controller
         }
 
         $validate = Validator::make($data, [
-            'firstname' => 'required',
-            'lastname' => 'required',
+            'fullname' => 'required',
+            //'firstname' => 'required',
+            //'lastname' => 'required',
             'username' => 'required|string|unique:users',
             //'email' => 'required|string|email|unique:users',
             'password' => ['required', 'confirmed', $passwordValidation],
             'captcha' => 'sometimes|required',
             'agree' => $agree
         ], [
-            'firstname.required' => 'The first name field is required',
-            'lastname.required' => 'The last name field is required'
+            //'firstname.required' => 'The first name field is required',
+            //'lastname.required' => 'The last name field is required'
         ]);
 
         return $validate;
@@ -86,8 +87,7 @@ class RegisterController extends Controller
         } else {
             $data['refby'] = 0;
         }
-
-
+ 
         event(new Registered($user = $this->create($data)));
 
         $this->guard()->login($user);
@@ -100,37 +100,21 @@ class RegisterController extends Controller
     {
   
         $userName =  $data['username'];
-       /* $api = new ApiHandler();
-
-        $apiData = [
-            'username' => $userName,
-            'password' => $data['password'],
-            'currency' => gs('cur_text'),
-            'firstName' => $data['firstname'],
-            'lastName' => $data['lastname'],
-            'email' => $data['email'],
-            'phoneNumber' => $data['mobile_code'] . $data['mobile'],
-            "tempPasswordReset" => false,
-        ];
-
-        // Call the API
-        $response = $api->callAPI('api/players/fastcreate', $apiData, 'POST');
-
-        // Handle the response
-
-        if (isset($response['errorCode'])) {
-            $notify[] = ['error', $response['errorMessage']];
-            return back()->withNotify($notify);
-        }else{
-
-            $fast_create_url = $response['data']['fastLoginUrl'];
+        //check fullname is set 
+        if (isset($data['fullname']) && !empty($data['fullname'])) {
+            $nameParts = explode(' ', $data['fullname']);
+            $data['firstname'] = $nameParts[0] ?? '';
+            $data['lastname'] = isset($nameParts[1]) ? implode(' ', array_slice($nameParts, 1)) : '';
+        } else {
+            $data['firstname'] = $data['firstname'] ?? '';
+            $data['lastname'] = $data['lastname'] ?? '';
         }
-            */
 
         //User Create
         $user = new User();
         $user->email = strtolower($data['email']);
         $user->firstname = $data['firstname'];
+        $user->lastname = $data['lastname'];
         $user->username = str_replace(" ", "-", $userName);
         $user->mobile =  $data['mobile'] ?? null;
         $user->profile_complete = 1;
@@ -138,7 +122,6 @@ class RegisterController extends Controller
         $user->country_name = $data['country'] ?? null;
         $user->country_code = $data['country_code'] ?? null;
         $user->fast_create_url = $fast_create_url ?? null;
-        $user->lastname = $data['lastname'];
         $user->password = Hash::make($data['password']);
         $user->ref_by = $data['refby'] ??  0;
         $user->kv = gs('kv') ? Status::NO : Status::YES;

@@ -38,22 +38,28 @@
                                         <label class="form-label">@lang('User Name')</label>
                                         <input type="text" class="form-control form--control checkUser" name="username" id="username"
                                                value="{{old("username")}}" required>
+                                            <small class="text--danger">@lang('Spaces and special characters are not allowed.')</small>
                                         <span class="text--danger usernameExist"></span>
                                     </div> 
 
-                                    <div class="form-group col-sm-6">
+                                    <div class="form-group col-sm-6 " >
+                                        <label class="form-label">@lang('Full Name')</label>
+                                        <input type="text" class="form-control form--control" name="fullname"
+                                               value="{{old("fullname")}}" required>
+                                    </div>
+                                    <div class="form-group col-sm-6 d-none">
                                         <label class="form-label">@lang('First Name')</label>
                                         <input type="text" class="form-control form--control" name="firstname"
-                                               value="{{old("firstname")}}" required>
+                                               value="{{old("firstname")}}"  >
                                     </div>
                                     
-                                    <div class="form-group col-sm-6">
+                                    <div class="form-group col-sm-6 d-none" >
                                         <label class="form-label">@lang('Last Name')</label>
                                         <input type="text" class="form-control form--control" name="lastname"
-                                               value="{{old("lastname")}}" required>
+                                               value="{{old("lastname")}}"  >
                                     </div>
 
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label class="form-label">@lang('E-Mail Address')</label>
                                             <input type="email" class="form-control form--control "
@@ -64,10 +70,10 @@
                                   @php  $countries  = json_decode(file_get_contents(resource_path('views/partials/country.json')));
                                   @endphp
 
-   <div class="form-group col-lg-6">
+                                     <div class="form-group col-lg-6 d-none">
                                         <label for="country">@lang('Country')</label>
                                         <div class="custom--field">
-                                            <select class="form--control select2" id="country" name="country" required>
+                                            <select class="form--control select2" id="country" name="country"  >
                                                 @foreach ($countries as $key => $country)
                                                     <option
                                                         data-mobile_code="{{ $country->dial_code }}"
@@ -79,7 +85,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 d-none" >
                                         <div class="form-group">
                                             <label class="form-label">@lang('Mobile')</label>
                                             <div class="input-group ">
@@ -90,7 +96,7 @@
                                                 <input type="hidden" name="country_code">
                                                 <input type="number" name="mobile" 
                                                        class="form-control form--control  "
-                                                       required>
+                                                        >
                                             </div>
                                             <small class="text--danger mobileExist"></small>
                                         </div>
