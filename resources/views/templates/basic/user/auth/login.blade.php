@@ -45,6 +45,9 @@
                                 <div class="form-group text-end">
                                     <a class="text-white" href="{{ route('user.password.request') }}">@lang('Forget Password?')</a>
                                 </div>
+                                <div class="form-group text-end">
+                                    <a class="text-white" href="{{ route('user.username.request') }}">@lang('Forget Username?')</a>
+                                </div>
                             </div>
 
                             <button class="btn btn--base w-100" id="recaptcha" type="submit">@lang('Login')</button>
