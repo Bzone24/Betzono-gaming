@@ -137,7 +137,7 @@ class UserController extends Controller
 
         $user = auth()->user();
         
-        $referrals = User::where('ref_by', $user->id)->orderBy('id', 'DESC')->paginate(getPaginate());
+        $referrals = User::where('ref_by', $user->id)->orderBy('id', 'DESC')->get();
 
         $getTypeOptions = Transaction::getTypeOptions();
 
