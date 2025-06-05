@@ -2052,7 +2052,8 @@ $kycInstruction = getContent('kyc\.content', true);
                     success: function(response) {
                         $(".preloader").css("opacity",0).css("display","none");
                         if (response.lobbyURL) {
-                            window.location.href = response.lobbyURL;
+                          //  window.location.href = response.lobbyURL;
+                          window.location.href = '{{url("rungame")}}'+'/'+response.lobbyURL;
                         } else {
                             alert("Error: " + response.error);
                         }

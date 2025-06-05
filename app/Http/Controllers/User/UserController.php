@@ -478,4 +478,22 @@ class UserController extends Controller
         }
         return view('Template::user.sports')->with('gameUrl', $gameUrl)->with('pageTitle', $pageTitle);
     }
+
+
+    public function runGame($gameUrl)
+    {
+        $pageTitle = 'Run Game';
+        $user = auth()->user();
+        //if not loggedin redirect to login page
+        if (!$user) {
+            $notify[] = ['error', 'Please login to access this page'];
+            return redirect()->route('user.login')->withNotify($notify);
+        } 
+        $gameUrl = base64_decode($gameUrl);
+
+        return view('Template::user.rungame')->with('gameUrl', $gameUrl)->with('pageTitle', $pageTitle);
+    }
+    
+
+
 }
