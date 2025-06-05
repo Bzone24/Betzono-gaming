@@ -136,6 +136,7 @@ class ApiController extends Controller
             $data = json_decode($response->getBody()->getContents(), true);
     
             if ($data['status'] == "0" && isset($data['lobbyURL'])) {
+                $data['lobbyURL'] = base64_encode($data['lobbyURL']);
                 return response()->json($data);
             } else {
                 return response()->json(['error' => $data['errorMessage'] ?? 'Unknown error'], 400);

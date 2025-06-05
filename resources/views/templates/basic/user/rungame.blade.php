@@ -4,8 +4,7 @@
  
 @extends($activeTemplate . 'layouts.master-sports')
 
-@section('content')
- 
+@section('content') 
 <div id="framebox" style="padding-bottom: 100px!important;">
 
     <!-- dashboard section start -->
@@ -501,8 +500,8 @@
                     success: function(response) {
                         $(".preloader").css("opacity",0).css("display","none");
                         if (response.lobbyURL) {
-                            //window.location.href = response.lobbyURL;
-                            window.location.href = '{{url("rungame")}}'+'/'+response.lobbyURL;
+                           // window.location.href = response.lobbyURL;
+                           window.location.href = '{{url("rungame")}}'+'/'+response.lobbyURL;
                         } else {
                             alert("Error: " + response.error);
                         }
