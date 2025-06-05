@@ -139,9 +139,9 @@ class UserController extends Controller
         
         $referrals = User::where('ref_by', $user->id)->orderBy('id', 'DESC')->paginate(getPaginate());
 
+        $getTypeOptions = Transaction::getTypeOptions();
 
-
-        return view('Template::user.transactions', compact('pageTitle', 'transactions', 'remarks', 'referrals', 'user', 'userId'));
+        return view('Template::user.transactions', compact('pageTitle', 'transactions', 'remarks', 'referrals', 'user', 'userId','getTypeOptions'));
     }
 
     public function kycForm()
