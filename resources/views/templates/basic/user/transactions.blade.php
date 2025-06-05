@@ -46,6 +46,16 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    <div class="flex-grow-1">
+                            <label>@lang('Source')</label>
+                            <select class="form-control select2" data-minimum-results-for-search="-1" name="type">
+                                <option value="">@lang('All')</option>
+                                
+                                @foreach($getTypeOptions as $option)
+                                <option value="{{ $option }}" @selected(request()->type == $option)>{{ __(keyToTitle($option)) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                                     <div class="flex-grow-1 align-self-end">
                                         <button class="btn btn--base w-100"><i class="las la-filter"></i>
                                             @lang('Filter')</button>
@@ -146,7 +156,7 @@
 
                     @if ($transactions->hasPages())
                         <div class="mt-4">
-                            {{ $transactions->links() }}
+                        {{ $transactions->appends(request()->query())->links() }}
                         </div>
                     @endif
 
@@ -155,3 +165,13 @@
         </div>
     </section>
 @endsection
+
+
+@push('script')
+    <script>
+
+$(".showFilterBtn").on("click", function () {
+  $(".responsive-filter-card").slideToggle();
+});
+</script>
+@endpush
