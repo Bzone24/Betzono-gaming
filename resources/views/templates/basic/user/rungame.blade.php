@@ -6,16 +6,17 @@
 
 @section('content') 
 @section('fullscreen-button')
-<li> 
-<a id="fullscreenBtn" href="javascript:void(0) " title="Full screen"> 
+ 
+<a class="fullscreenBtn" href="javascript:void(0) " title="Full screen" style="color: white!important;"> 
     <i class="fas fa-expand"></i> Full Screen
 </a>
-</li>
+
  
 @endsection
+@push('script')
 <script>
-    document.getElementById('fullscreenBtn').addEventListener('click', function() {
-        const framebox = document.getElementById('framebox');
+    $('.fullscreenBtn').on('click', function() {
+        var framebox = $('#framebox')[0];
         if (framebox.requestFullscreen) {
             framebox.requestFullscreen();
         } else if (framebox.mozRequestFullScreen) { // Firefox
@@ -27,6 +28,7 @@
         }
     });
 </script>
+@endpush
 <div id="framebox" style="padding-bottom: 100px!important;">
 
     <!-- dashboard section start -->
