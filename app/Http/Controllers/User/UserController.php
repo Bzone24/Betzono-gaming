@@ -493,7 +493,41 @@ class UserController extends Controller
 
         return view('Template::user.rungame')->with('gameUrl', $gameUrl)->with('pageTitle', $pageTitle);
     }
+    public function setupGame($gameid, $gameTableId)
+    {
+       
+        if(!empty($gameid) && !empty($gameTableId)){
+            $pageTitle = 'Setup Game';
+            $user = auth()->user();
+            //if not loggedin redirect to login page
+            if (!$user) {
+                $notify[] = ['error', 'Please login to access this page'];
+                return redirect()->route('user.login')->withNotify($notify);
+            } 
+            $userName = auth()->user()->username; 
+            $request = new \Illuminate\Http\Request([
+                'gameId'      => $gameid,
+                'username'       => $userName,
+                'gameTableId'         =>  $gameTableId
+            ]); 
+
+            $response = app(\App\Http\Controllers\ApiController::class)->getLobbyUrl($request);
+            $data = json_decode($response->getContent(), true);
+            
+            if (isset($data['lobbyURL'])) {
+                return redirect()->to(url('rungame') . '/' . $data['lobbyURL']);
+            } 
+            else {
+                $notify[] = ['error', 'Game not found or invalid game id'];
+                return back()->withNotify($notify);
+            }
+        }
+        else{ echo $gameid;
+             
+            $notify[] = ['error', 'Invalid game id or table id'];
+            return back()->withNotify($notify);
+        }
+    }
+
     
-
-
 }

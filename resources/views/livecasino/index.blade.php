@@ -575,7 +575,9 @@
                 let username = $("#authUsername").val();
                 let gameId = $(this).data("gameid");
                 let gameTableId = $(this).data("gametableid");
-                $.ajax({
+                window.location.href = "{{ url('setup-game') }}/"+gameId+"/"+gameTableId;
+
+                /*$.ajax({
                     url: "{{ route('get.lobby.url') }}",
                     type: "POST",
                     data: {
@@ -604,7 +606,7 @@
                         $(".preloader").css("opacity",0).css("display","none");
                         alert("Error: " + xhr.responseJSON.error);
                     }
-                });
+                });*/
             });
         });
     </script>

@@ -16,7 +16,7 @@ Route::get('/load-more', 'SiteController@loadMore')->name('loadMore');
 Route::get('number-result-cron', 'CronController@numberResultCron')->name('number-result-cron');
 Route::get('sports', 'User\UserController@sportsGame')->name('sports');
 Route::get('rungame/{url}', 'User\UserController@runGame')->name('rungame');
-
+Route::get('setup-game/{gameid}/{gameTableId}', 'User\UserController@setupGame')->name('setupGame');
 
 Route::get('trending-games', 'SiteController@trendingGames')->name('trendingGames');
 // User Support Ticket

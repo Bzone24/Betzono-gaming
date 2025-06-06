@@ -11,6 +11,7 @@
 
     @else
         @include('Template::partials.header')
+        
     @endif
 
     <div class="main-wrapper" style="max-width: 100%!important;">
