@@ -5,7 +5,7 @@
                 <a class="site-logo site-title" href="{{ route('home') }}"><img
                         src="{{ getImage(getFilePath('logo_icon') . '/logo.png') }}" alt="logo"></a>
                         
-                
+                    <div class="d-xl-none" style="color: white!important;">@yield('fullscreen-button')</div>
 
                 <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="menu-toggle"></span>
@@ -15,8 +15,8 @@
                         @auth
                         @php $referredByRole = \App\Models\User::with('referrer')->find(auth()->user()->id)->referrer->user_type??''; 
                         @endphp
-
-                        @yield('fullscreen-button')
+                        <li>
+                        @yield('fullscreen-button')</li>
                             <li><a class="{{ menuActive('user.home') }}" href="{{ route('user.home') }}">@lang('Dashboard')</a></li>
 
                            <!--  <li class="menu_has_children">
