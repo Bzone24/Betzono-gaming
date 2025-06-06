@@ -2034,7 +2034,9 @@ $kycInstruction = getContent('kyc\.content', true);
                     window.location.href = '{{ route('user.login') }}';
                     return;
                 }
-                $.ajax({
+                window.location.href = "{{ url('setup-game') }}/"+gameId+"/"+gameTableId;
+
+               /* $.ajax({
                     url: "{{ route('get.lobby.url') }}",
                     type: "POST",
                     data: {
@@ -2062,7 +2064,7 @@ $kycInstruction = getContent('kyc\.content', true);
                         $(".preloader").css("opacity",0).css("display","none");
                         alert("Error: " + xhr.responseJSON.error);
                     }
-                });
+                });*/
             });
         });
         
