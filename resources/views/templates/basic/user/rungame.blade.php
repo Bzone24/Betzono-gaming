@@ -5,12 +5,14 @@
 @extends($activeTemplate . 'layouts.master-sports')
 
 @section('content') 
-<div style="text-align: right;margin-right: 20px">
-    <button id="fullscreenBtn" class="btn btn-success mb-3" title="Full screen">
-        <i class="fas fa-expand"></i>
-    </button>
-</div>
-
+@section('fullscreen-button')
+<li> 
+<a id="fullscreenBtn" href="javascript:void(0) " title="Full screen"> 
+    <i class="fas fa-expand"></i> Full Screen
+</a>
+</li>
+ 
+@endsection
 <script>
     document.getElementById('fullscreenBtn').addEventListener('click', function() {
         const framebox = document.getElementById('framebox');

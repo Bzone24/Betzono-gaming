@@ -4,6 +4,9 @@
             <nav class="navbar navbar-expand-xl align-items-center p-0">
                 <a class="site-logo site-title" href="{{ route('home') }}"><img
                         src="{{ getImage(getFilePath('logo_icon') . '/logo.png') }}" alt="logo"></a>
+                        
+                
+
                 <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="menu-toggle"></span>
                 </button>
@@ -13,7 +16,7 @@
                         @php $referredByRole = \App\Models\User::with('referrer')->find(auth()->user()->id)->referrer->user_type??''; 
                         @endphp
 
-
+                        @yield('fullscreen-button')
                             <li><a class="{{ menuActive('user.home') }}" href="{{ route('user.home') }}">@lang('Dashboard')</a></li>
 
                            <!--  <li class="menu_has_children">
@@ -132,6 +135,7 @@
                     </ul>
                     <div class="nav-right">
                         @auth
+                         
                             <a class="btn btn-sm btn--danger me-sm-3 me-2 btn--capsule px-3 text-white" href="{{ route('user.logout') }}">@lang('Logout')</a>
                         @else
                             <a class="btn btn-sm btn--base me-sm-3 me-2 btn--capsule px-3" href="{{ route('user.login') }}">@lang('Login')</a>
