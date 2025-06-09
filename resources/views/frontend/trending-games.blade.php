@@ -1599,7 +1599,7 @@
                 </a>
             </div>
            <div class="single-event-box" >
-                <a href="https://stakeye.com">
+                <a href="https://t.me/stakeye_support">
                     <div>
                         <img src="{{ asset('assets/newhome/img/messenger.png')}}" alt="event" height="">
                     </div>
