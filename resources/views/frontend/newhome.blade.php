@@ -122,9 +122,9 @@
                                 <div class="hero-content top-greadient">
                                     <!--<span class="wow fadeInLeft mb-20" data-wow-delay=".2s">Sports Betting</span>-->
                                     <h1 class="wow fadeInUp" data-wow-delay=".2s">
-                                        <span class="common-gre-color">Sports Betting</span> with StakEye
+                                        <span class="common-gre-color">Live Casino</span> Play & Earn Big
                                     </h1>
-                                    <p class="wow fadeInUp" data-wow-delay=".2s">Pre- match and In play Match with Best Odds</p>
+                                    <p class="wow fadeInUp" data-wow-delay=".2s">Enjoy Your Favourite game on lucky table.</p>
                                     <a href="https://cric.stakeye.com/" class="main-btn btn-hover wow fadeInUp" data-wow-delay=".6s">Play Now!</a>
                                     <a href="https://stakeye.com/user/register" class="main-btn btn-hover wow fadeInUp" data-wow-delay=".6s">Sign Up</a>
                                 </div>
@@ -145,9 +145,11 @@
                                 <div class="hero-content top-greadient">
                                     <!--<span class="wow fadeInLeft mb-20" data-wow-delay=".2s">Live Casino</span>-->
                                     <h1 class="wow fadeInUp" data-wow-delay=".2s">
-                                        <span class="common-gre-color">Live Casino</span> Play & Earn Big
+                                         <h1 class="wow fadeInUp" data-wow-delay=".2s">
+                                        <span class="common-gre-color">Sports Betting</span> with StakEye
                                     </h1>
-                                    <p class="wow fadeInUp" data-wow-delay=".2s">Enjoy Your Favourite game on lucky table.</p>
+                                    <p class="wow fadeInUp" data-wow-delay=".2s">Pre- match and In play Match with Best Odds</p>
+                                       
                                     <a href="https://stakeye.com/livecasino" class="main-btn btn-hover wow fadeInUp" data-wow-delay=".6s">Play Now!</a>
                                     <a href="https://stakeye.com/user/register" class="main-btn btn-hover wow fadeInUp" data-wow-delay=".6s">Sign Up</a>
                                 </div>
@@ -211,6 +213,33 @@
                             </div>
                         </a>
                     </div>
+                     <div class="post-slide">
+                         <a href="javascript:void(0)" class="lobby-game" data-gameid="1007" data-gametableid="EVP_MField">
+                            <div class="post-img">
+                                <!--<img src="{{ asset('assets/newhome/img/sliders/mine.png')}}" alt="slide">-->
+                                <!--minefield banner-->
+                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/09f64d2c-bf43-4946-8480-08bde8033600/style1" alt="slide">
+                            </div>
+                            <div class="d-flex align-items-center gap-1 py-1">
+                                <span class="set-green-circle"></span>
+                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <span class="set-sm-text">playing</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="post-slide">
+                        <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_hndlightrout">
+                            <div class="post-img">
+                                <!--golden balls banner   lucky ball-->
+                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/4fabed01-d466-4edb-62c7-6789622dc600/main" alt="slide">
+                            </div>
+                            <div class="d-flex align-items-center gap-1 py-1">
+                                <span class="set-green-circle"></span>
+                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <span class="set-sm-text">playing</span>
+                            </div>
+                        </a>
+                    </div>
                     <div class="post-slide">
                         <!--<a href="{{$autologinUrl}}">-->
                         @if(Auth::check())
@@ -229,86 +258,7 @@
                             </div>
                         </a>
                     </div>
-                    <!--  <div class="post-slide">-->
-                        <!--<a href="{{$autologinUrl}}">-->
-                        <!-- @if(Auth::check())-->
-                        <!--<a href="#" class="lobby-game">-->
-                        <!-- <a href="{{route('games.play-game','aviator')}}"> -->
-                        <!--@else-->
-                        <!--<a href="{{route('user.login')}}">-->
-                        <!--@endif-->
-                    <!--    <a href="javascript:void(0)" class="lobby-game" data-gameid="1033" data-gametableid="imlive80075">-->
-                    <!--        <div class="post-img">-->
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/satta.png')}}" alt="slide">-->
-                    <!--            <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/e6125df2-ce9d-40d4-054d-1ef995a74d00/main" alt="slide">-->
-                    <!--        </div>-->
-                    <!--        <div class="d-flex align-items-center gap-1 py-1">-->
-                    <!--            <span class="set-green-circle"></span>-->
-                    <!--            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
-                    <!--            <span class="set-sm-text">playing</span>-->
-                    <!--        </div>-->
-                    <!--    </a>-->
-                    <!--</div>-->
-                    <!--<div class="post-slide">-->
-                    <!--    <a href="{{$autologinUrl}}">-->
-                    <!--        <div class="post-img">-->
-                    <!--            <img src="{{ asset('assets/newhome/img/sliders/slide-2.jpg')}}" alt="slide">-->
-                    <!--        </div>-->
-                    <!--        <div class="d-flex align-items-center gap-1 py-1">-->
-                    <!--            <span class="set-green-circle"></span>-->
-                    <!--            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
-                    <!--            <span class="set-sm-text">playing</span>-->
-                    <!--        </div>-->
-                    <!--    </a>-->
-                    <!--</div>-->
-                    <!--<div class="post-slide">-->
-                    <!--    <a href="#">-->
-                    <!--        <div class="post-img">-->
-                    <!--            <img src="{{ asset('assets/newhome/img/sliders/slide-2.jpg')}}" alt="slide">-->
-                    <!--        </div>-->
-                    <!--        <div class="d-flex align-items-center gap-1 py-1">-->
-                    <!--            <span class="set-green-circle"></span>-->
-                    <!--            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
-                    <!--            <span class="set-sm-text">playing</span>-->
-                    <!--        </div>-->
-                    <!--    </a>-->
-                    <!--</div>-->
-                    <!--<div class="post-slide">-->
-                    <!--    <a href="{{$autologinUrl}}">-->
-                    <!--        <div class="post-img">-->
-                    <!--            <img src="{{ asset('assets/newhome/img/sliders/slide-3.jpg')}}" alt="slide">-->
-                    <!--        </div>-->
-                    <!--        <div class="d-flex align-items-center gap-1 py-1">-->
-                    <!--            <span class="set-green-circle"></span>-->
-                    <!--            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
-                    <!--            <span class="set-sm-text">playing</span>-->
-                    <!--        </div>-->
-                    <!--    </a>-->
-                    <!--</div>-->
-                    <!--<div class="post-slide">-->
-                    <!--    <a href="{{$autologinUrl}}">-->
-                    <!--        <div class="post-img">-->
-                    <!--            <img src="{{ asset('assets/newhome/img/sliders/slide-4.jpg')}}" alt="slide">-->
-                    <!--        </div>-->
-                    <!--        <div class="d-flex align-items-center gap-1 py-1">-->
-                    <!--            <span class="set-green-circle"></span>-->
-                    <!--            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
-                    <!--            <span class="set-sm-text">playing</span>-->
-                    <!--        </div>-->
-                    <!--    </a>-->
-                    <!--</div>-->
-                    <!--<div class="post-slide">-->
-                    <!--    <a href="{{$autologinUrl}}">-->
-                    <!--        <div class="post-img">-->
-                    <!--            <img src="{{ asset('assets/newhome/img/sliders/slide-3.jpg')}}" alt="slide">-->
-                    <!--        </div>-->
-                    <!--        <div class="d-flex align-items-center gap-1 py-1">-->
-                    <!--            <span class="set-green-circle"></span>-->
-                    <!--            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
-                    <!--            <span class="set-sm-text">playing</span>-->
-                    <!--        </div>-->
-                    <!--    </a>-->
-                    <!--</div>-->
+               
                 </div>
             </div>
         </div>
@@ -1970,7 +1920,7 @@
                 </a>
             </div>
            <div class="single-event-box" >
-                <a href="https://stakeye.com">
+                <a href="https://t.me/stakeye_support">
                     <div>
                         <img src="{{ asset('assets/newhome/img/messenger.png')}}" alt="event" height="">
                     </div>
@@ -2050,8 +2000,8 @@
         });
         $(document).ready(function() {
             $("#slots-slider").owlCarousel({
-                items : 4,
-                itemsDesktop:[1199,4],
+                items : 5,
+                itemsDesktop:[1199,5],
                 itemsDesktopSmall:[980,3],
                 itemsMobile : [600,2],
                 navigation:true,
@@ -2076,8 +2026,8 @@
 
         $(document).ready(function() {
             $("#random-2-slider").owlCarousel({
-                items : 3,
-                itemsDesktop:[1199,3],
+                items : 4,
+                itemsDesktop:[1199,4],
                 itemsDesktopSmall:[980,3],
                 itemsMobile : [600,2],
                 navigation:true,

@@ -207,7 +207,7 @@ $kycInstruction = getContent('kyc\.content', true);
   <!--                      </a>-->
   <!--                  </div>-->
   
-   <div class="container set-none-slider-menu mt-4 mt-lg-5">
+    <div class="container set-none-slider-menu mt-4 mt-lg-5">
         <div class="row">
             <div class="col-md-12">
                 <h2 class="slider-main-title">play Now</h2>
@@ -216,7 +216,6 @@ $kycInstruction = getContent('kyc\.content', true);
                         <!--<a href="{{$autologinUrl}}">-->
                         <a href="https://stakeye.com/trending-games">
                         <!--<a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_ARou">-->
-                        
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/casino-main1.png')}}" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/88a9cb13-7a7a-4190-6a9a-42afbd29f300/main" alt="slide">
@@ -230,11 +229,38 @@ $kycInstruction = getContent('kyc\.content', true);
                     </div>
                     <div class="post-slide">
                         <!--<a href="{{$autologinUrl}}">-->
-                             <!--<a href="{{$sportsLink}}">-->
+                             <!--<a href="https://cric.stakeye.com/">-->
                              <a href="https://stakeye.com/sports">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/sports-main1.png')}}" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/f3923c4c-07a8-4add-6d24-04c2d4d31100/main" alt="slide">
+                            </div>
+                            <div class="d-flex align-items-center gap-1 py-1">
+                                <span class="set-green-circle"></span>
+                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <span class="set-sm-text">playing</span>
+                            </div>
+                        </a>
+                    </div>
+                     <div class="post-slide">
+                         <a href="javascript:void(0)" class="lobby-game" data-gameid="1007" data-gametableid="EVP_MField">
+                            <div class="post-img">
+                                <!--<img src="{{ asset('assets/newhome/img/sliders/mine.png')}}" alt="slide">-->
+                                <!--minefield banner-->
+                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/09f64d2c-bf43-4946-8480-08bde8033600/style1" alt="slide">
+                            </div>
+                            <div class="d-flex align-items-center gap-1 py-1">
+                                <span class="set-green-circle"></span>
+                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <span class="set-sm-text">playing</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="post-slide">
+                        <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_hndlightrout">
+                            <div class="post-img">
+                                <!--golden balls banner   lucky ball-->
+                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/4fabed01-d466-4edb-62c7-6789622dc600/main" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
@@ -261,27 +287,6 @@ $kycInstruction = getContent('kyc\.content', true);
                             </div>
                         </a>
                     </div>
-                        <div class="post-slide">
-                        <!--<a href="{{$autologinUrl}}">-->
-                        <!-- @if(Auth::check())-->
-                        <!--<a href="#" class="lobby-game">-->
-                        <!-- <a href="{{route('games.play-game','aviator')}}"> -->
-                        <!--@else-->
-                        <!--<a href="{{route('user.login')}}">-->
-                        <!--@endif-->
-                        <a href="javascript:void(0)" class="lobby-game" data-gameid="1033" data-gametableid="imlive80075">
-                            <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/satta.png')}}" alt="slide">-->
-                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/e6125df2-ce9d-40d4-054d-1ef995a74d00/main" alt="slide">
-                            </div>
-                            <div class="d-flex align-items-center gap-1 py-1">
-                                <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
-                                <span class="set-sm-text">playing</span>
-                            </div>
-                        </a>
-                    </div>
-                               </div>
             </div>
         </div>
     </div>
@@ -1612,7 +1617,7 @@ $kycInstruction = getContent('kyc\.content', true);
                 </a>
             </div>
            <div class="single-event-box">
-                <a href="#">
+                <a href="https://t.me/stakeye_support">
                     <div>
                         <img src="{{ asset('assets/newhome/img/messenger.png')}}" alt="event" height="">
                     </div>
