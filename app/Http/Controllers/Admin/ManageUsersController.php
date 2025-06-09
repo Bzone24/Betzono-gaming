@@ -109,7 +109,7 @@ class ManageUsersController extends Controller
         $totalWithdrawals = Withdrawal::where('user_id', $user->id)->approved()->sum('amount');
         $totalTransaction = Transaction::where('user_id', $user->id)->count();
         $countries = json_decode(file_get_contents(resource_path('views/partials/country.json')));
-        $activeUser = User::where('id',"!=",$id)->where('status', 1)->get();
+        $activeUser = User::where('id', "!=", $id)->where('status', 1)->get();
         return view('admin.users.detail', compact('pageTitle', 'user', 'totalDeposit', 'totalWithdrawals', 'totalTransaction', 'countries', 'activeUser'));
     }
 
@@ -295,10 +295,10 @@ class ManageUsersController extends Controller
 
         $request->validate([
             'firstname' => 'required|string|max:40',
-            'lastname' => 'required|string|max:40',
+            //'lastname' => 'required|string|max:40',
             'username' => 'required|string',
             'email' => 'required|email|string|max:40',
-            'mobile' => 'required|string|max:40',
+           // 'mobile' => 'required|string|max:40',
             'country' => 'required|in:' . $countries,
             'user_type' => 'required|in:' . implode(',', User::getUserTypeOptions()),
         ]);
@@ -318,9 +318,9 @@ class ManageUsersController extends Controller
 
 
 
-        $user->mobile = $request->mobile;
+        $user->mobile = $request->mobile ?? null;
         $user->firstname = $request->firstname;
-        $user->lastname = $request->lastname;
+        $user->lastname = $request->lastname ?? $request->firstname;
         $user->username = $request->username;
         $user->ref_by = $request->ref_by;
         
