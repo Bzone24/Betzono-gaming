@@ -52,7 +52,7 @@ class RegisterController extends Controller
             //'firstname' => 'required',
             //'lastname' => 'required',
             'username' => 'required|string|unique:users',
-            //'email' => 'required|string|email|unique:users',
+            'email' => 'required|email',
             'password' => ['required', 'confirmed', $passwordValidation],
             'captcha' => 'sometimes|required',
             'agree' => $agree
@@ -67,7 +67,11 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $this->validator($request->all())->validate();
-
+        //check email have proper format like name@domain.extension
+        if (!filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
+            $notify[] = ['error', 'Invalid email format'];
+            return back()->withNotify($notify)->withInput($request->except('password'));
+        }
         $request->session()->regenerateToken();
 
         if (!verifyCaptcha()) {
@@ -75,6 +79,7 @@ class RegisterController extends Controller
             return back()->withNotify($notify);
         }
         $data = $request->all();
+       
         $referBy = $data['refby'] ?? '';
         //session()->get('reference');
         if ($referBy) {
@@ -115,7 +120,7 @@ class RegisterController extends Controller
         $user->email = strtolower($data['email']);
         $user->firstname = $data['firstname'];
         $user->lastname = $data['lastname'];
-        $user->username = str_replace(" ", "-", $userName);
+        $user->username = strtolower(str_replace(" ", "-", $userName));
         $user->mobile =  $data['mobile'] ?? null;
         $user->profile_complete = 1;
         $user->dial_code =  $data['mobile_code'] ?? null;

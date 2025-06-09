@@ -238,7 +238,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="form-control-label">@lang('Last Name')</label>
-                                    <input class="form-control" type="text" name="lastname" required value="{{$user->lastname}}">
+                                    <input class="form-control" type="text" name="lastname"   value="{{$user->lastname}}">
                                 </div>
                             </div>
 
@@ -254,7 +254,7 @@
                                     <label>@lang('Mobile Number') </label>
                                     <div class="input-group ">
                                         <span class="input-group-text mobile-code">+{{ $user->dial_code }}</span>
-                                        <input type="number" name="mobile" value="{{ $user->mobile }}" id="mobile" class="form-control checkUser" required>
+                                        <input type="number" name="mobile" value="{{ $user->mobile }}" id="mobile" class="form-control checkUser"  >
                                     </div>
                                 </div>
                             </div>

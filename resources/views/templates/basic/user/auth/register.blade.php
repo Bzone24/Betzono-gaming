@@ -289,10 +289,12 @@
             });
             //restrict user to add specail char and space in id username
             $('#username').on('keypress', function (e) {
-                var char = String.fromCharCode(e.which);
-                if (!/^[a-zA-Z0-9-_]+$/.test(char)) {
+                var char = String.fromCharCode(e.which).toLowerCase();
+                if (!/^[a-z0-9-_]+$/.test(char)) {
                     e.preventDefault();
                 }
+            }).on('keyup', function () {
+                $(this).val($(this).val().toLowerCase());
             });
 
 

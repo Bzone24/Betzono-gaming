@@ -278,9 +278,14 @@ class UserController extends Controller
         $mobileCodes  = implode(',', array_column($countryData, 'dial_code'));
         $countries    = implode(',', array_column($countryData, 'country'));
 
+
+      
+
         $request->validate([
-            'firstname' => 'required',
-            'lastname' => 'required',
+           // 'firstname' => 'required',
+            'fullname' => 'required',
+
+           // 'lastname' => 'required',
             'country_code' => 'required|in:' . $countryCodes,
             'country'      => 'required|in:' . $countries,
             'mobile_code'  => 'required|in:' . $mobileCodes,
@@ -293,36 +298,22 @@ class UserController extends Controller
                     ->where('dial_code', $request->mobile_code),
             ]
         ]);
-/*
-        $api = new ApiHandler();
 
-        $data = [
-            'username' =>  "b".$request->mobile,
-            'password' => $request->password,
-            'currency' => gs('cur_text'),
-            'firstName' => $request->firstname,
-            'lastName' => $request->lastname,
-            'email' => $request->email,
-            'phoneNumber' => $request->mobile_code . $request->mobile,
-            "tempPasswordReset" => false,
-        ];
-
-        // Call the API
-        $response = $api->callAPI('api/players/fastcreate', $data, 'POST');
-
-        // Handle the response
-
-        if (isset($response['errorCode'])) {
-            $notify[] = ['error', $response['errorMessage']];
-            return back()->withNotify($notify)->withInput($request->all());
-        }else{
-
-            $fast_create_url = $response['data']['fastLoginUrl'];
+        if (isset($request->firstname) && !empty($request->firstname)) {
+            $nameParts = explode(' ', $request->firstname);
+            $data['firstname'] = $nameParts[0] ?? '';
+            $data['lastname'] = isset($nameParts[1]) ? implode(' ', array_slice($nameParts, 1)) : '';
+        } else {
+            $data['firstname'] = $request->firstname ?? '';
+            $data['lastname'] = $request->lastname?? '';
         }
-*/
+
+
+
+
         $user = new User();
-        $user->firstname = $request->firstname;
-        $user->lastname = $request->lastname;
+        $user->firstname = $data['firstname'];
+        $user->lastname = $data['lastname'];
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->country_code = $request->country_code;

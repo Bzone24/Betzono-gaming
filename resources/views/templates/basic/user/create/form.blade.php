@@ -12,17 +12,24 @@
                             <form method="POST" action="{{ route('user.agent.create_user.submit') }}">
                                 @csrf
                                 <div class="row">
-                                    <div class="col-md-6">
+                                <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="form-label">@lang('First Name')</label>
-                                            <input type="text" class="form-control form--control" name="firstname" value="{{ old('firstname') }}" required>
+                                            <label class="form-label">@lang('Full Name')</label>
+                                            <input type="text" class="form-control form--control" name="fullname" value="{{ old('fullname') }}" id="username" required>
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 d-none">
+                                        <div class="form-group">
+                                            <label class="form-label">@lang('First Name')</label>
+                                            <input type="text" class="form-control form--control" name="firstname" value="{{ old('firstname') }}"  >
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 d-none">
                                         <div class="form-group">
                                             <label class="form-label">@lang('Last Name')</label>
-                                            <input type="text" class="form-control form--control" name="lastname" value="{{ old('lastname') }}" required>
+                                            <input type="text" class="form-control form--control" name="lastname" value="{{ old('lastname') }}"  >
                                         </div>
                                     </div>
 
@@ -240,6 +247,17 @@
                 var name = $(this).attr('name');
                 checkUser(value, name);
             });
+
+            $('#username').on('keypress', function (e) {
+                var char = String.fromCharCode(e.which).toLowerCase();
+                if (!/^[a-z0-9-_]+$/.test(char)) {
+                    e.preventDefault();
+                }
+            }).on('keyup', function () {
+                $(this).val($(this).val().toLowerCase());
+            });
+
+            
 
             function checkUser(value, name) {
                 var url = '{{ route('user.checkUser') }}';
