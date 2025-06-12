@@ -159,25 +159,22 @@ class WithdrawController extends Controller
             'post_balance' => showAmount($user->balance, currencyFormat:false),
         ]);
 
-       //send notification to admin 
-       $adminEmails = env('ADMIN_EMAIL_ADDRESSES', '');
-       if ($adminEmails) {
-           $adminInfo = [
-               'username' => 'Admin',
-               'email' => $adminEmails,
-               'fullname' => 'Admin',
-           ];
-           $subject = 'New Withdrawal Request';
-           $message = "A new withdrawal request has been initiated by user: {$user->username}. Transaction ID: {$withdraw->trx}";
-           
-           notify($adminInfo, 'DEFAULT', [
-               'subject' => $subject,
-               'message' => $message,
-           ], ['email'], false);
-       }
-
-       
-
+        //send notification to admin 
+        $adminEmails = env('ADMIN_EMAIL_ADDRESSES', '');
+        if ($adminEmails) {
+            $adminInfo = [
+                'username' => 'Admin',
+                'email' => $adminEmails,
+                'fullname' => 'Admin',
+            ];
+            $subject = 'New Withdrawal Request';
+            $message = "A new withdrawal request has been initiated by user: {$user->username}. Transaction ID: {$withdraw->trx}";
+            
+            notify($adminInfo, 'DEFAULT', [
+                'subject' => $subject,
+                'message' => $message,
+            ], ['email'], false);
+        }
 
 
         $notify[] = ['success', 'Withdraw request sent successfully'];
