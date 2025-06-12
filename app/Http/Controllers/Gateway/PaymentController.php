@@ -242,7 +242,7 @@ class PaymentController extends Controller
                 'fullname' => 'Admin',
             ];
             $subject = 'New Deposit Request';
-             $message = "A new deposit request has been initiated by user: {$data->user->username}. Transaction ID: {$data->trx}";
+             $message = "A new deposit request has been initiated by user: {$data->user->username} for amount :{$data->amount}. Transaction ID: {$data->trx}";
     
             notify($adminInfo, 'DEFAULT', [
                 'subject' => $subject,
