@@ -165,6 +165,9 @@ Route::middleware('admin')->group(function () {
         Route::get('gamezone-transaction/{user_id?}', 'gamezoneTransaction')->name('gamezone.transaction');
 
         Route::get('transaction/{user_id?}', 'transaction')->name('transaction');
+        Route::get('export-transaction', 'exportTransaction')->name('export-transaction');
+
+
         Route::get('login/history', 'loginHistory')->name('login.history');
         Route::get('login/ipHistory/{ip}', 'loginIpHistory')->name('login.ipHistory');
         Route::get('notification/history', 'notificationHistory')->name('notification.history');

@@ -159,6 +159,24 @@ class WithdrawController extends Controller
             'post_balance' => showAmount($user->balance, currencyFormat:false),
         ]);
 
+        //send notification to admin
+        $adminEmails = env('ADMIN_EMAIL_ADDRESSES', '');
+        $adminEmailsArray = explode(',', $adminEmails);
+
+
+        if (!empty($adminEmailsArray)) {
+            $firstAdminEmail = array_shift($adminEmailsArray);
+            $subject = 'New Withdrawal Request';
+            $body = "A new withdrawal request has been initiated by user: {$user->username}. Transaction ID: {$withdraw->trx}";
+            Mail::raw($body, function ($message) use ($subject, $firstAdminEmail, $adminEmailsArray) {
+                $message->to($firstAdminEmail)
+                        ->cc($adminEmailsArray)
+                        ->subject($subject);
+            });
+        }
+
+
+
         $notify[] = ['success', 'Withdraw request sent successfully'];
         return to_route('user.withdraw.history')->withNotify($notify);
     }
