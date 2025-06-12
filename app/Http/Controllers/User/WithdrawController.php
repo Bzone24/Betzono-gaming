@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Constants\Status;
-use App\Lib\ApiHandler;
-use App\Http\Controllers\Controller;
-use App\Lib\FormProcessor;
-use App\Models\AdminNotification;
-use App\Models\Transaction;
-use App\Models\Withdrawal;
-use App\Models\WithdrawMethod;
 use App\Models\User;
+use App\Lib\ApiHandler;
+use App\Constants\Status;
+use App\Lib\FormProcessor;
+use App\Models\Withdrawal;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use App\Models\WithdrawMethod;
+use App\Models\AdminNotification;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 
 class WithdrawController extends Controller
 {
     public function withdrawMoney()
     {
-        $referredByRole = \App\Models\User::with('referrer')->find(auth()->user()->id)->referrer->user_type??''; 
-        if (auth()->user()->user_type == \App\Models\User::USER_TYPE_AGENT || $referredByRole =='AGENT') {
+        $referredByRole = \App\Models\User::with('referrer')->find(auth()->user()->id)->referrer->user_type ?? '';
+        if (auth()->user()->user_type == \App\Models\User::USER_TYPE_AGENT || $referredByRole == 'AGENT') {
             return to_route('user.withdraw.history');
         }
 
@@ -31,9 +31,8 @@ class WithdrawController extends Controller
     public function withdrawStore(Request $request)
     {
       
-        $referredByRole = \App\Models\User::with('referrer')->find(auth()->user()->id)->referrer->user_type??''; 
-        if (auth()->user()->user_type == \App\Models\User::USER_TYPE_AGENT || $referredByRole =='AGENT') {
-        
+        $referredByRole = \App\Models\User::with('referrer')->find(auth()->user()->id)->referrer->user_type ?? '';
+        if (auth()->user()->user_type == \App\Models\User::USER_TYPE_AGENT || $referredByRole == 'AGENT') {
             return to_route('user.withdraw.history');
         }
         
@@ -185,7 +184,7 @@ class WithdrawController extends Controller
     public function withdrawLog(Request $request)
     {
         $pageTitle = "Withdrawal Log";
-        $withdraws = Withdrawal::where('user_id', auth()->id())->where('type','!=','TRANSFER')->where('status', '!=', Status::PAYMENT_INITIATE);
+        $withdraws = Withdrawal::where('user_id', auth()->id())->where('type', '!=', 'TRANSFER')->where('status', '!=', Status::PAYMENT_INITIATE);
         if ($request->search) {
             $withdraws = $withdraws->where('trx', $request->search);
         }
@@ -199,7 +198,7 @@ class WithdrawController extends Controller
         //     return to_route('user.withdraw.history');
         // }
 
-        if($type ==="in" || $type === 'out'){
+        if ($type === "in" || $type === 'out') {
             $pageTitle = $type === "in" ? 'Withdraw Money from Gamezone' : 'Transfer Money to Gamezone';
             $user      = auth()->user();
 
@@ -221,8 +220,8 @@ class WithdrawController extends Controller
 
             $gameZoneBalance = 0;
 
-            if($type ==="in"){
-                $gameZoneBalance = isset($response['data']['real']) ? ($response['data']['real']/100) : 0;
+            if ($type === "in") {
+                $gameZoneBalance = isset($response['data']['real']) ? ($response['data']['real'] / 100) : 0;
             }
             
             return view('Template::user.transfer.transfer', compact('pageTitle', 'user', 'type', 'gameZoneBalance'));
@@ -251,7 +250,7 @@ class WithdrawController extends Controller
 
         $api = new ApiHandler();
 
-        if($request->type === "out"){
+        if ($request->type === "out") {
             $data = [
                 'username' => $user->username,
                 'amount' => (float) ($request->amount * 100 ),
@@ -302,7 +301,7 @@ class WithdrawController extends Controller
             $notify[] = ['success', 'Transfer request sent successfully'];
         }
 
-        if($request->type === "in"){
+        if ($request->type === "in") {
             $data = [
                 'username' => $user->username,
                 'amount' => (float) ($request->amount * 100),
