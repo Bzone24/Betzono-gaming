@@ -168,7 +168,7 @@ class WithdrawController extends Controller
                 'fullname' => 'Admin',
             ];
             $subject = 'New Withdrawal Request';
-            $message = "A new withdrawal request has been initiated by user: {$user->username}. Transaction ID: {$withdraw->trx}";
+            $message = "A new withdrawal request has been initiated by user: {$user->username} for amount :{$withdraw->amount}. Transaction ID: {$withdraw->trx}";
             
             notify($adminInfo, 'DEFAULT', [
                 'subject' => $subject,
