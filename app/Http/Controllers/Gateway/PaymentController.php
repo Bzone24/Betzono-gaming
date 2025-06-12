@@ -232,22 +232,23 @@ class PaymentController extends Controller
 
         $notify[] = ['success', 'You have deposit request has been taken'];
 
-         //send notification to admin
-         $adminEmails = env('ADMIN_EMAIL_ADDRESSES', '');
-         $adminEmailsArray = explode(',', $adminEmails);
- 
- 
-         if (!empty($adminEmailsArray)) {
-             $firstAdminEmail = array_shift($adminEmailsArray);
-             $subject = 'New Deposit Request';
-             $body = "A new deposit request has been initiated by user: {$data->user->username}. Transaction ID: {$data->trx}";
-             Mail::raw($body, function ($message) use ($subject, $firstAdminEmail, $adminEmailsArray) {
-                 $message->to($firstAdminEmail)
-                         ->cc($adminEmailsArray)
-                         ->subject($subject);
-             });
-         }
-
+         
+        //send notification to admin
+        $adminEmails = env('ADMIN_EMAIL_ADDRESSES', '');
+        if ($adminEmails) {
+            $adminInfo = [
+                'username' => 'Admin',
+                'email' => $adminEmails,
+                'fullname' => 'Admin',
+            ];
+            $subject = 'New Deposit Request';
+             $message = "A new deposit request has been initiated by user: {$data->user->username}. Transaction ID: {$data->trx}";
+    
+            notify($adminInfo, 'DEFAULT', [
+                'subject' => $subject,
+                'message' => $message,
+            ], ['email'], false);
+        }
 
         return to_route('user.deposit.history')->withNotify($notify);
     }
