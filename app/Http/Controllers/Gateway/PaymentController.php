@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Gateway;
 
-use App\Constants\Status;
-use App\Http\Controllers\Controller;
-use App\Lib\FormProcessor;
-use App\Models\AdminNotification;
-use App\Models\Deposit;
-use App\Models\GatewayCurrency;
-use App\Models\Transaction;
 use App\Models\User;
+use App\Models\Deposit;
+use App\Constants\Status;
+use App\Lib\FormProcessor;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use App\Models\GatewayCurrency;
+use App\Models\AdminNotification;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 
 class PaymentController extends Controller
 {
@@ -30,6 +31,7 @@ class PaymentController extends Controller
 
     public function depositInsert(Request $request)
     {
+   
         $referredByRole = \App\Models\User::with('referrer')->find(auth()->user()->id)->referrer->user_type ?? '';
         if (auth()->user()->user_type == \App\Models\User::USER_TYPE_AGENT || ($referredByRole == 'AGENT' && !empty($referredByRole))) {
             return to_route('user.deposit.history');
@@ -75,14 +77,18 @@ class PaymentController extends Controller
         $data->failed_url = urlPath('user.deposit.history');
         $data->save();
         session()->put('Track', $data->trx);
+        
+       
+
+         
         return to_route('user.deposit.confirm');
     }
 
 
     public function depositConfirm()
     {
-        $referredByRole = \App\Models\User::with('referrer')->find(auth()->user()->id)->referrer->user_type??'';
-        if (auth()->user()->user_type == \App\Models\User::USER_TYPE_AGENT || (!empty($referredByRole) && $referredByRole == 'AGENT')) { 
+        $referredByRole = \App\Models\User::with('referrer')->find(auth()->user()->id)->referrer->user_type ?? '';
+        if (auth()->user()->user_type == \App\Models\User::USER_TYPE_AGENT || (!empty($referredByRole) && $referredByRole == 'AGENT')) {
                 return to_route('user.deposit.history');
         }
 
@@ -166,8 +172,8 @@ class PaymentController extends Controller
 
     public function manualDepositConfirm()
     {
-        $referredByRole = \App\Models\User::with('referrer')->find(auth()->user()->id)->referrer->user_type??'';
-        if (auth()->user()->user_type == \App\Models\User::USER_TYPE_AGENT || (!empty($referredByRole) && $referredByRole == 'AGENT')) { 
+        $referredByRole = \App\Models\User::with('referrer')->find(auth()->user()->id)->referrer->user_type ?? '';
+        if (auth()->user()->user_type == \App\Models\User::USER_TYPE_AGENT || (!empty($referredByRole) && $referredByRole == 'AGENT')) {
             return to_route('user.deposit.history');
         }
 
@@ -185,8 +191,8 @@ class PaymentController extends Controller
 
     public function manualDepositUpdate(Request $request)
     {
-        $referredByRole = \App\Models\User::with('referrer')->find(auth()->user()->id)->referrer->user_type??'';
-        if (auth()->user()->user_type == \App\Models\User::USER_TYPE_AGENT || (!empty($referredByRole) && $referredByRole == 'AGENT')) { 
+        $referredByRole = \App\Models\User::with('referrer')->find(auth()->user()->id)->referrer->user_type ?? '';
+        if (auth()->user()->user_type == \App\Models\User::USER_TYPE_AGENT || (!empty($referredByRole) && $referredByRole == 'AGENT')) {
             return to_route('user.deposit.history');
         }
 
@@ -225,6 +231,24 @@ class PaymentController extends Controller
         ]);
 
         $notify[] = ['success', 'You have deposit request has been taken'];
+
+         //send notification to admin
+         $adminEmails = env('ADMIN_EMAIL_ADDRESSES', '');
+         $adminEmailsArray = explode(',', $adminEmails);
+ 
+ 
+         if (!empty($adminEmailsArray)) {
+             $firstAdminEmail = array_shift($adminEmailsArray);
+             $subject = 'New Deposit Request';
+             $body = "A new deposit request has been initiated by user: {$data->user->username}. Transaction ID: {$data->trx}";
+             Mail::raw($body, function ($message) use ($subject, $firstAdminEmail, $adminEmailsArray) {
+                 $message->to($firstAdminEmail)
+                         ->cc($adminEmailsArray)
+                         ->subject($subject);
+             });
+         }
+
+
         return to_route('user.deposit.history')->withNotify($notify);
     }
 }

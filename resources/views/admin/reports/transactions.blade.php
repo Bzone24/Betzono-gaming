@@ -49,8 +49,16 @@
                         <div class="flex-grow-1 align-self-end">
                             <button class="btn btn--primary w-100 h-45"><i class="fas fa-filter"></i> @lang('Filter')</button>
                         </div>
+                        <div class="flex-grow-1 align-self-end">
+                            <a href="{{ route('admin.report.export-transaction', request()->all()) }}" class="btn btn--success w-100 h-45"><i class="fas fa-file-export"></i> @lang('Export')</a>
+                        </div>
+                        
                     </div>
                 </form>
+
+
+
+
             </div>
         </div>
         <div class="card">
