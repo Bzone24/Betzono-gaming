@@ -12,6 +12,7 @@ use App\Models\Withdrawal;
 use App\Models\WithdrawMethod;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class WithdrawController extends Controller
 {
@@ -159,22 +160,22 @@ class WithdrawController extends Controller
             'post_balance' => showAmount($user->balance, currencyFormat:false),
         ]);
 
-        //send notification to admin
+        //send notification to admin 
         $adminEmails = env('ADMIN_EMAIL_ADDRESSES', '');
-        $adminEmailsArray = explode(',', $adminEmails);
-
-
-        if (!empty($adminEmailsArray)) {
-            $firstAdminEmail = array_shift($adminEmailsArray);
+        if ($adminEmails) {
+            $adminInfo = [
+                'username' => 'Admin',
+                'email' => $adminEmails,
+                'fullname' => 'Admin',
+            ];
             $subject = 'New Withdrawal Request';
-            $body = "A new withdrawal request has been initiated by user: {$user->username}. Transaction ID: {$withdraw->trx}";
-            Mail::raw($body, function ($message) use ($subject, $firstAdminEmail, $adminEmailsArray) {
-                $message->to($firstAdminEmail)
-                        ->cc($adminEmailsArray)
-                        ->subject($subject);
-            });
+            $message = "A new withdrawal request has been initiated by user: {$user->username}. Transaction ID: {$withdraw->trx}";
+            
+            notify($adminInfo, 'DEFAULT', [
+                'subject' => $subject,
+                'message' => $message,
+            ], ['email'], false);
         }
-
 
 
         $notify[] = ['success', 'Withdraw request sent successfully'];
