@@ -214,6 +214,25 @@
                         </a>
                     </div>
                      <div class="post-slide">
+                        @if(Auth::check())
+                        <a href="#" class="lobby-game">
+                         <a href="{{route('games.play-game','aviator')}}"> 
+                        @else
+                        <a href="{{route('user.login')}}">
+                        @endif
+                        
+                            <div class="post-img">
+                                
+                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/e6125df2-ce9d-40d4-054d-1ef995a74d00/style1" alt="slide"> 
+                            </div>
+                            <div class="d-flex align-items-center gap-1 py-1">
+                                <span class="set-green-circle"></span>
+                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <span class="set-sm-text">playing</span>
+                            </div>
+                        </a>
+                    </div>
+                     <div class="post-slide">
                          <a href="javascript:void(0)" class="lobby-game" data-gameid="1007" data-gametableid="EVP_MField">
                             <div class="post-img">
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/mine.png')}}" alt="slide">-->
@@ -305,69 +324,18 @@
                             </div>
                         </a>
                     </div>
-                    <!--<div class="post-slide">-->
-                    <!--     @if(Auth::check())-->
-                    <!--    <a href="{{route('games.play-game','number_prediction')}}">-->
-                    <!--    @else-->
-                    <!--    <a href="{{route('user.login')}}">-->
-                    <!--    @endif-->
-                    <!--        <div class="post-img">-->
-                            <!--<img src="https://cdn.cloudd.site/vking/lobby/20230716018045.webp" alt="slide">-->
-                             <!--<img src="{{ asset('assets/newhome/img/sliders/satta-home.png')}}" alt="slide"> -->
-                             <!--image banner satta-->
-                    <!--         <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/7b5c570b-a480-4371-5bdc-1b8521492600/style1" alt="slide">-->
-                    <!--        </div>-->
-                    <!--        <div class="d-flex align-items-center gap-1 py-1">-->
-                    <!--            <span class="set-green-circle"></span>-->
-                    <!--            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
-                    <!--            <span class="set-sm-text">playing</span>-->
-                    <!--        </div>-->
-                    <!--    </a>-->
-                    <!--</div>-->
-                    <!--<div class="post-slide">-->
-                        <!--@if(Auth::check())-->
-                        <!--<a href="{{route('games.play-game','color_prediction')}}">-->
-                        <!--@else-->
-                        <!--<a href="{{route('user.login')}}">-->
-                        <!--@endif-->
-                            <!--<div class="post-img">-->
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/cp2.png')}}" alt="slide">-->
-                            <!--</div>-->
-                            <!--<div class="d-flex align-items-center gap-1 py-1">-->
-                                <!--<span class="set-green-circle"></span>-->
-                                <!--<strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
-                                <!--<span class="set-sm-text">playing</span>-->
-                            <!--</div>-->
-                        <!--</a>-->
-                    <!--</div>-->
-                    <!--<div class="post-slide">-->
-                        <!--@if(Auth::check())-->
-                        <!--<a href="#" class="lobby-game">-->
-                        <!-- <a href="{{route('games.play-game','aviator')}}"> -->
-                        <!--@else-->
-                        <!--<a href="{{route('user.login')}}">-->
-                        <!--@endif-->
-                    <!--    <a href="javascript:void(0)" class="lobby-game" data-gameid="1033" data-gametableid="imlive80075">-->
-                    <!--        <div class="post-img">-->
-                                <!--<img src="https://cdn.cloudd.site/vking/lobby/20230710296343.webp" alt="slide">-->
-                                 <!--<img src="{{ asset('assets/newhome/img/sliders/aviator-home.png')}}" alt="slide"> -->
-                    <!--             <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/e6125df2-ce9d-40d4-054d-1ef995a74d00/style1" alt="slide"> -->
-                    <!--        </div>-->
-                    <!--        <div class="d-flex align-items-center gap-1 py-1">-->
-                    <!--            <span class="set-green-circle"></span>-->
-                    <!--            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
-                    <!--            <span class="set-sm-text">playing</span>-->
-                    <!--        </div>-->
-                    <!--    </a>-->
-                    <!--</div>-->
-                    <div class="post-slide">
-                    <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_FPCraps">
+                   
+                     <div class="post-slide">
+                        @if(Auth::check())
+                        <a href="#" class="lobby-game">
+                         <a href="{{route('games.play-game','aviator')}}"> 
+                        @else
+                        <a href="{{route('user.login')}}">
+                        @endif
+                        
                             <div class="post-img">
-                                 <!--<img src="{{ asset('assets/newhome/img/sliders/live-roullete-at.png')}}" alt="slide">
-    -->
-    <!--live casino banner-->
-                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/f26ea85c-19d3-4d10-5a89-e48262403600/style1" alt="slide">
-                                <!--<img src="https://cdn.cloudd.site/vking/lobby/20230709492583.webp" alt="slide">-->
+                                
+                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/e6125df2-ce9d-40d4-054d-1ef995a74d00/style1" alt="slide"> 
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
@@ -379,10 +347,10 @@
                     <div class="post-slide">
                     <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_SpRou">
                             <div class="post-img">
-                                 <!--<img src="{{ asset('assets/newhome/img/sliders/dragon_tiger_ev.jpg')}}" alt="slide"> -->
+                                
                                  <!--Dragon tiger banner-->
                                  <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/04d0da24-6073-4e83-6e3a-9cef4a011900/style1" alt="slide"> 
-                                <!--<img src="https://cdn.cloudd.site/vking/lobby/20230708445186.webp" alt="slide">-->
+                               
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
@@ -393,11 +361,7 @@
                     </div>
                     <div class="post-slide">
                          <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_SupAndBah">
-                         <!--@if(Auth::check())-->
-                        <!--<a href="{{route('games.play-game','number_prediction')}}">-->
-                        <!--@else-->
-                        <!--<a href="{{route('user.login')}}">-->
-                        <!--@endif-->
+                         
                             <div class="post-img">
                                 <!--<img src="https://cdn.cloudd.site/vking/lobby/20230704532492.webp" alt="slide">-->
                                  <!--<img src="{{ asset('assets/newhome/img/sliders/super_andar_bahar_ev.jpg')}}" alt="slide"> -->
