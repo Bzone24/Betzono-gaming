@@ -70,7 +70,7 @@
                                   @php  $countries  = json_decode(file_get_contents(resource_path('views/partials/country.json')));
                                   @endphp
 
-                                     <div class="form-group col-lg-6 d-none">
+                                     <div class="form-group col-lg-6 ">
                                         <label for="country">@lang('Country')</label>
                                         <div class="custom--field">
                                             <select class="form--control select2" id="country" name="country"  >
@@ -85,7 +85,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 d-none" >
+                                    <div class="col-md-6 " >
                                         <div class="form-group">
                                             <label class="form-label">@lang('Mobile')</label>
                                             <div class="input-group ">

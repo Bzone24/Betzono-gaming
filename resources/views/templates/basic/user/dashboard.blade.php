@@ -47,7 +47,19 @@ $kycInstruction = getContent('kyc\.content', true);
  <!-- dashboard section start -->
     <section class="pt-10 pb-10">
         <div class="container">
-            <div class="notice"></div>
+            <div class="notice">
+            <marquee behavior="scroll" direction="left" style="color: #fff; background: #1a1a1a; padding: 8px 0;">
+              <strong>  Welcome to Stakeye! </strong>
+              | <strong> <a href="{{ url('user/profile-setting') }}" style="color: #ffd700;">Click here to update your mobile number to get all offers and update.</a></strong>
+              | <strong>
+                <a href="https://t.me/stakeye1" target="_blank" style="color: #ffd700; display: inline-flex; align-items: center;">
+                    <i class="fa fa-telegram" style="font-size: 18px; margin-right: 5px;"></i> Join our telegram link
+                </a>
+            </strong>
+
+            </marquee>
+
+            </div>
             <div class="row mt-5">
 
           

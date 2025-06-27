@@ -77,7 +77,10 @@
                                     <label>@lang('Country') <span class="text--danger">*</span></label>
                                     <select name="country" class="form-control select2">
                                         @foreach($countries as $key => $country)
-                                            <option data-mobile_code="{{ $country->dial_code }}" value="{{ $key }}">{{ __($country->country) }}</option>
+                                        
+                                            <option data-mobile_code="{{ $country->dial_code }}" value="{{ $key }}"
+                                            {{$key =='IN' ? 'selected' : ''}}
+                                            >{{ __($country->country) }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -166,5 +169,10 @@
         });
 
     })(jQuery);
+
+    $(document).ready(function(){
+        $('select[name=country]').trigger('change');
+    })
+        
 </script>
 @endpush
