@@ -53,7 +53,7 @@ $kycInstruction = getContent('kyc\.content', true);
               | <strong> <a href="{{ url('user/profile-setting') }}" style="color: #ffd700;">Click here to update your mobile number to get all offers and update.</a></strong>
               | <strong>
                 <a href="https://t.me/stakeye1" target="_blank" style="color: #ffd700; display: inline-flex; align-items: center;">
-                    <i class="fa fa-telegram" style="font-size: 18px; margin-right: 5px;"></i> Join our telegram link
+                    <i class="fa fa-telegram" style="font-size: 18px; margin-right: 5px;"></i> Join our telegram channel for latest updates.
                 </a>
             </strong>
 
