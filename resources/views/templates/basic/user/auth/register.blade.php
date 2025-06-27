@@ -37,8 +37,8 @@
                                     <div class="form-group col-12"> 
                                         <label class="form-label">@lang('User Name')</label>
                                         <input type="text" class="form-control form--control checkUser" name="username" id="username"
-                                               value="{{old("username")}}" required>
-                                            <small class="text--danger">@lang('Spaces and special characters are not allowed.')</small>
+                                            value="{{ old('username') }}" required pattern="^[a-zA-Z0-9-_]+$" autocomplete="username">
+                                        <small class="text--danger">@lang('Only letters and numbers allowed, e.g.: user123')</small>
                                         <span class="text--danger usernameExist"></span>
                                     </div> 
 

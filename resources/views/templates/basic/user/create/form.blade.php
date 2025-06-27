@@ -30,6 +30,7 @@
                                         <div class="form-group">
                                             <label class="form-label">@lang('Last Name')</label>
                                             <input type="text" class="form-control form--control" name="lastname" value="{{ old('lastname') }}"  >
+                                           
                                         </div>
                                     </div>
 
@@ -37,6 +38,7 @@
                                         <div class="form-group">
                                             <label class="form-label">@lang('Username')</label>
                                             <input type="text" class="form-control form--control checkUser" name="username" value="{{ old('username') }}" required>
+                                              <small class="text--danger">@lang('Only letters and numbers allowed, e.g.: user123')</small>
                                             <small class="text--danger usernameExist"></small>
                                         </div>
                                     </div>
@@ -250,7 +252,7 @@
 
             $('#username').on('keypress', function (e) {
                 var char = String.fromCharCode(e.which).toLowerCase();
-                if (!/^[a-z0-9-_]+$/.test(char)) {
+                if (!/^[a-z0-9]+$/.test(char)) {
                     e.preventDefault();
                 }
             }).on('keyup', function () {
