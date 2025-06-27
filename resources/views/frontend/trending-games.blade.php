@@ -117,12 +117,31 @@
                             </div>
                         </a>
                     </div>
-                    <div class="post-slide">
+                    <!--<div class="post-slide">-->
                         <!--<a href="{{$autologinUrl}}">-->
-                             <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_SupAndBah">
-                            <div class="post-img">
+                    <!--         <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_SupAndBah">-->
+                    <!--        <div class="post-img">-->
                                 <!--<img src="{{ asset('assets/newhome/img/sliders/sports-main1.png')}}" alt="slide">-->
-                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/05081928-ef19-41ff-dba6-138abe4bde00/style1" alt="slide">
+                    <!--            <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/05081928-ef19-41ff-dba6-138abe4bde00/style1" alt="slide">-->
+                    <!--        </div>-->
+                    <!--        <div class="d-flex align-items-center gap-1 py-1">-->
+                    <!--            <span class="set-green-circle"></span>-->
+                    <!--            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+                    <!--            <span class="set-sm-text">playing</span>-->
+                    <!--        </div>-->
+                    <!--    </a>-->
+                    <!--</div>-->
+                     <div class="post-slide">
+                        @if(Auth::check())
+                        <a href="#" class="lobby-game">
+                         <a href="{{route('games.play-game','aviator')}}"> 
+                        @else
+                        <a href="{{route('user.login')}}">
+                        @endif
+                        
+                            <div class="post-img">
+                                
+                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/e6125df2-ce9d-40d4-054d-1ef995a74d00/style1" alt="slide"> 
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
@@ -370,14 +389,14 @@
                     <!--        </div>-->
                     <!--    </a>-->
                     <!--</div>-->
+                   
                     <div class="post-slide">
-                    <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_FPCraps">
+                         <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_SupAndBah">
+                        
                             <div class="post-img">
-                                 <!--<img src="{{ asset('assets/newhome/img/sliders/live-roullete-at.png')}}" alt="slide">
-    -->
-    <!--live casino banner-->
-                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/f26ea85c-19d3-4d10-5a89-e48262403600/style1" alt="slide">
-                                <!--<img src="https://cdn.cloudd.site/vking/lobby/20230709492583.webp" alt="slide">-->
+                                
+                                  <!--super andar bahar banner-->
+                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/3c6f4129-60bb-4571-207f-caffa3cea300/style1" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
@@ -402,17 +421,11 @@
                         </a>
                     </div>
                     <div class="post-slide">
-                         <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_SupAndBah">
-                         <!--@if(Auth::check())-->
-                        <!--<a href="{{route('games.play-game','number_prediction')}}">-->
-                        <!--@else-->
-                        <!--<a href="{{route('user.login')}}">-->
-                        <!--@endif-->
+                    <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_FPCraps">
                             <div class="post-img">
-                                <!--<img src="https://cdn.cloudd.site/vking/lobby/20230704532492.webp" alt="slide">-->
-                                 <!--<img src="{{ asset('assets/newhome/img/sliders/super_andar_bahar_ev.jpg')}}" alt="slide"> -->
-                                  <!--super andar bahar banner-->
-                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/3c6f4129-60bb-4571-207f-caffa3cea300/style1" alt="slide">
+                             
+                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/f26ea85c-19d3-4d10-5a89-e48262403600/style1" alt="slide">
+                                
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
@@ -435,6 +448,19 @@
             <div class="col-md-12">
                 <h2 class="slider-main-title">Live Tables </h2>
                 <div id="stake-originals" class="owl-carousel">
+                    <div class="post-slide">
+                    <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_GoldVaultRoulette">                            
+                            <div class="post-img">
+                                <!--<img src="{{ asset('assets/newhome/img/sliders/auto1.png ')}}" alt="slide">-->
+                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/02b47d56-b4a3-45c2-82bc-7efdc17abb00/style1" alt="slide">
+                            </div>
+                            <div class="d-flex align-items-center gap-1 py-1">
+                                <span class="set-green-circle"></span>
+                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <span class="set-sm-text">playing</span>
+                            </div>
+                        </a>
+                    </div>
                     <div class="post-slide">
                         <a href="javascript:void(0)" class="lobby-game" data-gameid="1016" data-gametableid="jili_Rummy">
                             <div class="post-img">
@@ -487,19 +513,7 @@
                             </div>
                         </a>
                     </div>
-                    <div class="post-slide">
-                    <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_GoldVaultRoulette">                            
-                            <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/auto1.png ')}}" alt="slide">-->
-                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/02b47d56-b4a3-45c2-82bc-7efdc17abb00/style1" alt="slide">
-                            </div>
-                            <div class="d-flex align-items-center gap-1 py-1">
-                                <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
-                                <span class="set-sm-text">playing</span>
-                            </div>
-                        </a>
-                    </div>
+                    
                     <div class="post-slide">
                         <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_dbRoulette"> 
                             <div class="post-img">
@@ -591,16 +605,40 @@
             <div class="col-md-12">
                 <h2 class="slider-main-title">Live Card Games</h2>
                 <div id="trending-slider" class="owl-carousel">
+                     <div class="post-slide">
+                               <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_FStudio">
+                    
+                    
+                            <div class="post-img">
+                                
+                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/2c009059-c0e3-4c66-6ed2-021483236100/style1" alt="slide">
+                            </div>
+                            <div class="d-flex align-items-center gap-1 py-1">
+                                <span class="set-green-circle"></span>
+                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <span class="set-sm-text">playing</span>
+                            </div>
+                        </a>
+                    </div>
+                      <div class="post-slide">
+                        <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_MonoL">
+                            <div class="post-img">
+                               
+                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/0986c4e7-7053-42e9-ede5-8841f3fb1d00/style1" alt="slide">
+                            </div>
+                            <div class="d-flex align-items-center gap-1 py-1">
+                                <span class="set-green-circle"></span>
+                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <span class="set-sm-text">playing</span>
+                            </div>
+                        </a>
+                    </div>
                     <div class="post-slide">
                         <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_CasHold">
-                        <!-- @if(Auth::check())-->
-                        <!--<a href="{{route('games.play-game','number_prediction')}}">-->
-                        <!--@else-->
-                        <!--<a href="{{route('user.login')}}">-->
-                        <!--@endif-->
+                        
                             <div class="post-img">
                                  <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/1d20c0f3-c159-4dfd-758e-242d9b97a200/style1" alt="slide">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/dragon_tiger_ezugi.png')}}" alt="slide">-->
+                                
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
@@ -627,24 +665,7 @@
                             </div>
                         </a>
                     </div>
-                          <div class="post-slide">
-                               <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_FStudio">
-                    <!--@if(Auth::check())-->
-                    <!--    <a href="{{route('games.play-game','aviator')}}">-->
-                    <!--    @else-->
-                    <!--    <a href="{{route('user.login')}}">-->
-                    <!--    @endif-->
-                            <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/teen_patti_ezugi.png')}}" alt="slide">-->
-                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/2c009059-c0e3-4c66-6ed2-021483236100/style1" alt="slide">
-                            </div>
-                            <div class="d-flex align-items-center gap-1 py-1">
-                                <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
-                                <span class="set-sm-text">playing</span>
-                            </div>
-                        </a>
-                    </div>
+                         
                     <div class="post-slide">
                      <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_FStudiodice">
                  
@@ -659,19 +680,7 @@
                             </div>
                         </a>
                     </div>
-                    <div class="post-slide">
-                        <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_MonoL">
-                            <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/casino_holdem_ezugi.png')}}" alt="slide">-->
-                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/0986c4e7-7053-42e9-ede5-8841f3fb1d00/style1" alt="slide">
-                            </div>
-                            <div class="d-flex align-items-center gap-1 py-1">
-                                <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
-                                <span class="set-sm-text">playing</span>
-                            </div>
-                        </a>
-                    </div>
+                  
                     <!--<div class="post-slide">-->
                     <!--    <a href="javascript:void(0)" class="lobby-game" data-gameid="601" data-gametableid="ez_32cd">-->
                     <!--        <div class="post-img">-->
@@ -1194,12 +1203,31 @@
                 <h2 class="slider-main-title">Fun Games</h2>
                 <div id="stake-originals-1" class="owl-carousel">
                   
-                    <div class="post-slide">
+                    <!--<div class="post-slide">-->
                        
-                            <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_HindiSpeedBaccaratA">
-                            <div class="post-img">
+                    <!--        <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_HindiSpeedBaccaratA">-->
+                    <!--        <div class="post-img">-->
                                 <!--bet stacker banner-->
-                                <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/4cd5e978-f9a9-4c46-22fc-9e06ffc71d00/style1" alt="slide">
+                    <!--            <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/4cd5e978-f9a9-4c46-22fc-9e06ffc71d00/style1" alt="slide">-->
+                    <!--        </div>-->
+                    <!--        <div class="d-flex align-items-center gap-1 py-1">-->
+                    <!--            <span class="set-green-circle"></span>-->
+                    <!--            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+                    <!--            <span class="set-sm-text">playing</span>-->
+                    <!--        </div>-->
+                    <!--    </a>-->
+                    <!--</div>-->
+                     <div class="post-slide">
+                        @if(Auth::check())
+                        <a href="#" class="lobby-game">
+                         <a href="{{route('games.play-game','aviator')}}"> 
+                        @else
+                        <a href="{{route('user.login')}}">
+                        @endif
+                        
+                            <div class="post-img">
+                                
+                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/e6125df2-ce9d-40d4-054d-1ef995a74d00/style1" alt="slide"> 
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
