@@ -53,6 +53,26 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="payment-system-list p-3">
+
+                                               
+
+                                                 <div class="deposit-info">
+                                                    <div class="deposit-info__title">
+                                                        <p class="text mb-0">            @lang('In') <span class="gateway-currency"></span></p>
+                                                    </div>
+                                                    <div class="deposit-info__input">
+                                                        <div class="deposit-info__input-group input-group"> 
+                                                            <input type="text" class="form-control form--control gateway_amount"
+                                                                   name="gateway_amount"
+                                                                   placeholder="@lang('00.00')"
+                                                                   value="{{ old('gateway_amount') }}" autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                                
                                                 <div class="deposit-info">
                                                     <div class="deposit-info__title">
                                                         <p class="text mb-0">@lang('Amount')</p>
@@ -68,7 +88,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <hr>
+                                         
+                                                
                                                 <div class="deposit-info">
                                                     <div class="deposit-info__title">
                                                         <p class="text has-icon"> @lang('Limit')
@@ -116,19 +137,7 @@
                                                         <p class="text"></p>
                                                     </div>
                                                 </div>
-                                                <div class="deposit-info conversion-currency d-none total-amount pt-2">
-                                                    <div class="deposit-info__title">
-                                                        <p class="text">
-                                                            @lang('In') <span class="gateway-currency"></span>
-                                                        </p>
-                                                    </div>
-                                                    <div class="deposit-info__input">
-                                                        <p class="text">
-                                                            <span class="in-currency"></span>
-                                                        </p>
-
-                                                    </div>
-                                                </div>
+                                               
                                                 <div class="d-none crypto-message mb-3">
                                                     @lang('Conversion with') <span
                                                         class="gateway-currency"></span> @lang('and final value will Show on next step')
@@ -160,7 +169,15 @@
             var amount = parseFloat($('.amount').val() || 0);
             var gateway, minAmount, maxAmount;
 
+            $(".gateway_amount").on('input', function (e) {
+                let gatewayAmount = parseFloat($(this).val());
+                if (!gatewayAmount) {
+                    gatewayAmount = 0;
+                }
+                 gatewayAmount = parseFloat(gatewayAmount / gateway.rate).toFixed(gateway.method.crypto == 1 ? 8 : 2);
 
+                $('.amount').val(gatewayAmount); 
+            });
             $('.amount').on('input', function (e) {
                 amount = parseFloat($(this).val());
                 if (!amount) {
@@ -233,7 +250,8 @@
                     $(".gateway-conversion").find('.deposit-info__input .text').html(
                         `1 {{ __(gs('cur_text')) }} = <span class="rate">${parseFloat(gateway.rate).toFixed(2)}</span>  <span class="method_currency">${gateway.currency}</span>`
                     );
-                    $('.in-currency').text(parseFloat(totalAmount * gateway.rate).toFixed(gateway.method.crypto == 1 ? 8 : 2))
+                 //   $('.in-currency').text(parseFloat(totalAmount * gateway.rate).toFixed(gateway.method.crypto == 1 ? 8 : 2))
+                 $(".gateway_amount").val(parseFloat(totalAmount * gateway.rate).toFixed(gateway.method.crypto == 1 ? 8 : 2));
                 } else {
                     $(".gateway-conversion, .conversion-currency").addClass('d-none');
                     $('.deposit-form').removeClass('adjust-height')

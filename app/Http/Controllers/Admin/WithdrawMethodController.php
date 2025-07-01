@@ -87,7 +87,7 @@ class WithdrawMethodController extends Controller
         $validation = [
             'name'           => 'required',
             'rate' => 'required|numeric|gt:0',
-            'image' => ['required', 'image', new FileTypeValidate(['jpg', 'jpeg', 'png'])],
+           // 'image' => ['required', 'image', new FileTypeValidate(['jpg', 'jpeg', 'png'])],
             'min_limit'      => 'required|numeric|gt:fixed_charge',
             'max_limit'      => 'required|numeric|gt:min_limit',
             'fixed_charge'   => 'required|numeric|gte:0',
@@ -112,6 +112,7 @@ class WithdrawMethodController extends Controller
                 return back()->withNotify($notify);
             }
         }
+    
 
         $generate = $formProcessor->generate('withdraw_method',true,'id',$method->form_id);
         $method->form_id        = @$generate->id ?? 0;
