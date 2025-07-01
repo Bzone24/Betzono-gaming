@@ -56,7 +56,7 @@
 
                                                
 
-                                                 <div class="deposit-info">
+                                                 <div class="deposit-info gateway_amount_div">
                                                     <div class="deposit-info__title">
                                                         <p class="text mb-0">            @lang('In') <span class="gateway-currency"></span></p>
                                                     </div>
@@ -256,11 +256,17 @@
                     $(".gateway-conversion, .conversion-currency").addClass('d-none');
                     $('.deposit-form').removeClass('adjust-height')
                 }
+                if(gateway.rate != 1 ){
 
+                    $(".gateway_amount_div").removeClass('d-none');
+                }else{
+                     $('.gateway_amount_div').addClass('d-none');
+                }
                 if (gateway.method.crypto == 1) {
                     $('.crypto-message').removeClass('d-none');
                 } else {
                     $('.crypto-message').addClass('d-none');
+                   
                 }
             }
 
