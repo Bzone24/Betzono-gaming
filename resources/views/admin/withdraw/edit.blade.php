@@ -38,7 +38,7 @@
                                                     <span class="input-group-text">1 {{ __(gs('cur_text')) }}
                                                         =
                                                     </span>
-                                                    <input type="number" step="any" class="form-control rateInput" name="rate" value="{{ getAmount($method->rate) }}" required/>
+                                                    <input type="number" step="any" class="form-control rateInput" name="rate" value="{{ getAmount($method->rate, 5) }}" required/>
                                                     <span class="currency_symbol input-group-text"></span>
                                                 </div>
                                             </div>
