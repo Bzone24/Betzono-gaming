@@ -37,7 +37,7 @@
                                                 <label>@lang('Rate')</label>
                                                 <div class="input-group">
                                                     <div class="input-group-text">1 {{ __(gs('cur_text')) }}=</div>
-                                                    <input type="number" step="any" class="form-control" name="rate" value="{{ getAmount(@$method->singleCurrency->rate) }}" required/>
+                                                    <input type="number" step="any" class="form-control" name="rate" value="{{ getAmount(@$method->singleCurrency->rate, 5) }}" required/>
                                                     <span class="currency_symbol input-group-text"></span>
                                                 </div>
                                             </div>
