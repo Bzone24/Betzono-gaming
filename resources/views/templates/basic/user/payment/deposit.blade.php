@@ -147,6 +147,7 @@
                                                 </button>
                                                 <div class="info-text pt-3">
                                                     <p class="text">@lang('Ensuring your funds grow safely through our secure deposit process with world-class payment options.')</p>
+                                                    <p class="usdt-note d-none  "style="color:#fc6404;font-size18px;" >Note: In case of USDT deposit, withdrawal will be processed in USDT.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -176,8 +177,21 @@
                 }
                  gatewayAmount = parseFloat(gatewayAmount / gateway.rate).toFixed(gateway.method.crypto == 1 ? 8 : 2);
 
-                $('.amount').val(gatewayAmount); 
+                 
+                //trigger event
+                  if (gatewayAmount < Number(gateway.min_amount) || gatewayAmount > Number(gateway.max_amount)) {
+                    $(".deposit-form button[type=submit]").attr('disabled', true);
+                } else {
+                    $(".deposit-form button[type=submit]").removeAttr('disabled');
+                }
+                  $('.amount').val(gatewayAmount);  
+                  amount = parseFloat(gatewayAmount) ;
+                   
+                 
             });
+ $(".gateway_amount").on('focusout', function (e) {
+            calculation();
+ });
             $('.amount').on('input', function (e) {
                 amount = parseFloat($(this).val());
                 if (!amount) {
@@ -215,7 +229,7 @@
                 }, 'slow');
             });
 
-            function calculation() {
+            function calculation() { 
                 if (!gateway) return;
                 $(".gateway-limit").text(minAmount + " - " + maxAmount);
 
@@ -248,18 +262,21 @@
 
                     $(".gateway-conversion, .conversion-currency").removeClass('d-none');
                     $(".gateway-conversion").find('.deposit-info__input .text').html(
-                        `1 {{ __(gs('cur_text')) }} = <span class="rate">${parseFloat(gateway.rate).toFixed(2)}</span>  <span class="method_currency">${gateway.currency}</span>`
+                        `1 {{ __(gs('cur_text')) }} = <span class="rate">${parseFloat(gateway.rate).toFixed(5)}</span>  <span class="method_currency">${gateway.currency}</span>`
                     );
                  //   $('.in-currency').text(parseFloat(totalAmount * gateway.rate).toFixed(gateway.method.crypto == 1 ? 8 : 2))
-                 $(".gateway_amount").val(parseFloat(totalAmount * gateway.rate).toFixed(gateway.method.crypto == 1 ? 8 : 2));
+                 if(parseFloat(totalAmount * gateway.rate)>0){
+                      $(".gateway_amount").val(parseFloat(totalAmount * gateway.rate).toFixed(gateway.method.crypto == 1 ? 8 : 2));
+                 } 
                 } else {
                     $(".gateway-conversion, .conversion-currency").addClass('d-none');
                     $('.deposit-form').removeClass('adjust-height')
                 }
                 if(gateway.rate != 1 ){
-
+                    $(".usdt-note").removeClass('d-none');
                     $(".gateway_amount_div").removeClass('d-none');
                 }else{
+                     $(".usdt-note").addClass('d-none');
                      $('.gateway_amount_div').addClass('d-none');
                 }
                 if (gateway.method.crypto == 1) {
