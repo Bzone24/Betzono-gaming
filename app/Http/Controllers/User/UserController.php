@@ -11,9 +11,11 @@ use App\Constants\Status;
 use App\Lib\FormProcessor;
 use App\Models\Withdrawal;
 use App\Models\DeviceToken;
+use App\Models\SecurityPin;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Models\CommissionLog;
+use App\Models\SecurityPinsLog;
 use Illuminate\Validation\Rule;
 use App\Lib\GoogleAuthenticator;
 use App\Http\Controllers\Controller;
@@ -141,7 +143,7 @@ class UserController extends Controller
 
         $getTypeOptions = Transaction::getTypeOptions();
 
-        return view('Template::user.transactions', compact('pageTitle', 'transactions', 'remarks', 'referrals', 'user', 'userId','getTypeOptions'));
+        return view('Template::user.transactions', compact('pageTitle', 'transactions', 'remarks', 'referrals', 'user', 'userId', 'getTypeOptions'));
     }
 
     public function kycForm()
@@ -305,7 +307,7 @@ class UserController extends Controller
             $data['lastname'] = isset($nameParts[1]) ? implode(' ', array_slice($nameParts, 1)) : '';
         } else {
             $data['firstname'] = $request->firstname ?? '';
-            $data['lastname'] = $request->lastname?? '';
+            $data['lastname'] = $request->lastname ?? '';
         }
 
 
@@ -479,7 +481,7 @@ class UserController extends Controller
         if (!$user) {
             $notify[] = ['error', 'Please login to access this page'];
             return redirect()->route('user.login')->withNotify($notify);
-        } 
+        }
         $gameUrl = base64_decode($gameUrl);
 
         return view('Template::user.rungame')->with('gameUrl', $gameUrl)->with('pageTitle', $pageTitle);
@@ -487,38 +489,118 @@ class UserController extends Controller
     public function setupGame($gameid, $gameTableId)
     {
        
-        if(!empty($gameid) && !empty($gameTableId)){
+        if (!empty($gameid) && !empty($gameTableId)) {
             $pageTitle = 'Setup Game';
             $user = auth()->user();
             //if not loggedin redirect to login page
             if (!$user) {
                 $notify[] = ['error', 'Please login to access this page'];
                 return redirect()->route('user.login')->withNotify($notify);
-            } 
-            $userName = auth()->user()->username; 
+            }
+            $userName = auth()->user()->username;
             $request = new \Illuminate\Http\Request([
                 'gameId'      => $gameid,
                 'username'       => $userName,
                 'gameTableId'         =>  $gameTableId
-            ]); 
+            ]);
 
             $response = app(\App\Http\Controllers\ApiController::class)->getLobbyUrl($request);
             $data = json_decode($response->getContent(), true);
             
             if (isset($data['lobbyURL'])) {
                 return redirect()->to(url('rungame') . '/' . $data['lobbyURL']);
-            } 
-            else {
+            } else {
                 $notify[] = ['error', 'Game not found or invalid game id'];
                 return back()->withNotify($notify);
             }
-        }
-        else{ echo $gameid;
+        } else {
+            echo $gameid;
              
             $notify[] = ['error', 'Invalid game id or table id'];
             return back()->withNotify($notify);
         }
     }
 
+    public function resetPin(Request $request)
+    {
+        //dd($request->all());
+        $user = auth()->user();
+        $request->validate([
+            'pin' => 'required|digits_between:4,6',
+        ]);
+        //check requested user is agent or not
+        if ($user->user_type == User::USER_TYPE_USER) {
+            return response()->json([
+            'success' => false,
+            'message' => 'You are not permitted to access this'
+            ], 403);
+        }
+        
     
+        //trigger otp mail
+        $otp = 123123;//rand(100000, 999999);
+          //set pin in session and trigger otp verification
+        $request->session()->put('reset_pin', $request->pin);
+        $request->session()->put('reset_pin_user_id', $user->id);
+        $request->session()->put('reset_pin_otp', $otp);
+        notify($user, 'RESET_PROFILE_PIN', [
+            'otp' => $otp,
+            'username'   => $user->username,
+        ]);
+        return response()->json([
+            'success' => true,
+            'message' => 'OTP sent to your registered email. Please verify to reset your PIN.'
+        ]);
+    }
+
+    public function verifyPinOtp(Request $request)
+    {
+        $user = auth()->user();
+        $request->validate([
+            'otp' => 'required|digits:6',
+        ]);
+        //check requested user is agent or not
+        if ($user->user_type == User::USER_TYPE_USER) {
+            return response()->json([
+                'success' => false,
+                'message' => 'You are not permitted to access this'
+            ], 403);
+        }
+        
+        //check otp is valid or not
+        if ($request->otp != session('reset_pin_otp')) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid OTP'
+            ], 400);
+        }
+        //mark users pins as inactive 
+        SecurityPin::where('user_id', $user->id)
+            ->update(['is_active' => 0, 'updated_at' => now()]);
+
+        //log pin reset in SecurityPinsLog
+        SecurityPinsLog::create([
+            'user_id' => $user->id,
+            'pin' => session('reset_pin'),
+            'extra_data' => json_encode([
+                'ip' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+                'action'=> 'pin_reset'
+            ]),
+        ]);
+        //create new pin for user
+        $securityPin = new SecurityPin();
+        $securityPin->user_id = $user->id;
+        $securityPin->pin = session('reset_pin');
+        $securityPin->is_active = 1;
+        $securityPin->save();  
+        
+        //clear session
+        session()->forget(['reset_pin', 'reset_pin_user_id', 'reset_pin_otp']);
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'PIN reset successfully'
+        ]);
+    }
 }

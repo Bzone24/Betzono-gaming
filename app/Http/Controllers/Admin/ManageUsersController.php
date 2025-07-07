@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Constants\Status;
-use App\Lib\ApiHandler;
-use App\Http\Controllers\Controller;
-use App\Models\Deposit;
-use App\Models\NotificationLog;
-use App\Models\NotificationTemplate;
-use App\Models\Transaction;
 use App\Models\User;
+use App\Lib\ApiHandler;
+use App\Models\Deposit;
+use App\Constants\Status;
 use App\Models\Withdrawal;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\NotificationLog;
+use App\Models\SecurityPinsLog;
 use App\Rules\FileTypeValidate;
+use App\Http\Controllers\Controller;
+use App\Models\NotificationTemplate;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
@@ -361,15 +362,87 @@ class ManageUsersController extends Controller
     {
         $request->validate([
             'amount' => 'required|numeric|gt:0',
+            'pin' => 'required',
             'act' => 'required|in:add,sub',
             'remark' => 'required|string|max:255',
         ]);
 
         $user = User::findOrFail($id);
+
+
+
         $amount = $request->amount;
+        //check secuirty pin is vaild or not
+        $adminUser = auth('admin')->user();
+   
+        $secuirtyPin =  \App\Models\SecurityPin::where("admin_id", $adminUser->id)
+            ->where("pin", $request->pin)
+            ->where("is_active", 1)
+            ->first();
+           
+        if (!$secuirtyPin) {
+            $notify[] = ['error', 'Invalid or incorrect admin PIN.'];
+            return back()->withNotify($notify);
+        }
+
+//check requested amount is greater than
+        if ($amount > 10000) {
+            $otp = rand(100000, 999999);
+            
+            $requestData = array('user_id' => $adminUser->id,
+                    'amount' => $amount,
+                    'pin' => $request->pin,
+                    'ip' => $request->ip(),
+                    'user_agent' => $request->userAgent(),
+                    'action' => $request->act,
+                    'user_to_manage' => $user->id,
+                    'user_to_manage_username' => $user->username,
+                    'user_to_manage_email' => $user->email,
+                    'user_to_manage_balance' => $user->balance,
+                    'is_admin' => 1,
+                    
+            );
+            session()->put('fund_transfer_otp', $otp);
+            session()->put('fund_transfer_request_data', $requestData);
+
+            notify($adminUser, 'FUND_TRANSFER_OTP', [
+                'otp' => $otp,
+                'username'   => $adminUser->username,
+                'amount' => $amount,
+                'action' => $request->act,
+                'user_to_manage_username' => $user->username,
+            ],['email']);
+       
+            $notify[] = ['info', 'An OTP has been sent to your email. Please enter it to authorize this transaction.'];
+            return to_route('admin.users.authorize.amount.transfer')->withNotify($notify);
+        } else {
+            //log in SecurityPinsLog
+            SecurityPinsLog::create([
+                'user_id' => $adminUser->id,
+                'amount' => $request->amount,
+                 'pin' => $request->pin,
+                'extra_data' => json_encode([
+                    'pin' => $request->pin,
+                    'ip' => $request->ip(),
+                    'user_agent' => $request->userAgent(),
+                    'amount' => $amount,
+                    'action' => $request->act,
+                    'user_to_manage' => $user->id,
+                    'user_to_manage_username' => $user->username,
+                    'user_to_manage_email' => $user->email,
+                    'user_to_manage_balance' => $user->balance,
+                     'is_admin' => 1,
+                ]),
+            ]);
+        }
+
+
+
+
         $trx = getTrx();
 
         $transaction = new Transaction();
+       
 
         if ($request->act == 'add') {
             $user->balance += $amount;
@@ -415,6 +488,123 @@ class ManageUsersController extends Controller
         ]);
 
         return back()->withNotify($notify);
+    }
+
+    public function authorizeAmountTransfer(Request $request)
+    {
+        $pageTitle = 'Authorize Fund Request ';
+        if ($request->isMethod('post')) {
+      
+            $request->validate([
+                'otp' => 'required|numeric',
+            ]);
+            if (!$request->filled('otp')) {
+                $notify[] = ['error', 'OTP field is required.'];
+                return to_route('admin.users.detail', $user->id)->withNotify($notify);
+            }
+            // Check if OTP and request data exist in session
+            if (!session()->has('fund_transfer_otp') || !session()->has('fund_transfer_request_data')) {
+                $notify[] = ['error', 'No fund transfer request found or OTP expired. Please try again.'];
+                return to_route('user.referred')->withNotify($notify);
+            }
+
+            $otp = session()->get('fund_transfer_otp');
+            if ($request->otp != $otp) {
+                $notify[] = ['error', 'Invalid OTP. Please try again.'];
+                return to_route('admin.users.detail', $user->id)->withNotify($notify);
+            }
+
+            $requestData = session()->get('fund_transfer_request_data');
+               session()->forget('fund_transfer_otp');
+            session()->forget('fund_transfer_request_data'); 
+           // dd($requestData);
+            $user = User::find($requestData['user_to_manage']);
+
+            $adminUser = auth('admin')->user();
+ 
+             //log in SecurityPinsLog
+            SecurityPinsLog::create([
+                'user_id' => $adminUser->id,
+                'amount' => $requestData['amount'],
+                'pin' => $requestData['pin'],
+                'extra_data' => json_encode([
+                    'pin' => $requestData['pin'],
+                    'ip' => $requestData['ip'],
+                    'user_agent' => $requestData['user_agent'],
+                    'action' => $requestData['action'],
+                    'user_to_manage' => $user->id,
+                    'user_to_manage_username' => $user->username,
+                    'user_to_manage_email' => $user->email,
+                    'user_to_manage_balance' => $user->balance,
+                    'otp' => $request->otp,
+                    'is_admin' => 1,
+                ]),
+            ]);
+
+              $trx = getTrx();
+
+            $transaction = new Transaction();
+            $amount = $request->amount;
+
+            if ($request->type == 'add') {
+                $user->balance += $amount;
+
+                $transaction->trx_type = '+';
+                $transaction->remark = 'balance_add';
+                $transaction->type = Transaction::TYPE_ADMIN_ADD;
+
+                $notifyTemplate = 'BAL_ADD';
+
+                $notify[] = ['success', 'Balance added successfully'];
+            } else {
+                if ($amount > $user->balance) {
+                    $notify[] = ['error', $user->username . ' doesn\'t have sufficient balance.'];
+                    return to_route('admin.users.detail', $user->id)->withNotify($notify);
+                }
+
+                $user->balance -= $amount;
+
+                $transaction->trx_type = '-';
+                $transaction->remark = 'balance_subtract';
+                $transaction->type = Transaction::TYPE_ADMIN_WITHDRAW;
+
+                $notifyTemplate = 'BAL_SUB';
+                $notify[] = ['success', 'Balance subtracted successfully'];
+            }
+
+            $user->save();
+
+            $transaction->user_id = $user->id;
+            $transaction->amount = $amount;
+            $transaction->post_balance = $user->balance;
+            $transaction->charge = 0;
+            $transaction->trx =  $trx;
+            $transaction->details = $request->remark;
+            $transaction->save();
+
+            notify($user, $notifyTemplate, [
+            'trx' => $trx,
+            'amount' => showAmount($amount, currencyFormat:false),
+            'remark' => $request->remark,
+            'post_balance' => showAmount($user->balance, currencyFormat:false)
+            ]);
+ 
+
+         
+          return to_route('admin.users.detail', $user->id)->withNotify($notify);
+        } else {
+            if (!session()->has('fund_transfer_otp') || !session()->has('fund_transfer_request_data')) {
+                $notify[] = ['error', 'No fund transfer request found or OTP expired. Please try again.'];
+                return to_route('user.referred')->withNotify($notify);
+            }
+
+            $requestData = session()->get('fund_transfer_request_data');
+            $userToManage = User::find($requestData['user_to_manage']);
+            $type = $requestData['action'];
+            $amount = $requestData['amount'];
+            $user = auth()->user();
+            return view('admin.users.authorize_transfer', compact('pageTitle', 'user', 'userToManage', 'type', 'amount'));
+        }
     }
 
     public function login($id)

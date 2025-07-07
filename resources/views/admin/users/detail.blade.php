@@ -373,6 +373,14 @@
                                 <div class="input-group-text">{{ __(gs('cur_text')) }}</div>
                             </div>
                         </div>
+
+                         <div class="form-group">
+                            <label>@lang('Pin')</label>
+                            <div class="input-group">
+                                <input type="text" name="pin" class="form-control" placeholder="@lang('enter pin')" minlength="6" maxlength="6" required>
+                               
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label>@lang('Remark')</label>
                             <textarea class="form-control" placeholder="@lang('Remark')" name="remark" rows="4" required></textarea>

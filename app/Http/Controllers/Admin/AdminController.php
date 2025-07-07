@@ -65,11 +65,12 @@ class AdminController extends Controller
         $widget['sold_amount'] = $sell->sum(['total_price']);
 
 
-        return view('admin.dashboard', compact('pageTitle', 'widget', 'chart','deposit','withdrawals'));
+        return view('admin.dashboard', compact('pageTitle', 'widget', 'chart', 'deposit', 'withdrawals'));
     }
 
 
-    public function depositAndWithdrawReport(Request $request) {
+    public function depositAndWithdrawReport(Request $request)
+    {
 
         $diffInDays = Carbon::parse($request->start_date)->diffInDays(Carbon::parse($request->end_date));
 
@@ -128,7 +129,8 @@ class AdminController extends Controller
         return response()->json($report);
     }
 
-    public function transactionReport(Request $request) {
+    public function transactionReport(Request $request)
+    {
 
         $diffInDays = Carbon::parse($request->start_date)->diffInDays(Carbon::parse($request->end_date));
 
@@ -141,7 +143,7 @@ class AdminController extends Controller
             $dates = $this->getAllMonths($request->start_date, $request->end_date);
         }
 
-        $plusTransactions   = Transaction::where('trx_type','+')
+        $plusTransactions   = Transaction::where('trx_type', '+')
             ->whereDate('created_at', '>=', $request->start_date)
             ->whereDate('created_at', '<=', $request->end_date)
             ->selectRaw('SUM(amount) AS amount')
@@ -150,7 +152,7 @@ class AdminController extends Controller
             ->groupBy('created_on')
             ->get();
 
-        $minusTransactions  = Transaction::where('trx_type','-')
+        $minusTransactions  = Transaction::where('trx_type', '-')
             ->whereDate('created_at', '>=', $request->start_date)
             ->whereDate('created_at', '<=', $request->end_date)
             ->selectRaw('SUM(amount) AS amount')
@@ -189,10 +191,11 @@ class AdminController extends Controller
     }
 
 
-    private function getAllDates($startDate, $endDate) {
+    private function getAllDates($startDate, $endDate)
+    {
         $dates = [];
-        $currentDate = new \DateTime($startDate);
-        $endDate = new \DateTime($endDate);
+        $currentDate = new  \DateTime($startDate);
+        $endDate = new  \DateTime($endDate);
 
         while ($currentDate <= $endDate) {
             $dates[] = $currentDate->format('d-F-Y');
@@ -202,13 +205,14 @@ class AdminController extends Controller
         return $dates;
     }
 
-    private function  getAllMonths($startDate, $endDate) {
+    private function getAllMonths($startDate, $endDate)
+    {
         if ($endDate > now()) {
             $endDate = now()->format('Y-m-d');
         }
 
-        $startDate = new \DateTime($startDate);
-        $endDate = new \DateTime($endDate);
+        $startDate = new  \DateTime($startDate);
+        $endDate = new  \DateTime($endDate);
 
         $months = [];
 
@@ -279,16 +283,18 @@ class AdminController extends Controller
         return to_route('admin.password')->withNotify($notify);
     }
 
-    public function notifications(){
-        $notifications = AdminNotification::orderBy('id','desc')->with('user')->paginate(getPaginate());
-        $hasUnread = AdminNotification::where('is_read',Status::NO)->exists();
+    public function notifications()
+    {
+        $notifications = AdminNotification::orderBy('id', 'desc')->with('user')->paginate(getPaginate());
+        $hasUnread = AdminNotification::where('is_read', Status::NO)->exists();
         $hasNotification = AdminNotification::exists();
         $pageTitle = 'Notifications';
-        return view('admin.notifications',compact('pageTitle','notifications','hasUnread','hasNotification'));
+        return view('admin.notifications', compact('pageTitle', 'notifications', 'hasUnread', 'hasNotification'));
     }
 
 
-    public function notificationRead($id){
+    public function notificationRead($id)
+    {
         $notification = AdminNotification::findOrFail($id);
         $notification->is_read = Status::YES;
         $notification->save();
@@ -305,7 +311,7 @@ class AdminController extends Controller
         $arr['app_name'] = systemDetails()['name'];
         $arr['app_url'] = env('APP_URL');
         $arr['purchase_code'] = env('PURCHASECODE');
-        $url = "https://license.viserlab.com/issue/get?".http_build_query($arr);
+        $url = "https://license.viserlab.com/issue/get?" . http_build_query($arr);
         $response = CurlRequest::curlContent($url);
         $response = json_decode($response);
         if (!$response || !@$response->status || !@$response->message) {
@@ -315,14 +321,14 @@ class AdminController extends Controller
             return to_route('admin.dashboard')->withErrors($response->message);
         }
         $reports = $response->message[0];
-        return view('admin.reports',compact('reports','pageTitle'));
+        return view('admin.reports', compact('reports', 'pageTitle'));
     }
 
     public function reportSubmit(Request $request)
     {
         $request->validate([
-            'type'=>'required|in:bug,feature',
-            'message'=>'required',
+            'type' => 'required|in:bug,feature',
+            'message' => 'required',
         ]);
         $url = 'https://license.viserlab.com/issue/add';
 
@@ -331,7 +337,7 @@ class AdminController extends Controller
         $arr['purchase_code'] = env('PURCHASECODE');
         $arr['req_type'] = $request->type;
         $arr['message'] = $request->message;
-        $response = CurlRequest::curlPostContent($url,$arr);
+        $response = CurlRequest::curlPostContent($url, $arr);
         $response = json_decode($response);
         if (!$response || !@$response->status || !@$response->message) {
             return to_route('admin.dashboard')->withErrors('Something went wrong');
@@ -343,22 +349,25 @@ class AdminController extends Controller
         return back()->withNotify($notify);
     }
 
-    public function readAllNotification(){
-        AdminNotification::where('is_read',Status::NO)->update([
-            'is_read'=>Status::YES
+    public function readAllNotification()
+    {
+        AdminNotification::where('is_read', Status::NO)->update([
+            'is_read' => Status::YES
         ]);
         $notify[] = ['success','Notifications read successfully'];
         return back()->withNotify($notify);
     }
 
-    public function deleteAllNotification(){
+    public function deleteAllNotification()
+    {
         AdminNotification::truncate();
         $notify[] = ['success','Notifications deleted successfully'];
         return back()->withNotify($notify);
     }
 
-    public function deleteSingleNotification($id){
-        AdminNotification::where('id',$id)->delete();
+    public function deleteSingleNotification($id)
+    {
+        AdminNotification::where('id', $id)->delete();
         $notify[] = ['success','Notification deleted successfully'];
         return back()->withNotify($notify);
     }
@@ -367,7 +376,7 @@ class AdminController extends Controller
     {
         $filePath = decrypt($fileHash);
         $extension = pathinfo($filePath, PATHINFO_EXTENSION);
-        $title = slug(gs('site_name')).'- attachments.'.$extension;
+        $title = slug(gs('site_name')) . '- attachments.' . $extension;
         try {
             $mimetype = mime_content_type($filePath);
         } catch (\Exception $e) {
@@ -379,5 +388,106 @@ class AdminController extends Controller
         return readfile($filePath);
     }
 
+ //secuirty pin list
+    public function securityPins()
+    {
+     
+        $pageTitle = 'Security Pins';
+        $pins = \App\Models\SecurityPin::latest()->paginate(getPaginate());
+        return view('admin.security_pins', compact('pageTitle', 'pins'));
+    }
 
+    public function generateAdminPin()
+    {
+       
+        //mark previous pins as inactive
+        \App\Models\SecurityPin::where('admin_id', auth('admin')->id())->update(['is_active' => 0, 'updated_at' => now()]);
+        //create new pin
+        $pin = \App\Models\SecurityPin::create([
+            'user_id' => null,
+            'admin_id' => auth('admin')->id(),
+            'pin' => rand(100000, 999999),
+            'is_active' => 1,
+        ]);
+
+        $notify[] = ['success', 'Admin pin generated successfully: ' . $pin->pin];
+        return back()->withNotify($notify);
+    }
+    public function generateAdminPinOtp(Request $request)
+    {
+        try {
+            $request->validate([
+                'pin' => 'required|integer|digits:6',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'errors' => $e->errors(),
+                'message' => 'Validation failed',
+            ], 422);
+        }
+    
+        $user = auth('admin')->user();
+        
+        // Generate OTP
+        $otp = rand(100000, 999999);
+        session(['admin_pin_otp' => $otp , 'admin_pin' => $request->pin]);
+    
+        notify($user, 'RESET_PROFILE_PIN', [
+            'otp' => $otp,
+            'username' => $user->username,
+        ],['email']);
+    
+        // Here you can send the OTP via email or SMS as per your requirement
+    
+        return response()->json([
+            'success' => true,
+            'message' => 'OTP generated successfully',
+        ]);
+    }
+
+    public function generateAdminPinOtpVerify(Request $request)
+    {
+        try {
+            $request->validate([
+                'otp' => 'required|integer|digits:6',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'errors' => $e->errors(),
+                'message' => 'Validation failed',
+            ], 422);
+        }
+    
+        $user = auth('admin')->user();
+        $sessionOtp = session('admin_pin_otp');
+    
+        if ($sessionOtp && $sessionOtp == $request->otp) {
+            //inactivate previous pin
+            \App\Models\SecurityPin::where('admin_id', $user->id)->update([
+                'is_active' => 0,
+                'updated_at' => now()
+            ]);
+            //create new pin
+            \App\Models\SecurityPin::create([
+                'user_id' => null,
+                'admin_id' => $user->id,
+                'pin' => session('admin_pin'),
+                'is_active' => 1,
+            ]);
+
+            session()->forget('admin_pin_otp');
+            session()->forget('admin_pin');
+            return response()->json([
+                'success' => true,
+                'message' => 'OTP verified successfully',
+            ]);
+        }
+    
+        return response()->json([
+            'success' => false,
+            'message' => 'Invalid OTP',
+        ], 422);
+    }
 }

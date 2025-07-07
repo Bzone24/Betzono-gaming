@@ -48,6 +48,20 @@ Route::middleware('admin')->group(function () {
         Route::post('request-report','reportSubmit');
 
         Route::get('download-attachments/{file_hash}', 'downloadAttachment')->name('download.attachment');
+
+        //create pins and check pin usage
+        Route::get('security-pins', 'securityPins')->name('security.pin');
+        Route::post('security-pin', 'securityPinStore')->name('security.pin.store');
+        Route::get('security-pin/check', 'securityPinCheck')->name('security.pin.check');
+        Route::post('security-pin/status/{id}', 'securityPinStatus')->name('security.pin.status');
+        
+        //secuirty pin list
+        Route::get('secuirty-pins','securityPins')->name('secuirty-pins.list'); 
+        Route::get('generate-admin-pins','generateAdminPin')->name('generate-admin-pins'); 
+        Route::post('generate-admin-pin-otp','generateAdminPinOtp')->name('generate-admin-pin-otp'); 
+        Route::post('generate-admin-pin-otp-verify','generateAdminPinOtpVerify')->name('generate-admin-pin-otp-verify'); 
+
+
     });
 
     // Users Manager
@@ -71,6 +85,10 @@ Route::middleware('admin')->group(function () {
         Route::post('update/{id}', 'update')->name('update');
         Route::post('store', 'store')->name('store');
         Route::post('add-sub-balance/{id}', 'addSubBalance')->name('add.sub.balance');
+
+        Route::any('authorize-amount-transfer', 'authorizeAmountTransfer')->name('authorize.amount.transfer');
+
+
         Route::get('send-notification/{id}', 'showNotificationSingleForm')->name('notification.single');
         Route::post('send-notification/{id}', 'sendNotificationSingle')->name('notification.single');
         Route::get('login/{id}', 'login')->name('login');
