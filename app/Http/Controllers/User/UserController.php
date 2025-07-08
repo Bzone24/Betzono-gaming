@@ -451,7 +451,7 @@ class UserController extends Controller
         }
         //check game url is available in session
         
-        $request = new \Illuminate\Http\Request([
+        $request = new() \Illuminate\Http\Request([
             'partnerId'      => $this->sportsPartnerId,
             'Username'       => $user->username,
             'isDemo'         => false,
@@ -498,7 +498,7 @@ class UserController extends Controller
                 return redirect()->route('user.login')->withNotify($notify);
             }
             $userName = auth()->user()->username;
-            $request = new \Illuminate\Http\Request([
+            $request = new() \Illuminate\Http\Request([
                 'gameId'      => $gameid,
                 'username'       => $userName,
                 'gameTableId'         =>  $gameTableId
@@ -546,7 +546,7 @@ class UserController extends Controller
         notify($user, 'RESET_PROFILE_PIN', [
             'otp' => $otp,
             'username'   => $user->username,
-        ],['email']);
+        ], ['email']);
         return response()->json([
             'success' => true,
             'message' => 'OTP sent to your registered email. Please verify to reset your PIN.'
@@ -574,7 +574,7 @@ class UserController extends Controller
                 'message' => 'Invalid OTP'
             ], 400);
         }
-        //mark users pins as inactive 
+        //mark users pins as inactive
         SecurityPin::where('user_id', $user->id)
             ->update(['is_active' => 0, 'updated_at' => now()]);
 
@@ -585,7 +585,7 @@ class UserController extends Controller
             'extra_data' => json_encode([
                 'ip' => $request->ip(),
                 'user_agent' => $request->userAgent(),
-                'action'=> 'pin_reset'
+                'action' => 'pin_reset'
             ]),
         ]);
         //create new pin for user
@@ -593,7 +593,7 @@ class UserController extends Controller
         $securityPin->user_id = $user->id;
         $securityPin->pin = session('reset_pin');
         $securityPin->is_active = 1;
-        $securityPin->save();  
+        $securityPin->save();
         
         //clear session
         session()->forget(['reset_pin', 'reset_pin_user_id', 'reset_pin_otp']);
