@@ -6,6 +6,9 @@
                 <div class="col-lg-9">
                     <div class="account-wrapper">
                         <div class="card-body">
+
+                          @if(\App\Models\SecurityPin::where('user_id', auth()->user()->id)->where('is_active', 1)->exists()){
+                          
                             <form id="withdrawForm" action="{{ route('user.withdraw.manageUserSubmit') }}" method="post" class="withdraw-form">
                                 @csrf
                                 <div class="gateway-card">
@@ -47,7 +50,21 @@
                                                     </div>
                                                 </div>
                                                 <hr>
+
                                                 <div class="deposit-info">
+                                                    <div class="deposit-info__title">
+                                                        <p class="text mb-0">@lang('Security PIN')</p>
+                                                    </div>
+                                                    <div class="deposit-info__input">
+                                                        <div class="deposit-info__input-group input-group">
+                                                            <input type="password" class="form-control form--control" name="security_pin" placeholder="@lang('Enter your security PIN')" required autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                </div> 
+
+
+
+                                                                                                <div class="deposit-info">
                                                     <div class="deposit-info__title">
                                                         <p class="text has-icon"> @lang('Available Amount')</p>
                                                     </div>
@@ -92,6 +109,15 @@
                                     </div>
                                 </div>
                             </form>
+
+                            @else
+                            <div class="">
+                                <strong class="text-danger">@lang('Security PIN Required')</strong>
+                                <p>@lang('To transfer funds, you must set up your security PIN first. Please set your PIN to continue.')</p>
+                                <br/>
+                                <a href="{{ route('user.referred') }}" class="btn btn--base">@lang('Set PIN')</a>
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -146,7 +172,11 @@
         $('#withdrawForm').on('submit', function(e) {
             e.preventDefault(); // Prevent the default form submission
 
+            
             var amount = parseFloat(amountInput.val());
+
+            
+
             var type = $(".transactiontype").val();
             if( type == "add"){
                 var confirmationMessage = `You are adding ${amount} {{ gs('cur_sym') }}  to user.`;

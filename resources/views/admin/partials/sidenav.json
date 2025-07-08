@@ -452,5 +452,21 @@
                 
             }
         ]
+    },
+
+    "secuirty_pins": {
+        "title": "Secuirty Pins",
+        "icon": "la la-shield-alt",
+        "menu_active": "admin.system*",
+        "submenu": [ 
+            {
+                "keyword": [],
+                "title": "Secuirty Pins",
+                "route_name": "admin.secuirty-pins.list",
+                "menu_active": "admin.secuirty-pins.list"
+                
+            }
+        ]
     }
+
 }

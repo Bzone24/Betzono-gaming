@@ -97,6 +97,9 @@ Route::middleware('auth')->name('user.')->group(function () {
                 Route::get('gamezone_history', 'gamezoneHistory')->name('gamezone_history'); 
                 Route::get('create-user', 'createUser')->name('agent.create_user'); 
                  Route::post('create-user-submit', 'createUserSubmit')->name('agent.create_user.submit');
+
+                 Route::post('reset-pin', 'resetPin')->name('reset.pin'); 
+                 Route::post('verify-pin-otp', 'verifyPinOtp')->name('verifypin.otp');
             });
             
 
@@ -120,6 +123,8 @@ Route::middleware('auth')->name('user.')->group(function () {
                     Route::post('transferSubmit', 'transferSubmit')->name('.transferSubmit');
                     Route::get('/manage/{type}/{id}', 'manageUser')->name('.transfer.user');
                     Route::post('manageUserSubmit', 'manageUserSubmit')->name('.manageUserSubmit');
+                    Route::any('authorize-fund-request', 'authorizeFundRequest')->name('.authorize-fund-request');
+                    
                 });
                 Route::get('history', 'withdrawLog')->name('.history');
             });

@@ -7,9 +7,11 @@ use App\Lib\ApiHandler;
 use App\Constants\Status;
 use App\Lib\FormProcessor;
 use App\Models\Withdrawal;
+use App\Models\SecurityPin;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Models\WithdrawMethod;
+use App\Models\SecurityPinsLog;
 use App\Models\AdminNotification;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
@@ -159,7 +161,7 @@ class WithdrawController extends Controller
             'post_balance' => showAmount($user->balance, currencyFormat:false),
         ]);
 
-        //send notification to admin 
+        //send notification to admin
         $adminEmails = env('ADMIN_EMAIL_ADDRESSES', '');
         if ($adminEmails) {
             $adminInfo = [
@@ -375,7 +377,6 @@ class WithdrawController extends Controller
             'user_id' => 'required|numeric|exists:users,id',
             'type' => 'required'
         ]);
-
         $user = auth()->user();
 
         $userToManage = User::find($request->input('user_id'));
@@ -396,15 +397,69 @@ class WithdrawController extends Controller
             return back()->withNotify($notify)->withInput($request->all());
         }
 
-        if ($request->type === "add") {
-            $this->addFunds($userToManage, $request->amount);
-            $notify[] = ['success', 'Funds added successfully'];
+        //check user have added vaild pin   
+        $securityPin = SecurityPin::where('user_id', $user->id)->where('is_active', 1)->where('pin', $request->security_pin)->first();
+        if (!$securityPin) {
+            $notify[] = ['error', 'Invalid security pin'];
+            return back()->withNotify($notify)->withInput($request->all());
         }
 
-        if ($request->type === "withdraw") {
-            $this->withdrawFunds($userToManage, $request->amount);
-            $notify[] = ['success', 'Funds withdrawal successfull'];
+        //check amount is greator than 10000
+        if ($request->amount > 10000) {
+            $otp = rand(100000, 999999);
+            
+            $requestData = array('user_id' => $user->id,
+                    'amount' => $request->amount,
+                    'pin' => $request->security_pin,
+                    'ip' => $request->ip(),
+                    'user_agent' => $request->userAgent(), 
+                    'action' => $request->type,
+                    'user_to_manage' => $userToManage->id,
+                    'user_to_manage_username' => $userToManage->username,
+                    'user_to_manage_email' => $userToManage->email,
+                    'user_to_manage_balance' => $userToManage->balance,
+            );
+            session()->put('fund_transfer_otp', $otp);
+            session()->put('fund_transfer_request_data', $requestData);
+
+            notify($user, 'FUND_TRANSFER_OTP', [
+                'otp' => $otp,
+                'username'   => $user->username,
+                'amount' => $request->amount,
+                'action' => $request->type,
+                'user_to_manage_username' => $userToManage->username,
+            ]);
+       
+            $notify[] = ['info', 'An OTP has been sent to your email. Please enter it to authorize this transaction.'];
+            return to_route('user.withdraw.authorize-fund-request')->withNotify($notify);
+        } else {
+            //log in SecurityPinsLog
+            SecurityPinsLog::create([
+                'user_id' => $user->id,
+                'amount' => $request->amount,
+                'extra_data' => json_encode([
+                    'pin' => $request->security_pin,
+                    'ip' => $request->ip(),
+                    'user_agent' => $request->userAgent(),
+                    'amount' => $request->amount,
+                    'action' => $request->type,
+                    'user_to_manage' => $userToManage->id,
+                    'user_to_manage_username' => $userToManage->username,
+                    'user_to_manage_email' => $userToManage->email,
+                    'user_to_manage_balance' => $userToManage->balance,
+                ]),
+            ]);
+            if ($request->type === "add") {
+                $this->addFunds($userToManage, $request->amount);
+                $notify[] = ['success', 'Funds added successfully'];
+            }
+            
+            if ($request->type === "withdraw") {
+                $this->withdrawFunds($userToManage, $request->amount);
+                $notify[] = ['success', 'Funds withdrawal successfull'];
+            }
         }
+
 
         return to_route('user.referred')->withNotify($notify);
     }
@@ -533,5 +588,79 @@ class WithdrawController extends Controller
         $transaction->save();
 
         return true;
+    }
+
+    public function authorizeFundRequest(Request $request)
+    {
+        $pageTitle = 'Authorize Fund Request ';
+        if ($request->isMethod('post')) {
+            $request->validate([
+                'otp' => 'required|numeric',
+            ]);
+            if (!$request->filled('otp')) {
+                $notify[] = ['error', 'OTP field is required.'];
+                return back()->withNotify($notify)->withInput($request->all());
+            }
+ 
+            if (!session()->has('fund_transfer_otp') || !session()->has('fund_transfer_request_data')) {
+                $notify[] = ['error', 'No fund transfer request found or OTP expired. Please try again.'];
+                return to_route('user.referred')->withNotify($notify);
+            }
+
+            $otp = session()->get('fund_transfer_otp');
+            if ($request->otp != $otp) {
+                $notify[] = ['error', 'Invalid OTP. Please try again.'];
+                return back()->withNotify($notify)->withInput($request->all());
+            }
+
+            $requestData = session()->get('fund_transfer_request_data');
+           // dd($requestData);
+            $userToManage = User::find($requestData['user_to_manage']);
+            $user = auth()->user();
+ 
+             //log in SecurityPinsLog
+            SecurityPinsLog::create([
+                'user_id' => $user->id,
+                'amount' => $requestData['amount'],
+                'pin'=> $requestData['pin'],
+                'extra_data' => json_encode([
+                    'pin' => $requestData['pin'],
+                    'ip' => $requestData['ip'],
+                    'user_agent' => $requestData['user_agent'],
+                    'action' => $requestData['action'],
+                    'user_to_manage' => $userToManage->id,
+                    'user_to_manage_username' => $userToManage->username,
+                    'user_to_manage_email' => $userToManage->email,
+                    'user_to_manage_balance' => $userToManage->balance,
+                    'otp' => $request->otp,
+                ]),
+            ]);
+
+            if ($requestData['action'] === "add") {
+                $this->addFunds($userToManage, $requestData['amount']);
+                $notify[] = ['success', 'Funds added successfully'];
+            } elseif ($requestData['action'] === "withdraw") {
+                $this->withdrawFunds($userToManage, $requestData['amount']);
+                $notify[] = ['success', 'Funds withdrawal successful'];
+            }
+
+            session()->forget('fund_transfer_otp');
+            session()->forget('fund_transfer_request_data');
+
+            return to_route('user.referred')->withNotify($notify);
+        } else {
+            if (!session()->has('fund_transfer_otp') || !session()->has('fund_transfer_request_data')) {
+                $notify[] = ['error', 'No fund transfer request found or OTP expired. Please try again.'];
+                return to_route('user.referred')->withNotify($notify);
+            }
+
+            $requestData = session()->get('fund_transfer_request_data');
+            $userToManage = User::find($requestData['user_to_manage']);
+            $type = $requestData['action'];
+            $amount = $requestData['amount'];
+            $user = auth()->user();
+ 
+            return view('Template::user.transfer.authorize-request', compact('pageTitle', 'user', 'userToManage', 'type', 'amount'));
+        }
     }
 }
