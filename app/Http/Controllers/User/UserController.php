@@ -546,7 +546,7 @@ class UserController extends Controller
         notify($user, 'RESET_PROFILE_PIN', [
             'otp' => $otp,
             'username'   => $user->username,
-        ]);
+        ],['email']);
         return response()->json([
             'success' => true,
             'message' => 'OTP sent to your registered email. Please verify to reset your PIN.'
