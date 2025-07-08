@@ -428,7 +428,7 @@ class WithdrawController extends Controller
                 'amount' => $request->amount,
                 'action' => $request->type,
                 'user_to_manage_username' => $userToManage->username,
-            ]);
+            ], ['email']);
        
             $notify[] = ['info', 'An OTP has been sent to your email. Please enter it to authorize this transaction.'];
             return to_route('user.withdraw.authorize-fund-request')->withNotify($notify);
