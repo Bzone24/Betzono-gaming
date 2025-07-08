@@ -194,8 +194,8 @@ class AdminController extends Controller
     private function getAllDates($startDate, $endDate)
     {
         $dates = [];
-        $currentDate = new  \DateTime($startDate);
-        $endDate = new  \DateTime($endDate);
+        $currentDate = new   \DateTime($startDate);
+        $endDate = new   \DateTime($endDate);
 
         while ($currentDate <= $endDate) {
             $dates[] = $currentDate->format('d-F-Y');
@@ -211,8 +211,8 @@ class AdminController extends Controller
             $endDate = now()->format('Y-m-d');
         }
 
-        $startDate = new  \DateTime($startDate);
-        $endDate = new  \DateTime($endDate);
+        $startDate = new   \DateTime($startDate);
+        $endDate = new   \DateTime($endDate);
 
         $months = [];
 
@@ -436,7 +436,7 @@ class AdminController extends Controller
         notify($user, 'RESET_PROFILE_PIN', [
             'otp' => $otp,
             'username' => $user->username,
-        ],['email']);
+        ], ['email']);
     
         // Here you can send the OTP via email or SMS as per your requirement
     

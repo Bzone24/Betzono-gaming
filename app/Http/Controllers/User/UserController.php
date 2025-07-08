@@ -451,7 +451,7 @@ class UserController extends Controller
         }
         //check game url is available in session
         
-        $request = new() \Illuminate\Http\Request([
+        $request = new  \Illuminate\Http\Request([
             'partnerId'      => $this->sportsPartnerId,
             'Username'       => $user->username,
             'isDemo'         => false,
@@ -498,7 +498,7 @@ class UserController extends Controller
                 return redirect()->route('user.login')->withNotify($notify);
             }
             $userName = auth()->user()->username;
-            $request = new() \Illuminate\Http\Request([
+            $request = new  \Illuminate\Http\Request([
                 'gameId'      => $gameid,
                 'username'       => $userName,
                 'gameTableId'         =>  $gameTableId
@@ -538,7 +538,7 @@ class UserController extends Controller
         
     
         //trigger otp mail
-        $otp = 123123;//rand(100000, 999999);
+        $otp = rand(100000, 999999);
           //set pin in session and trigger otp verification
         $request->session()->put('reset_pin', $request->pin);
         $request->session()->put('reset_pin_user_id', $user->id);
