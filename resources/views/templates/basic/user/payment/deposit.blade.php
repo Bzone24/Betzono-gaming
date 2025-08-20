@@ -147,7 +147,7 @@
                                                 </button>
                                                 <div class="info-text pt-3">
                                                     <p class="text">@lang('Ensuring your funds grow safely through our secure deposit process with world-class payment options.')</p>
-                                                    <p class="usdt-note d-none  "style="color:#fc6404;font-size18px;" >Note: In case of USDT deposit, withdrawal will be processed in USDT.</p>
+                                                    <p class="usdt-note d-none  "style="color:#86FF00;font-size18px;" >Note: In case of USDT deposit, withdrawal will be processed in USDT.</p>
                                                 </div>
                                             </div>
                                         </div>

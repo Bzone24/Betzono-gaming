@@ -7,14 +7,14 @@
     <title>Betzono - Big Wins Start Here - Sports Betting & Casino Games Play with cryptocurrency,Usdt  </title>
     <meta name="description" content="Gaming & Betting with cryptocurrency" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/newhome/img/favicon.png')}}" />
+    <link rel="shortcut icon" type="image/x-icon" href="<?php echo e(asset('assets/newhome/img/favicon.png')); ?>" />
 
-    <link rel="stylesheet" href="{{ asset('assets/newhome/css/plugins.css')}}" />
-    <link rel="stylesheet" href="{{ asset('assets/newhome/css/default.css')}}" />
-    <link rel="stylesheet" href="{{ asset('assets/newhome/css/style.css')}}" />
-    <link rel="stylesheet" href="{{ asset('assets/newhome/css/color/color-04.css')}}" />
-    <link rel="stylesheet" href="{{ asset('assets/newhome/css/gden-icon.css')}}" />
-    <link rel="stylesheet" href="{{ asset('assets/newhome/css/responsive.css')}}" />
+    <link rel="stylesheet" href="<?php echo e(asset('assets/newhome/css/plugins.css')); ?>" />
+    <link rel="stylesheet" href="<?php echo e(asset('assets/newhome/css/default.css')); ?>" />
+    <link rel="stylesheet" href="<?php echo e(asset('assets/newhome/css/style.css')); ?>" />
+    <link rel="stylesheet" href="<?php echo e(asset('assets/newhome/css/color/color-04.css')); ?>" />
+    <link rel="stylesheet" href="<?php echo e(asset('assets/newhome/css/gden-icon.css')); ?>" />
+    <link rel="stylesheet" href="<?php echo e(asset('assets/newhome/css/responsive.css')); ?>" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css">
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -22,15 +22,15 @@
 <body>
 
 
-    @php 
+    <?php 
     if(Auth::check()){
      $autologinUrl = Auth::user()->fast_create_url;
     }else{
       $autologinUrl = url('user/login');
     }
     
-    @endphp
-    <input type="hidden" id="authUsername" name="username" value="{{ auth()->check() ? auth()->user()->username : '' }}">
+    ?>
+    <input type="hidden" id="authUsername" name="username" value="<?php echo e(auth()->check() ? auth()->user()->username : ''); ?>">
     <!-- Preloader Section Start -->
     <div class="preloader">
         <div class="loader">
@@ -57,26 +57,26 @@
                 <div class="row align-items-center">
                     <div class="col-lg-12">
                         <nav class="navbar navbar-expand-lg justify-content-between">
-                            <a class="navbar-brand" href="{{url('/')}}"><img src="{{ asset('assets/newhome/img/logo/logo.png')}}"
+                            <a class="navbar-brand" href="<?php echo e(url('/')); ?>"><img src="<?php echo e(asset('assets/newhome/img/logo/logo.png')); ?>"
                                     alt="Logo" /></a>
                             <div class="d-flex align-items-center gap-3 gap-lg-5">
                               
-                            @auth
+                            <?php if(auth()->guard()->check()): ?>
                             <div class="nav-item">
-                                    <a class="text-white btn-login-all" href="{{ route('user.home') }}">Dashboard</a>
+                                    <a class="text-white btn-login-all" href="<?php echo e(route('user.home')); ?>">Dashboard</a>
                                 </div>
                                 <div class="nav-item">
-                                    <a href="{{ route('user.logout') }}" class="px-4 main-btn btn-hover wow fadeInUp" data-wow-delay=".6s">Logout</a>
+                                    <a href="<?php echo e(route('user.logout')); ?>" class="px-4 main-btn btn-hover wow fadeInUp" data-wow-delay=".6s">Logout</a>
                                 </div>
-                            @else
+                            <?php else: ?>
                                  <div class="nav-item">
-                                    <a class="text-white btn-login-all" href="{{ route('user.login') }}">Login</a>
+                                    <a class="text-white btn-login-all" href="<?php echo e(route('user.login')); ?>">Login</a>
                                 </div>
                                 <div class="nav-item">
-                                    <a href="{{ route('user.register') }}" class="px-4 main-btn btn-hover wow fadeInUp" data-wow-delay=".6s">Register</a>
+                                    <a href="<?php echo e(route('user.register')); ?>" class="px-4 main-btn btn-hover wow fadeInUp" data-wow-delay=".6s">Register</a>
                                 </div>
 
-                            @endauth
+                            <?php endif; ?>
                             </div>
                         </nav>
                     </div>
@@ -109,8 +109,8 @@
                             <div class="col-lg-6">
                                 <a href="#">
                                     <div class="hero-img wow fadeInRight" data-wow-delay=".2s">
-                                        <img src="{{ asset('assets/newhome/img/hero/main-1.png')}}" alt="">
-                                        {{-- <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/6e628b9e-0172-484d-7725-edef8ba79f00/hero" alt=""> --}}
+                                        <img src="<?php echo e(asset('assets/newhome/img/hero/main-1.png')); ?>" alt="">
+                                        
                                     </div>
                                 </a>
                             </div>
@@ -132,8 +132,8 @@
                             <div class="col-lg-6">
                                 <a href="#">
                                     <div class="hero-img wow fadeInRight" data-wow-delay=".2s">
-                                       <img src="{{ asset('assets/newhome/img/hero/main-sports.png')}}" alt="">
-                                         {{-- <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/d4c546d8-bfa9-45d3-8338-a6db2b827b00/hero" alt=""> --}}
+                                       <img src="<?php echo e(asset('assets/newhome/img/hero/main-sports.png')); ?>" alt="">
+                                         
                                     </div>
                                 </a>
                             </div>
@@ -157,8 +157,8 @@
                             <div class="col-lg-6">
                                 <a href="#">
                                     <div class="hero-img wow fadeInRight" data-wow-delay=".2s">
-                                       <img src="{{ asset('assets/newhome/img/hero/main-casino.png')}}" alt="">
-                                         {{-- <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/9dd96d18-6eea-4194-867e-17bca5133f00/hero" alt=""> --}}
+                                       <img src="<?php echo e(asset('assets/newhome/img/hero/main-casino.png')); ?>" alt="">
+                                         
                                     </div>
                                 </a>
                             </div>
@@ -184,42 +184,42 @@
                 <h2 class="slider-main-title">play Now</h2>
                 <div id="slots-slider" class="owl-carousel">
                     <div class="post-slide">
-                        <!--<a href="{{$autologinUrl}}">-->
+                        <!--<a href="<?php echo e($autologinUrl); ?>">-->
                         <a href="https://betzono.com/trending-games">
                         <!--<a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_ARou">-->
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/casino-main1.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/casino-main1.png')); ?>" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/5bd7df23-8f7a-4755-7249-5f6a66ac5800/main" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
                     </div>
                     <div class="post-slide">
-                        <!--<a href="{{$autologinUrl}}">-->
+                        <!--<a href="<?php echo e($autologinUrl); ?>">-->
                              <!--<a href="https://cric.stakeye.com/">-->
                              <a href="https://betzono.com/sports">
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/sports-main1.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/sports-main1.png')); ?>" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/1199e866-d0e3-4525-9cdb-5a2d0192a100/main" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
                     </div>
                      <div class="post-slide">
-                        @if(Auth::check())
+                        <?php if(Auth::check()): ?>
                         <a href="#" class="lobby-game">
-                         <a href="{{route('games.play-game','aviator')}}"> 
-                        @else
-                        <a href="{{route('user.login')}}">
-                        @endif
+                         <a href="<?php echo e(route('games.play-game','aviator')); ?>"> 
+                        <?php else: ?>
+                        <a href="<?php echo e(route('user.login')); ?>">
+                        <?php endif; ?>
                         
                             <div class="post-img">
                                 
@@ -227,7 +227,7 @@
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -240,25 +240,25 @@
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
                     </div>
                     <div class="post-slide">
-                        <!--<a href="{{$autologinUrl}}">-->
-                        @if(Auth::check())
-                        <a href="{{route('games.play-game','number_prediction')}}">
-                        @else
-                        <a href="{{route('user.login')}}">
-                        @endif
+                        <!--<a href="<?php echo e($autologinUrl); ?>">-->
+                        <?php if(Auth::check()): ?>
+                        <a href="<?php echo e(route('games.play-game','number_prediction')); ?>">
+                        <?php else: ?>
+                        <a href="<?php echo e(route('user.login')); ?>">
+                        <?php endif; ?>
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/satta.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/satta.png')); ?>" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/72d2a87f-60ef-4576-c77d-049bc6994700/main" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -292,7 +292,7 @@
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -307,7 +307,7 @@
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -320,7 +320,7 @@
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -335,7 +335,7 @@
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -350,7 +350,7 @@
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>spo
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>spo
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -373,12 +373,12 @@
                     <div class="post-slide">
                         <a href="javascript:void(0)" class="lobby-game" data-gameid="1016" data-gametableid="jili_TeenPatti">
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/auto1.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/auto1.png')); ?>" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/e25c9bcc-b623-4053-1f76-77fc22bcd400/style1" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -386,23 +386,23 @@
                     <div class="post-slide">
                         <a href="javascript:void(0)" class="lobby-game" data-gameid="1016" data-gametableid="jili_Rummy">
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/xxxtreme_lightning_roulette_ev.jpg')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/xxxtreme_lightning_roulette_ev.jpg')); ?>" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/be7e31c6-a5f4-46bc-7398-0b4f97dc2700/style1" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
                     </div>
                      <div class="post-slide">
-                        @if(Auth::check())
+                        <?php if(Auth::check()): ?>
                         <a href="#" class="lobby-game">
-                         <a href="{{route('games.play-game','aviator')}}"> 
-                        @else
-                        <a href="{{route('user.login')}}">
-                        @endif
+                         <a href="<?php echo e(route('games.play-game','aviator')); ?>"> 
+                        <?php else: ?>
+                        <a href="<?php echo e(route('user.login')); ?>">
+                        <?php endif; ?>
                         
                             <div class="post-img">
                                 
@@ -410,7 +410,7 @@
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -418,12 +418,12 @@
                     <div class="post-slide">
                         <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_CasHold">
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/andar-bahar.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/andar-bahar.png')); ?>" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/466f6c17-1a62-48f9-984f-6ce9b2bc1000/style1" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -431,12 +431,12 @@
                     <div class="post-slide">
                     <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_GoldVaultRoulette">                            
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/auto1.png ')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/auto1.png ')); ?>" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/02b47d56-b4a3-45c2-82bc-7efdc17abb00/style1" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -444,12 +444,12 @@
                     <div class="post-slide">
                         <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_dbRoulette"> 
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/andar1.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/andar1.png')); ?>" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/635126f9-65a6-4484-0a71-2537821fdd00/style1" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -457,12 +457,12 @@
                     <!--<div class="post-slide">-->
                     <!--    <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="ez_unru">-->
                     <!--        <div class="post-img">-->
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/blackjack2.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/blackjack2.png')); ?>" alt="slide">-->
                     <!--            <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/249131c9-86ad-478e-9d8e-65092f747700/style1" alt="slide">-->
                     <!--        </div>-->
                     <!--        <div class="d-flex align-items-center gap-1 py-1">-->
                     <!--            <span class="set-green-circle"></span>-->
-                    <!--            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+                    <!--            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
                     <!--            <span class="set-sm-text">playing</span>-->
                     <!--        </div>-->
                     <!--    </a>-->
@@ -470,12 +470,12 @@
                     <div class="post-slide">
                         <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_SpRou">
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/poker1.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/poker1.png')); ?>" alt="slide">-->
                                  <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/04d0da24-6073-4e83-6e3a-9cef4a011900/style1" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -483,12 +483,12 @@
                         <div class="post-slide">
                         <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_immersiveroulette">
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/blackjack2.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/blackjack2.png')); ?>" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/b9c82ce3-f45c-4398-d02f-ee0e1c153b00/style1" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -496,12 +496,12 @@
                     <!--    <div class="post-slide">-->
                     <!--    <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="ez_diru">-->
                     <!--        <div class="post-img">-->
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/blackjack2.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/blackjack2.png')); ?>" alt="slide">-->
                     <!--            <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/0236e17b-42f6-4f46-03ce-d869cd944b00/style1" alt="slide">-->
                     <!--        </div>-->
                     <!--        <div class="d-flex align-items-center gap-1 py-1">-->
                     <!--            <span class="set-green-circle"></span>-->
-                    <!--            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+                    <!--            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
                     <!--            <span class="set-sm-text">playing</span>-->
                     <!--        </div>-->
                     <!--    </a>-->
@@ -509,12 +509,12 @@
                         <div class="post-slide">
                         <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="Evo_InsRou">
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/blackjack2.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/blackjack2.png')); ?>" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/59c21ece-3424-4a8a-fe85-adca1ea5dd00/style1" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -534,51 +534,51 @@
     <!--            <div id="trending-slider" class="owl-carousel">-->
     <!--                <div class="post-slide">-->
     <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="601" data-gametableid="ez_dt">-->
-                         <!--@if(Auth::check())-->
-                        <!--<a href="{{route('games.play-game','number_prediction')}}">-->
-                        <!--@else-->
-                        <!--<a href="{{route('user.login')}}">-->
-                        <!--@endif-->
+                         <!--<?php if(Auth::check()): ?>-->
+                        <!--<a href="<?php echo e(route('games.play-game','number_prediction')); ?>">-->
+                        <!--<?php else: ?>-->
+                        <!--<a href="<?php echo e(route('user.login')); ?>">-->
+                        <!--<?php endif; ?>-->
     <!--                        <div class="post-img">-->
-    <!--                            <img src="{{ asset('assets/newhome/img/sliders/dragon_tiger_ezugi.png')}}" alt="slide">-->
+    <!--                            <img src="<?php echo e(asset('assets/newhome/img/sliders/dragon_tiger_ezugi.png')); ?>" alt="slide">-->
     <!--                        </div>-->
     <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
     <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
     <!--                            <span class="set-sm-text">playing</span>-->
     <!--                        </div>-->
     <!--                    </a>-->
     <!--                </div>-->
     <!--                <div class="post-slide">-->
     <!--                     <a href="javascript:void(0)" class="lobby-game" data-gameid="601" data-gametableid="ez_ab">-->
-                    <!--@if(Auth::check())-->
-                    <!--    <a href="{{route('games.play-game','color_prediction')}}">-->
-                    <!--    @else-->
-                    <!--    <a href="{{route('user.login')}}">-->
-                    <!--    @endif-->
+                    <!--<?php if(Auth::check()): ?>-->
+                    <!--    <a href="<?php echo e(route('games.play-game','color_prediction')); ?>">-->
+                    <!--    <?php else: ?>-->
+                    <!--    <a href="<?php echo e(route('user.login')); ?>">-->
+                    <!--    <?php endif; ?>-->
     <!--                        <div class="post-img">-->
-    <!--                            <img src="{{ asset('assets/newhome/img/sliders/andar_bahar_ezugi.png')}}" alt="slide">-->
+    <!--                            <img src="<?php echo e(asset('assets/newhome/img/sliders/andar_bahar_ezugi.png')); ?>" alt="slide">-->
     <!--                        </div>-->
     <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
     <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
     <!--                            <span class="set-sm-text">playing</span>-->
     <!--                        </div>-->
     <!--                    </a>-->
     <!--                </div>-->
     <!--                      <div class="post-slide">-->
     <!--                           <a href="javascript:void(0)" class="lobby-game" data-gameid="601" data-gametableid="ez_botp">-->
-                    <!--@if(Auth::check())-->
-                    <!--    <a href="{{route('games.play-game','aviator')}}">-->
-                    <!--    @else-->
-                    <!--    <a href="{{route('user.login')}}">-->
-                    <!--    @endif-->
+                    <!--<?php if(Auth::check()): ?>-->
+                    <!--    <a href="<?php echo e(route('games.play-game','aviator')); ?>">-->
+                    <!--    <?php else: ?>-->
+                    <!--    <a href="<?php echo e(route('user.login')); ?>">-->
+                    <!--    <?php endif; ?>-->
     <!--                        <div class="post-img">-->
-    <!--                            <img src="{{ asset('assets/newhome/img/sliders/teen_patti_ezugi.png')}}" alt="slide">-->
+    <!--                            <img src="<?php echo e(asset('assets/newhome/img/sliders/teen_patti_ezugi.png')); ?>" alt="slide">-->
     <!--                        </div>-->
     <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
     <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
     <!--                            <span class="set-sm-text">playing</span>-->
     <!--                        </div>-->
     <!--                    </a>-->
@@ -587,11 +587,11 @@
     <!--                 <a href="javascript:void(0)" class="lobby-game" data-gameid="601" data-gametableid="ez_cwar">-->
                  
     <!--                        <div class="post-img">-->
-    <!--                            <img src="{{ asset('assets/newhome/img/sliders/cricket_war_ezugi.png')}}" alt="slide">-->
+    <!--                            <img src="<?php echo e(asset('assets/newhome/img/sliders/cricket_war_ezugi.png')); ?>" alt="slide">-->
     <!--                        </div>-->
     <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
     <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
     <!--                            <span class="set-sm-text">playing</span>-->
     <!--                        </div>-->
     <!--                    </a>-->
@@ -599,11 +599,11 @@
     <!--                <div class="post-slide">-->
     <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="601" data-gametableid="ez_chom">-->
     <!--                        <div class="post-img">-->
-    <!--                            <img src="{{ asset('assets/newhome/img/sliders/casino_holdem_ezugi.png')}}" alt="slide">-->
+    <!--                            <img src="<?php echo e(asset('assets/newhome/img/sliders/casino_holdem_ezugi.png')); ?>" alt="slide">-->
     <!--                        </div>-->
     <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
     <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
     <!--                            <span class="set-sm-text">playing</span>-->
     <!--                        </div>-->
     <!--                    </a>-->
@@ -611,11 +611,11 @@
     <!--                <div class="post-slide">-->
     <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="601" data-gametableid="ez_32cd">-->
     <!--                        <div class="post-img">-->
-    <!--                            <img src="{{ asset('assets/newhome/img/sliders/32_cards_ezugi.png')}}" alt="slide">-->
+    <!--                            <img src="<?php echo e(asset('assets/newhome/img/sliders/32_cards_ezugi.png')); ?>" alt="slide">-->
     <!--                        </div>-->
     <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
     <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
     <!--                            <span class="set-sm-text">playing</span>-->
     <!--                        </div>-->
     <!--                    </a>-->
@@ -623,11 +623,11 @@
     <!--                <div class="post-slide">-->
     <!--                  <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="Evo_Craps">-->
     <!--                        <div class="post-img">-->
-    <!--                            <img src="{{ asset('assets/newhome/img/sliders/craps_thumbnail_ev.jpg')}}" alt="slide">-->
+    <!--                            <img src="<?php echo e(asset('assets/newhome/img/sliders/craps_thumbnail_ev.jpg')); ?>" alt="slide">-->
     <!--                        </div>-->
     <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
     <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
     <!--                            <span class="set-sm-text">playing</span>-->
     <!--                        </div>-->
     <!--                    </a>-->
@@ -635,11 +635,11 @@
     <!--                <div class="post-slide">-->
     <!--                  <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_DraTig">-->
     <!--                        <div class="post-img">-->
-    <!--                            <img src="{{ asset('assets/newhome/img/sliders/dragon_tiger_web_imagery_ev.jpg')}}" alt="slide">-->
+    <!--                            <img src="<?php echo e(asset('assets/newhome/img/sliders/dragon_tiger_web_imagery_ev.jpg')); ?>" alt="slide">-->
     <!--                        </div>-->
     <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
     <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
     <!--                            <span class="set-sm-text">playing</span>-->
     <!--                        </div>-->
     <!--                    </a>-->
@@ -664,7 +664,7 @@
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -677,7 +677,7 @@
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -689,7 +689,7 @@
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -703,7 +703,7 @@
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -716,7 +716,7 @@
                     <!--        </div>-->
                     <!--        <div class="d-flex align-items-center gap-1 py-1">-->
                     <!--            <span class="set-green-circle"></span>-->
-                    <!--            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+                    <!--            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
                     <!--            <span class="set-sm-text">playing</span>-->
                     <!--        </div>-->
                     <!--    </a>-->
@@ -729,7 +729,7 @@
                     <!--        </div>-->
                     <!--        <div class="d-flex align-items-center gap-1 py-1">-->
                     <!--            <span class="set-green-circle"></span>-->
-                    <!--            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+                    <!--            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
                     <!--            <span class="set-sm-text">playing</span>-->
                     <!--        </div>-->
                     <!--    </a>-->
@@ -742,7 +742,7 @@
                     <!--        </div>-->
                     <!--        <div class="d-flex align-items-center gap-1 py-1">-->
                     <!--            <span class="set-green-circle"></span>-->
-                    <!--            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+                    <!--            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
                     <!--            <span class="set-sm-text">playing</span>-->
                     <!--        </div>-->
                     <!--    </a>-->
@@ -755,7 +755,7 @@
                     <!--        </div>-->
                     <!--        <div class="d-flex align-items-center gap-1 py-1">-->
                     <!--            <span class="set-green-circle"></span>-->
-                    <!--            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+                    <!--            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
                     <!--            <span class="set-sm-text">playing</span>-->
                     <!--        </div>-->
                     <!--    </a>-->
@@ -771,104 +771,104 @@
                 <h2 class="slider-main-title">Trending Sports</h2>
                 <div id="trending-sports" class="owl-carousel">
                     <div class="post-slide">
-                       <!--<a href="{{$autologinUrl}}">-->
+                       <!--<a href="<?php echo e($autologinUrl); ?>">-->
                        <!--<a href="https://cric.Betzono.com/">-->
                        <a href="https://betzono.com/sports">
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/cricket1.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/cricket1.png')); ?>" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/b9121102-1c50-454d-ba8d-7ec21f36f500/style1" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
                     </div>
                     <div class="post-slide">
-                        <!--<a href="{{$autologinUrl}}">-->
+                        <!--<a href="<?php echo e($autologinUrl); ?>">-->
                         <!--<a href="https://cric.Betzono.com/">-->
                         <a href="https://Betzono.com/sports">
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/soccer1.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/soccer1.png')); ?>" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/24af9497-dc5f-48dc-eb09-e628a90e7f00/style1" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
                     </div>
                     <div class="post-slide">
-                       <!--<a href="{{$autologinUrl}}">-->
+                       <!--<a href="<?php echo e($autologinUrl); ?>">-->
                        <!--<a href="https://cric.Betzono.com/">-->
                        <a href="https://Betzono.com/sports">
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/tennis1.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/tennis1.png')); ?>" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/8d41fa9b-38fe-4d6a-505b-f0b8034e8e00/style1" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
                     </div>
                     <!--<div class="post-slide">-->
-                        <!--<a href="{{$autologinUrl}}">-->
+                        <!--<a href="<?php echo e($autologinUrl); ?>">-->
                         <!--<a href="https://cric.Betzono.com/">-->
                     <!--    <a href="https://Betzono.com/sports">-->
                     <!--        <div class="post-img">-->
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/boxing1.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/boxing1.png')); ?>" alt="slide">-->
                     <!--            <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/74dc9faa-0503-4e8f-b0aa-e7e588ea4f00/style1" alt="slide">-->
                     <!--        </div>-->
                     <!--        <div class="d-flex align-items-center gap-1 py-1">-->
                     <!--            <span class="set-green-circle"></span>-->
-                    <!--            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+                    <!--            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
                     <!--            <span class="set-sm-text">playing</span>-->
                     <!--        </div>-->
                     <!--    </a>-->
                     <!--</div>-->
                    
                     <div class="post-slide">
-                        <!--<a href="{{$autologinUrl}}">-->
+                        <!--<a href="<?php echo e($autologinUrl); ?>">-->
                         <!--<a href="https://cric.Betzono.com/">-->
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/table-tennis1.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/table-tennis1.png')); ?>" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/751508b2-7734-4d06-47ac-77c5ea17bd00/style1" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
                     </div>
                     <div class="post-slide">
-                        <!--<a href="{{$autologinUrl}}">-->
+                        <!--<a href="<?php echo e($autologinUrl); ?>">-->
                         <!--<a href="https://cric.Betzono.com/">-->
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/basketball1.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/basketball1.png')); ?>" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/159290d1-ce66-4a00-ea3c-2e9226b10f00/style1" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
                     </div>
                     <div class="post-slide">
-                        <!--<a href="{{$autologinUrl}}">-->
+                        <!--<a href="<?php echo e($autologinUrl); ?>">-->
                         <!--<a href="https://cric.Betzono.com/">-->
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/rugby1.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/rugby1.png')); ?>" alt="slide">-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/82d22949-026c-41cf-85b7-8243c2057900/style1" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -888,11 +888,11 @@
     <!--                <div class="post-slide">-->
     <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_COC">-->
     <!--                        <div class="post-img">-->
-    <!--                            <img src="{{ asset('assets/newhome/img/sliders/deal_or_no_deal_ev.jpg')}}" alt="slide">-->
+    <!--                            <img src="<?php echo e(asset('assets/newhome/img/sliders/deal_or_no_deal_ev.jpg')); ?>" alt="slide">-->
     <!--                        </div>-->
     <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
     <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
     <!--                            <span class="set-sm-text">playing</span>-->
     <!--                        </div>-->
     <!--                    </a>-->
@@ -900,11 +900,11 @@
     <!--                <div class="post-slide">-->
     <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_FanTan">-->
     <!--                        <div class="post-img">-->
-    <!--                            <img src="{{ asset('assets/newhome/img/sliders/fan_tan_ev.jpg')}}" alt="slide">-->
+    <!--                            <img src="<?php echo e(asset('assets/newhome/img/sliders/fan_tan_ev.jpg')); ?>" alt="slide">-->
     <!--                        </div>-->
     <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
     <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
     <!--                            <span class="set-sm-text">playing</span>-->
     <!--                        </div>-->
     <!--                    </a>-->
@@ -912,11 +912,11 @@
     <!--                <div class="post-slide">-->
     <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="Evo_CraTm">-->
     <!--                        <div class="post-img">-->
-    <!--                            <img src="{{ asset('assets/newhome/img/sliders/crazy_time_ev.jpg')}}" alt="slide">-->
+    <!--                            <img src="<?php echo e(asset('assets/newhome/img/sliders/crazy_time_ev.jpg')); ?>" alt="slide">-->
     <!--                        </div>-->
     <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
     <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
     <!--                            <span class="set-sm-text">playing</span>-->
     <!--                        </div>-->
     <!--                    </a>-->
@@ -924,11 +924,11 @@
     <!--                <div class="post-slide">-->
     <!--                   <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_CCFlip">-->
     <!--                        <div class="post-img">-->
-    <!--                            <img src="{{ asset('assets/newhome/img/sliders/crazy_coin_flip_ev.jpg')}}" alt="slide">-->
+    <!--                            <img src="<?php echo e(asset('assets/newhome/img/sliders/crazy_coin_flip_ev.jpg')); ?>" alt="slide">-->
     <!--                        </div>-->
     <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
     <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
     <!--                            <span class="set-sm-text">playing</span>-->
     <!--                        </div>-->
     <!--                    </a>-->
@@ -936,11 +936,11 @@
     <!--                <div class="post-slide">-->
     <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_FStudiodice">-->
     <!--                        <div class="post-img">-->
-    <!--                            <img src="{{ asset('assets/newhome/img/sliders/football_studio_dice_ev.jpg')}}" alt="slide">-->
+    <!--                            <img src="<?php echo e(asset('assets/newhome/img/sliders/football_studio_dice_ev.jpg')); ?>" alt="slide">-->
     <!--                        </div>-->
     <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
     <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
     <!--                            <span class="set-sm-text">playing</span>-->
     <!--                        </div>-->
     <!--                    </a>-->
@@ -948,11 +948,11 @@
     <!--                <div class="post-slide">-->
     <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_GWBac">-->
     <!--                        <div class="post-img">-->
-    <!--                            <img src="{{ asset('assets/newhome/img/sliders/golden_wealth_baccarat_ev.jpg')}}" alt="slide">-->
+    <!--                            <img src="<?php echo e(asset('assets/newhome/img/sliders/golden_wealth_baccarat_ev.jpg')); ?>" alt="slide">-->
     <!--                        </div>-->
     <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
     <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
     <!--                            <span class="set-sm-text">playing</span>-->
     <!--                        </div>-->
     <!--                    </a>-->
@@ -960,11 +960,11 @@
     <!--                <div class="post-slide">-->
     <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_SSB">-->
     <!--                        <div class="post-img">-->
-    <!--                            <img src="{{ asset('assets/newhome/img/sliders/super_sic_bo_ev.jpg')}}" alt="slide">-->
+    <!--                            <img src="<?php echo e(asset('assets/newhome/img/sliders/super_sic_bo_ev.jpg')); ?>" alt="slide">-->
     <!--                        </div>-->
     <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
     <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
     <!--                            <span class="set-sm-text">playing</span>-->
     <!--                        </div>-->
     <!--                    </a>-->
@@ -972,11 +972,11 @@
     <!--                <div class="post-slide">-->
     <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_MonoBBall">-->
     <!--                        <div class="post-img">-->
-    <!--                            <img src="{{ asset('assets/newhome/img/sliders/monopoly_ev.jpg')}}" alt="slide">-->
+    <!--                            <img src="<?php echo e(asset('assets/newhome/img/sliders/monopoly_ev.jpg')); ?>" alt="slide">-->
     <!--                        </div>-->
     <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
     <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
     <!--                            <span class="set-sm-text">playing</span>-->
     <!--                        </div>-->
     <!--                    </a>-->
@@ -995,13 +995,13 @@
                     <div class="post-slide">
                          <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_baccaratA">
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/Plinko_X_smt.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/Plinko_X_smt.png')); ?>" alt="slide">-->
                                 <!--plinko banner-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/200653df-abcd-4e92-1e8d-1230e4b63100/style1" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -1009,13 +1009,13 @@
                     <div class="post-slide">
                          <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_hndlightrout">
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/mine.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/mine.png')); ?>" alt="slide">-->
                                 <!--minefield banner-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/5b0236a2-1080-4a38-b28a-cddd6ba37100/style1" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -1023,13 +1023,13 @@
                     <div class="post-slide">
                          <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_FunTime">
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/Bet_Games_Lucky7_tvbet.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/Bet_Games_Lucky7_tvbet.png')); ?>" alt="slide">-->
                                 <!--Lucky7 banner-->
                                 <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/bd9008d1-32fb-47c1-baa9-b3782f986500/style1" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -1037,13 +1037,13 @@
                     <div class="post-slide">
                          <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_MonoBBall">
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/Bet_Games_6_Poker_tvvet.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/Bet_Games_6_Poker_tvvet.png')); ?>" alt="slide">-->
                                 <!--Bet-on-poker banner-->
                                  <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/7a8fab87-9f5f-4250-c55b-473e3da2e200/style1" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -1051,13 +1051,13 @@
                     <div class="post-slide">
                          <a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_Balloonrace">
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/Bet_Games_Dice_Duel_tvbet.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/Bet_Games_Dice_Duel_tvbet.png')); ?>" alt="slide">-->
                                 <!--SLicer banner-->
                                  <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/fe5bf86c-9b21-4273-2b1c-3ff1d1113f00/style1" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -1086,7 +1086,7 @@
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -1099,7 +1099,7 @@
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -1112,7 +1112,7 @@
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -1125,7 +1125,7 @@
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -1138,7 +1138,7 @@
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -1152,7 +1152,7 @@
                     <!--        </div>-->
                     <!--        <div class="d-flex align-items-center gap-1 py-1">-->
                     <!--            <span class="set-green-circle"></span>-->
-                    <!--            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+                    <!--            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
                     <!--            <span class="set-sm-text">playing</span>-->
                     <!--        </div>-->
                     <!--    </a>-->
@@ -1172,13 +1172,13 @@
     <!--                <div class="post-slide">-->
     <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="1033" data-gametableid="imlive80001">-->
     <!--                        <div class="post-img">-->
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/mine1.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/mine1.png')); ?>" alt="slide">-->
                                 <!--Dragon tiger banner mac88-->
     <!--                            <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/61d9a8da-32f0-4c02-d086-f605e9391f00/style2" alt="slide">-->
     <!--                        </div>-->
     <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
     <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
     <!--                            <span class="set-sm-text">playing</span>-->
     <!--                        </div>-->
     <!--                    </a>-->
@@ -1186,13 +1186,13 @@
     <!--                <div class="post-slide">-->
     <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="1033" data-gametableid="imlive80007">-->
     <!--                        <div class="post-img">-->
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/bomb1.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/bomb1.png')); ?>" alt="slide">-->
                                 <!--andar bahar banner mac88-->
     <!--                            <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/2ac3fae9-a700-4830-ee52-d5680bedde00/style2" alt="slide">-->
     <!--                        </div>-->
     <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
     <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
     <!--                            <span class="set-sm-text">playing</span>-->
     <!--                        </div>-->
     <!--                    </a>-->
@@ -1200,13 +1200,13 @@
     <!--                <div class="post-slide">-->
     <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="1033" data-gametableid="imlive80082">-->
     <!--                        <div class="post-img">-->
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/head1.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/head1.png')); ?>" alt="slide">-->
                                  <!--limbo banner mac88-->
     <!--                            <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/8ea50835-d919-4b5e-0f44-5e2a104e2300/style2" alt="slide">-->
     <!--                        </div>-->
     <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
     <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
     <!--                            <span class="set-sm-text">playing</span>-->
     <!--                        </div>-->
     <!--                    </a>-->
@@ -1214,13 +1214,13 @@
     <!--                <div class="post-slide">-->
     <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="1033" data-gametableid="imlive80069">-->
     <!--                        <div class="post-img">-->
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/more1.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/more1.png')); ?>" alt="slide">-->
                                 <!--Race20 banner mac88-->
     <!--                            <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/2856abb5-1708-438c-903d-a93a15afa200/style2" alt="slide">-->
     <!--                        </div>-->
     <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
     <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
     <!--                            <span class="set-sm-text">playing</span>-->
     <!--                        </div>-->
     <!--                    </a>-->
@@ -1228,13 +1228,13 @@
     <!--                <div class="post-slide">-->
     <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="1033" data-gametableid="imlive80071">-->
     <!--                        <div class="post-img">-->
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/four1.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/four1.png')); ?>" alt="slide">-->
                                 <!--High Low banner mac88-->
     <!--                            <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/35cb72a5-84c3-43b6-c0c6-c7fc56563000/style2" alt="slide">-->
     <!--                        </div>-->
     <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
     <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
     <!--                            <span class="set-sm-text">playing</span>-->
     <!--                        </div>-->
     <!--                    </a>-->
@@ -1242,13 +1242,13 @@
     <!--                <div class="post-slide">-->
     <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="1033" data-gametableid="imlive80035">-->
     <!--                        <div class="post-img">-->
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/courier1.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/courier1.png')); ?>" alt="slide">-->
                                 <!--Race17 banner mac88-->
     <!--                            <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/1021897d-b84e-4dc4-b155-e2055394b000/style2" alt="slide">-->
     <!--                        </div>-->
     <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
     <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
     <!--                            <span class="set-sm-text">playing</span>-->
     <!--                        </div>-->
     <!--                    </a>-->
@@ -1256,13 +1256,13 @@
     <!--                <div class="post-slide">-->
     <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="1033" data-gametableid="imlive80029">-->
     <!--                        <div class="post-img">-->
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/aviator2.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/aviator2.png')); ?>" alt="slide">-->
                                 <!--10 ka dum banner mac88-->
     <!--                            <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/284a34c3-9c63-4112-f5c2-16246aec8300/style2" alt="slide">-->
     <!--                        </div>-->
     <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
     <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
     <!--                            <span class="set-sm-text">playing</span>-->
     <!--                        </div>-->
     <!--                    </a>-->
@@ -1270,13 +1270,13 @@
     <!--                <div class="post-slide">-->
     <!--                    <a href="javascript:void(0)" class="lobby-game" data-gameid="1026" data-gametableid="RG-DTL101">-->
     <!--                        <div class="post-img">-->
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/red1.png')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/red1.png')); ?>" alt="slide">-->
                                 <!--dragon tiger lion banner Royalgaming-->
     <!--                            <img src="https://imagedelivery.net/RJyf53Dw9lYoT2UhPT6CVg/bff42292-8677-4eb5-75c7-0779bf4bc000/style2" alt="slide">-->
     <!--                        </div>-->
     <!--                        <div class="d-flex align-items-center gap-1 py-1">-->
     <!--                            <span class="set-green-circle"></span>-->
-    <!--                            <strong class="set-strong-sm">{{rand(20,2000)}}</strong>-->
+    <!--                            <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>-->
     <!--                            <span class="set-sm-text">playing</span>-->
     <!--                        </div>-->
     <!--                    </a>-->
@@ -1295,12 +1295,12 @@
                     <div class="post-slide">
                         <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-alphaeagle">
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/slots/rt-1.jpg')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/slots/rt-1.jpg')); ?>" alt="slide">-->
                                 <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1201.jpg" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -1308,12 +1308,12 @@
                     <div class="post-slide">
                         <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-jokerbombs">
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/slots/rt-2.jpg')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/slots/rt-2.jpg')); ?>" alt="slide">-->
                                  <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1117.jpg" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -1321,12 +1321,12 @@
                     <div class="post-slide">
                        <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-mysterymotel">
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/slots/rt-3.jpg')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/slots/rt-3.jpg')); ?>" alt="slide">-->
                                  <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1071.jpg" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -1334,12 +1334,12 @@
                     <div class="post-slide">
                        <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-buffalostacknsync">
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/slots/rt-4.jpg')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/slots/rt-4.jpg')); ?>" alt="slide">-->
                                  <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1176.jpg" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -1347,12 +1347,12 @@
                     <div class="post-slide">
                         <a href="javascript:void(0)" class="lobby-game" data-gameid="1007" data-gametableid="HAK-franksfarm">
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/slots/rt-6.jpg')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/slots/rt-6.jpg')); ?>" alt="slide">-->
                                  <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1225.jpg" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -1360,12 +1360,12 @@
                     <div class="post-slide">
                         <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-dragonsdomain">
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/slots/rt-7.jpg')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/slots/rt-7.jpg')); ?>" alt="slide">-->
                                  <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1360.jpg" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -1373,12 +1373,12 @@
                     <div class="post-slide">
                         <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-doublerainbow">
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/slots/rt-8.jpg')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/slots/rt-8.jpg')); ?>" alt="slide">-->
                                  <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1144.jpg" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -1386,12 +1386,12 @@
                     <div class="post-slide">
                        <a href="javascript:void(0)" class="lobby-game" data-gameid="1010" data-gametableid="HAK-cubes2">
                             <div class="post-img">
-                                <!--<img src="{{ asset('assets/newhome/img/sliders/slots/rt-17.jpg')}}" alt="slide">-->
+                                <!--<img src="<?php echo e(asset('assets/newhome/img/sliders/slots/rt-17.jpg')); ?>" alt="slide">-->
                                  <img src="https://www-live.hacksawgaming.com/casino_thumbnails/1069.jpg" alt="slide">
                             </div>
                             <div class="d-flex align-items-center gap-1 py-1">
                                 <span class="set-green-circle"></span>
-                                <strong class="set-strong-sm">{{rand(20,2000)}}</strong>
+                                <strong class="set-strong-sm"><?php echo e(rand(20,2000)); ?></strong>
                                 <span class="set-sm-text">playing</span>
                             </div>
                         </a>
@@ -1410,7 +1410,7 @@
             <div class="single-event-box">
                 <a href="https://cric.Betzono.com//">
                     <div>
-                        <img src="{{ asset('assets/newhome/img/events/tennis-balls.png')}}" alt="event" height="">
+                        <img src="<?php echo e(asset('assets/newhome/img/events/tennis-balls.png')); ?>" alt="event" height="">
                     </div>
                     <p class="my-2">Tennis</p>
                 </a>
@@ -1418,7 +1418,7 @@
             <div class="single-event-box">
                 <a href="https://cric.Betzono.com//">
                     <div>
-                        <img src="{{ asset('assets/newhome/img/events/football.png')}}" alt="event" height="">
+                        <img src="<?php echo e(asset('assets/newhome/img/events/football.png')); ?>" alt="event" height="">
                     </div>
                     <p class="my-2">Soccer</p>
                 </a>
@@ -1426,7 +1426,7 @@
             <div class="single-event-box">
                 <a href="https://cric.Betzono.com//">
                     <div>
-                        <img src="{{ asset('assets/newhome/img/events/cricket-ball.png')}}" alt="event" height="">
+                        <img src="<?php echo e(asset('assets/newhome/img/events/cricket-ball.png')); ?>" alt="event" height="">
                     </div>
                     <p class="my-2">Cricket</p>
                 </a>
@@ -1434,7 +1434,7 @@
             <div class="single-event-box">
                 <a href="https://cric.Betzono.com//">
                     <div>
-                        <img src="{{ asset('assets/newhome/img/events/ball-of-basketball.png')}}" alt="event" height="">
+                        <img src="<?php echo e(asset('assets/newhome/img/events/ball-of-basketball.png')); ?>" alt="event" height="">
                     </div>
                     <p class="my-2">Baske...</p>
                 </a>
@@ -1442,7 +1442,7 @@
             <div class="single-event-box">
                 <a href="https://cric.Betzono.com//">
                     <div>
-                        <img src="{{ asset('assets/newhome/img/events/ice-hockey.png')}}" alt="event" height="">
+                        <img src="<?php echo e(asset('assets/newhome/img/events/ice-hockey.png')); ?>" alt="event" height="">
                     </div>
                     <p class="my-2">Ice Ho...</p>
                 </a>
@@ -1450,7 +1450,7 @@
             <div class="single-event-box">
                 <a href="https://cric.Betzono.com//">
                     <div>
-                        <img src="{{ asset('assets/newhome/img/events/table-tennis.png')}}" alt="event" height="">
+                        <img src="<?php echo e(asset('assets/newhome/img/events/table-tennis.png')); ?>" alt="event" height="">
                     </div>
                     <p class="my-2">Table...</p>
                 </a>
@@ -1458,7 +1458,7 @@
             <div class="single-event-box">
                 <a href="https://cric.Betzono.com//">
                     <div>
-                        <img src="{{ asset('assets/newhome/img/events/football.png')}}" alt="event" height="">
+                        <img src="<?php echo e(asset('assets/newhome/img/events/football.png')); ?>" alt="event" height="">
                     </div>
                     <p class="my-2">Darts</p>
                 </a>
@@ -1466,7 +1466,7 @@
             <div class="single-event-box">
                 <a href="https://cric.Betzono.com//">
                     <div>
-                        <img src="{{ asset('assets/newhome/img/events/rugby-balls.png')}}" alt="event" height="">
+                        <img src="<?php echo e(asset('assets/newhome/img/events/rugby-balls.png')); ?>" alt="event" height="">
                     </div>
                     <p class="my-2">Rugby</p>
                 </a>
@@ -1474,7 +1474,7 @@
             <div class="single-event-box">
                 <a href="https://cric.Betzono.com//">
                     <div>
-                        <img src="{{ asset('assets/newhome/img/events/block.png')}}" alt="event" height="">
+                        <img src="<?php echo e(asset('assets/newhome/img/events/block.png')); ?>" alt="event" height="">
                     </div>
                     <p class="my-2">Hand...</p>
                 </a>
@@ -1482,7 +1482,7 @@
             <div class="single-event-box">
                 <a href="https://cric.Betzono.com//">
                     <div>
-                        <img src="{{ asset('assets/newhome/img/events/snooker.png')}}" alt="event" height="">
+                        <img src="<?php echo e(asset('assets/newhome/img/events/snooker.png')); ?>" alt="event" height="">
                     </div>
                     <p class="my-2">Snook...</p>
                 </a>
@@ -1490,7 +1490,7 @@
             <div class="single-event-box">
                 <a href="https://cric.Betzono.com//">
                     <div>
-                        <img src="{{ asset('assets/newhome/img/events/football.png')}}" alt="event" height="">
+                        <img src="<?php echo e(asset('assets/newhome/img/events/football.png')); ?>" alt="event" height="">
                     </div>
                     <p class="my-2">CS2</p>
                 </a>
@@ -1498,7 +1498,7 @@
             <div class="single-event-box">
                 <a href="https://cric.Betzono.com//">
                     <div>
-                        <img src="{{ asset('assets/newhome/img/events/dota-2.png')}}" alt="event" height="">
+                        <img src="<?php echo e(asset('assets/newhome/img/events/dota-2.png')); ?>" alt="event" height="">
                     </div>
                     <p class="my-2">Dota 2</p>
                 </a>
@@ -1621,11 +1621,11 @@
                 <div class="col-lg-5 col-md-6 text-center mb-4">
                     <h3 class="common-gre-color">Payments</h3>
                     <div class="row justify-content-center">
-                        @foreach(['gpay', 'upi', 'paypal', 'visa', 'bitcoin', 'tether'] as $icon)
+                        <?php $__currentLoopData = ['gpay', 'upi', 'paypal', 'visa', 'bitcoin', 'tether']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $icon): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <div class="col-4 col-md-4 mb-3">
-                                <img src="{{ asset('assets/newhome/img/Payment_icons/' . $icon . '.png') }}" alt="{{ ucfirst($icon) }}" class="payment-icon img-fluid">
+                                <img src="<?php echo e(asset('assets/newhome/img/Payment_icons/' . $icon . '.png')); ?>" alt="<?php echo e(ucfirst($icon)); ?>" class="payment-icon img-fluid">
                             </div>
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </div>
                 </div>
 
@@ -1633,25 +1633,25 @@
                 <div class="col-lg-3 col-md-6 text-center mb-4">
                     <h3 class="common-gre-color">&nbsp;</h3>
                     <div class="row justify-content-center">
-                        @foreach([
+                        <?php $__currentLoopData = [
                             ['url' => 'https://www.telegram.com', 'img' => '18plus.png', 'alt' => '18+'],
                             ['url' => 'https://www.instagram.com', 'img' => 'gamecare.png', 'alt' => 'GameCare'],
                             ['url' => 'https://www.facebook.com', 'img' => 'gt.png', 'alt' => 'GT']
-                        ] as $social)
+                        ]; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $social): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <div class="col-4 col-md-4 mb-3">
-                                <a href="{{ $social['url'] }}" target="_blank">
-                                    <img src="https://cdn.cloudd.site/content/assets/images/{{ $social['img'] }}" alt="{{ $social['alt'] }}" class="social-icon img-fluid">
+                                <a href="<?php echo e($social['url']); ?>" target="_blank">
+                                    <img src="https://cdn.cloudd.site/content/assets/images/<?php echo e($social['img']); ?>" alt="<?php echo e($social['alt']); ?>" class="social-icon img-fluid">
                                 </a>
                             </div>
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </div>
                 </div>
 
                 <!-- Download App -->
         <!--        <div class="col-lg-4 col-md-12 text-center">-->
         <!--            <h3 class="common-gre-color">Download App</h3>-->
-        <!--            <a href="{{ url('assets/front/Betzono.apk') }}" target="_blank">-->
-        <!--                <img src="{{ url('assets/front/androidapp.png') }}" alt="Android App" class="img-fluid" style="max-width: 150px;">-->
+        <!--            <a href="<?php echo e(url('assets/front/Betzono.apk')); ?>" target="_blank">-->
+        <!--                <img src="<?php echo e(url('assets/front/androidapp.png')); ?>" alt="Android App" class="img-fluid" style="max-width: 150px;">-->
         <!--            </a>-->
         <!--        </div>-->
         <!--    </div>-->
@@ -1684,8 +1684,8 @@
         <div class="row align-items-center">
             <div class="col-lg-2 col-md-3 text-md-start text-center">
                 <a class="footer-logo" href="https://Betzono.com">
-                    <img src="{{ asset('assets/newhome/images/logo_icon/logo.png')}}" alt="image"></a>
-                     <!--<img src="{{ asset('assets/newhome/images/logo_icon/logo.png')}}" alt="event" height="">-->
+                    <img src="<?php echo e(asset('assets/newhome/images/logo_icon/logo.png')); ?>" alt="image"></a>
+                     <!--<img src="<?php echo e(asset('assets/newhome/images/logo_icon/logo.png')); ?>" alt="event" height="">-->
             </div>
             <div class="col-lg-10 col-md-9 mt-md-0 mt-3">
                 <ul class="inline-menu d-flex justify-content-md-end justify-content-center align-items-center flex-wrap" style="    margin: -.1875rem -.625rem;">
@@ -1721,7 +1721,7 @@
             <div class="col-md-12 text-center">
                     <span class="footer-content__left-text"> Copyright ©
                         2025, All Right Reserved By               
-                            <a class="text--base" href="{{ route('home') }}">Betzono.</a>
+                            <a class="text--base" href="<?php echo e(route('home')); ?>">Betzono.</a>
                     </span>
                 <br/>
                 <br/>
@@ -1786,9 +1786,9 @@
     <section class="set-bg-bar-below py-3">
         <div class="d-flex align-items-center justify-content-between px-3">
             <div class="single-event-box">
-                <a href="{{url('/')}}">
+                <a href="<?php echo e(url('/')); ?>">
                     <div>
-                        <img src="{{ asset('assets/newhome/img/find.png')}}" alt="event" height="">
+                        <img src="<?php echo e(asset('assets/newhome/img/find.png')); ?>" alt="event" height="">
                     </div>
                     <p class="my-2">Main</p>
                 </a>
@@ -1797,7 +1797,7 @@
             <div class="single-event-box">
                 <a href="#">
                     <div>
-                        <img src="{{ asset('assets/newhome/img/bet.png')}}" alt="event" height="">
+                        <img src="<?php echo e(asset('assets/newhome/img/bet.png')); ?>" alt="event" height="">
                     </div>
                     <p class="my-2">Lottery</p>
                 </a>
@@ -1806,7 +1806,7 @@
                 <!--<a href="https://cric.Betzono.com//">-->
                 <a href="https://Betzono.com/sports">
                     <div>
-                        <img src="{{ asset('assets/newhome/img/ball-of-basketball.png')}}" alt="event" height="">
+                        <img src="<?php echo e(asset('assets/newhome/img/ball-of-basketball.png')); ?>" alt="event" height="">
                     </div>
                     <p class="my-2">Sports</p>
                 </a>
@@ -1815,7 +1815,7 @@
                 <a href="https://Betzono.com/trending-games">
                 <!--<a href="javascript:void(0)" class="lobby-game" data-gameid="604" data-gametableid="EVO_ARou">-->
                     <div>
-                        <img src="{{ asset('assets/newhome/img/poker-cards.png')}}" alt="event" height="">
+                        <img src="<?php echo e(asset('assets/newhome/img/poker-cards.png')); ?>" alt="event" height="">
                     </div>
                     <p class="my-2">Casino</p>
                 </a>
@@ -1823,7 +1823,7 @@
            <div class="single-event-box" >
                 <a href="https://t.me/Betzono_support">
                     <div>
-                        <img src="{{ asset('assets/newhome/img/messenger.png')}}" alt="event" height="">
+                        <img src="<?php echo e(asset('assets/newhome/img/messenger.png')); ?>" alt="event" height="">
                     </div>
                     <p class="my-2">Chat</p>
                 </a>
@@ -1833,11 +1833,11 @@
     
     
     <!-- end lower bar -->
-    <script src="{{ asset('assets/newhome/js/plugins.js')}}"></script>
-    <script src="{{ asset('assets/newhome/js/main.js')}}"></script>
+    <script src="<?php echo e(asset('assets/newhome/js/plugins.js')); ?>"></script>
+    <script src="<?php echo e(asset('assets/newhome/js/main.js')); ?>"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js"></script>
-    <!--@php echo loadExtension('tawk-chat') @endphp-->
+    <!--<?php echo loadExtension('tawk-chat') ?>-->
     <script>
         $(document).ready(function() {
             $("#continue-slider").owlCarousel({
@@ -1978,18 +1978,18 @@
         $(document).ready(function() {
             $(".lobby-game").click(function(e) {
                 e.preventDefault();
-                let username = '{{ auth()->check() ? auth()->user()->username : "" }}';
+                let username = '<?php echo e(auth()->check() ? auth()->user()->username : ""); ?>';
                 const gameId = $(this).data('gameid');
                 const gameTableId = $(this).data('gametableid');
                 if (!username) {
-                    window.location.href = '{{ route('user.login') }}';
+                    window.location.href = '<?php echo e(route('user.login')); ?>';
                     return;
                 }
                 $.ajax({
-                    url: "{{ route('get.lobby.url') }}",
+                    url: "<?php echo e(route('get.lobby.url')); ?>",
                     type: "POST",
                     data: {
-                        _token: "{{ csrf_token() }}",
+                        _token: "<?php echo e(csrf_token()); ?>",
                         username: username,
                         gameId: gameId,
                         gameTableId: gameTableId
@@ -2003,7 +2003,7 @@
                     success: function(response) {
                         $(".preloader").css("opacity",0).css("display","none");
                         if (response.lobbyURL) {
-                            window.location.href = '{{url("rungame")}}'+'/'+response.lobbyURL;
+                            window.location.href = '<?php echo e(url("rungame")); ?>'+'/'+response.lobbyURL;
                         } else {
                             alert("Error: " + response.error);
                         }
@@ -2019,4 +2019,4 @@
     
 </body>
 
-</html>
+</html><?php /**PATH C:\xampp\htdocs\betzono.com\core\resources\views/frontend/newhome.blade.php ENDPATH**/ ?>

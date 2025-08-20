@@ -47,7 +47,7 @@
             <div class="col-md-12 text-center">
                     <span class="footer-content__left-text"> Copyright ©
                         2025, All Right Reserved By               
-                            <a class="text--base" href="{{ route('home') }}">StakEye.</a>
+                            <a class="text--base" href="{{ route('home') }}">BetZono.</a>
                     </span>
                 <br/>
                 <br/>

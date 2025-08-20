@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>stakeye - Gaming & Betting with cryptocurrency, betting with crypto </title>
+    <title>Betzono - Gaming & Betting with cryptocurrency, betting with crypto </title>
     <meta name="description" content="Gaming & Betting with cryptocurrency" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/newhome/img/favicon.png')}}" />
@@ -19,7 +19,7 @@
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         .page-link {
-            color: #fc6404;
+            color: #86FF00;
             background-color: #181818;
             border: 1px solid #181818;
         }
@@ -90,14 +90,14 @@
             padding: 10px 15px;
             border: none;
             border-radius: 5px;
-            background-color: #fc6404;
+            background-color: #86FF00;
             color: white;
             cursor: pointer;
             transition: 0.3s;
         }
 
         .filter-btn:hover {
-            background-color: #fc6404;
+            background-color: #86FF00;
         }
 
         /* Responsive Design */
@@ -192,7 +192,7 @@
                         <div class="row align-items-center">
                             <div class="col-lg-6 d-none d-lg-block">
                                 <div class="hero-content top-greadient">
-                                    <span class="wow fadeInLeft mb-20" data-wow-delay=".2s">Welcome To stakeye</span>
+                                    <span class="wow fadeInLeft mb-20" data-wow-delay=".2s">Welcome To BETZONO</span>
                                     <h1 class="wow fadeInUp" data-wow-delay=".4s">
                                         Play Online <span class="common-gre-color">Games & Win</span> Money Unlimited
                                     </h1>
@@ -217,9 +217,9 @@
                                 <div class="hero-content top-greadient">
                                     <span class="wow fadeInLeft mb-20" data-wow-delay=".2s">Sports Betting</span>
                                     <h1 class="wow fadeInUp" data-wow-delay=".4s">
-                                        Play your <span class="common-gre-color">Favourite sports</span> with stakeye
+                                        Play your <span class="common-gre-color">Favourite sports</span> with Betzono
                                     </h1>
-                                    <p class="wow fadeInUp" data-wow-delay=".6s">Play you favourite sports game with stakeye</p>
+                                    <p class="wow fadeInUp" data-wow-delay=".6s">Play you favourite sports game with Betzono</p>
                                     <a href="#" class="main-btn btn-hover wow fadeInUp" data-wow-delay=".6s">Play Now!</a>
                                     <a href="#" class="main-btn btn-hover wow fadeInUp" data-wow-delay=".6s">Sign Up</a>
                                 </div>
@@ -237,7 +237,7 @@
                         <div class="row align-items-center">
                             <div class="col-lg-6 d-none d-lg-block">
                                 <div class="hero-content top-greadient">
-                                    <span class="wow fadeInLeft mb-20" data-wow-delay=".2s">stakeye Casino</span>
+                                    <span class="wow fadeInLeft mb-20" data-wow-delay=".2s">Betzono Casino</span>
                                     <h1 class="wow fadeInUp" data-wow-delay=".4s">
                                         Play Online <span class="common-gre-color">Casino Games</span> Earn Big
                                     </h1>
@@ -407,7 +407,7 @@
 
 
             <div class="copy-right">
-                <p>Design and Developed by stakeye </p>
+                <p>Design and Developed by Betzono </p>
             </div>
         </div>
     </footer>

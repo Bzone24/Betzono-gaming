@@ -38,7 +38,7 @@
 
 
            <div class="copy-right">
-                <p>Design and Developed by StakEye </p>
+                <p>Design and Developed by BETZONO </p>
             </div>
         </div>
     </footer>

@@ -21,7 +21,7 @@ use Laramin\Utility\VugiChugi;
 
 function systemDetails()
 {
-    $system['name'] = 'Stakeye';
+    $system['name'] = 'Betzono';
     $system['version'] = '3.0';
     $system['build_version'] = '5.0.5';
     return $system;
