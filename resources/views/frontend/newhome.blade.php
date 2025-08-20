@@ -99,7 +99,7 @@
                                 <div class="hero-content top-greadient">
                                     <!--<span class="wow fadeInLeft mb-20" data-wow-delay=".2s">Welcome To Betzono</span>-->
                                     <h1 class="wow fadeInUp" data-wow-delay=".2s">
-                                        <span class="common-gre-color">Play & Win</span> Money Unlimited
+                                        <span class="common-gre-color">Play & Win Testing Update </span> Money Unlimited
                                     </h1>
                                     <p class="wow fadeInUp" data-wow-delay=".2s">Play Sports and Live Casino Games. Your Gaming Destination.</p>
                                     <a href="#" class="main-btn btn-hover wow fadeInUp" data-wow-delay=".6s">Play Now!</a>
